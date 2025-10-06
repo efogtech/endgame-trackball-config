@@ -73,7 +73,7 @@
 	trackball_primary: trackball_primary@0 {
 		status = "okay";
 		compatible = "pixart,pmw3610";
-		init-retry-interval = <20>;
+		init-retry-interval = <200>;
 		init-retry-count = <100>;
 		reg = <0>;
 		spi-max-frequency = <2000000>;
@@ -103,7 +103,7 @@
 	trackball_secondary: trackball_secondary@0 {
 		status = "okay";
 		compatible = "pixart,pmw3610";
-		init-retry-interval = <20>;
+		init-retry-interval = <200>;
 		init-retry-count = <100>;
 		reg = <0>;
 		spi-max-frequency = <2000000>;
