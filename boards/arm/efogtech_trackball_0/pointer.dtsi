@@ -4,6 +4,7 @@
 #include <input/processors/report_rate_limit.dtsi>
 #include <behaviors/p2sm_behaviors.dtsi>
 #include <behaviors/rate_limit.dtsi>
+#include <behaviors/auto_hold.dtsi>
 
 &zip_2s_mixer {
 	status = "okay";

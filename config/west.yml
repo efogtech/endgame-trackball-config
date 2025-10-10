@@ -24,5 +24,8 @@ manifest:
     - name: zmk-ec11-ish-driver
       remote: efogdev
       revision: main
+    - name: zmk-auto-hold
+      remote: efogdev
+      revision: main
   self:
     path: config

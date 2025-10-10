@@ -8,6 +8,7 @@
 #include <dt-bindings/zmk/ext_power.h>
 #include <behaviors/p2sm_behaviors.dtsi>
 #include <behaviors/rate_limit.dtsi>
+#include <behaviors/auto_hold.dtsi>
 
 #define LAYER_DEFAULT 0
 #define LAYER_EXTRAS 1
