@@ -11,7 +11,7 @@ manifest:
       import: app/west.yml
     - name: zmk-pmw3610-driver
       remote: efogdev
-      revision: main
+      revision: zephyr-4.1
     - name: zmk-pointer-2s-mixer
       remote: efogdev
       revision: main

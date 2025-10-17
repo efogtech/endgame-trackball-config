@@ -18,6 +18,12 @@
 	ball-radius = <102>; // maximum = 127
 	sensor1-pos = [31 4B 2D];  // X Y Z
 	sensor2-pos = [C1 3C 2D];
+
+	feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+	feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+	twist-feedback-threshold = <150>;
+	twist-feedback-delay = <5>;
+	// twist-feedback-duration = <50>;
 };
 
 / {
@@ -73,7 +79,7 @@
 
 	trackball_primary: trackball_primary@0 {
 		status = "okay";
-		compatible = "pixart,pmw3610";
+		compatible = "pixart,pmw3610-efogtech";
 		init-retry-interval = <200>;
 		init-retry-count = <100>;
 		reg = <0>;
@@ -103,7 +109,7 @@
 
 	trackball_secondary: trackball_secondary@0 {
 		status = "okay";
-		compatible = "pixart,pmw3610";
+		compatible = "pixart,pmw3610-efogtech";
 		init-retry-interval = <200>;
 		init-retry-count = <100>;
 		reg = <0>;
