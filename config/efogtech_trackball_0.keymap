@@ -215,6 +215,8 @@
 };
 
 &zip_2s_mixer {
-	twist-interference-thres = <15>;
-	twist-thres = <25>;
+	sync-scroll-report-ms = <8>;
+	twist-thres = <6>;
+	twist-interference-thres = <300>;
+	twist-interference-window = <120>;
 };
