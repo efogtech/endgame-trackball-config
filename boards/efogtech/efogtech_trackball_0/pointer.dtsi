@@ -11,7 +11,7 @@
 	sync-report-ms = <1>;
 	sync-scroll-report-ms = <8>;
 	twist-thres = <3>;
-	twist-interference-thres = <150>;
+	twist-interference-thres = <180>;
 	twist-interference-window = <56>;
 
 	// arbitrary bounding box (0, 0, 0) - (255, 255, 255)
