@@ -9,10 +9,11 @@
 &zip_2s_mixer {
 	status = "okay";
 	sync-report-ms = <1>;
-	sync-scroll-report-ms = <4>;
 
-	twist-interference-thres = <16>; // CPI and sync-scroll-report-ms dependent
-	twist-thres = <24>; // CPI and sync-scroll-report-ms dependent
+	sync-scroll-report-ms = <8>;
+	twist-thres = <3>;
+	twist-interference-thres = <200>;
+	twist-interference-window = <8>;
 
 	// arbitrary bounding box (0, 0, 0) - (255, 255, 255)
 	ball-radius = <102>; // maximum = 127
@@ -21,9 +22,9 @@
 
 	feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 	feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-	twist-feedback-threshold = <150>;
-	twist-feedback-delay = <5>;
-	// twist-feedback-duration = <50>;
+	twist-feedback-threshold = <20>;
+	twist-feedback-delay = <8>;
+	twist-feedback-duration = <50>;
 };
 
 / {
