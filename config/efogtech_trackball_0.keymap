@@ -29,7 +29,7 @@
 
 		default_layer {
 			display-name = "Default";
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp LC(TAB) LC(LS(TAB))>;
+			sensor-bindings = <&inc_dec_kp F13 LC(F13) &inc_dec_kp C_VOL_DN C_VOL_UP>;
 			bindings = <
 				&ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_SCROLL ESC
 				&mkp MCLK                 &kp DELETE
