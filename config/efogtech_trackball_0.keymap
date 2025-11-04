@@ -129,6 +129,12 @@
 		};
 	};
 
+	rgb_off_on_boot {
+		compatible = "zmk,behavior-trigger-on-boot";
+		#binding-cells = <0>;
+		bindings = <&rgb_off>;
+	};
+
 	behaviors {
 		rrl {
 			values-ms = <8 6 4 2>;
