@@ -29,67 +29,87 @@
 
 		default_layer {
 			display-name = "Default";
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp LC(TAB) LC(LS(TAB))>;
+			DECLARE_ENCODERS;
 			bindings = <
+				// buttons
 				&ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_SCROLL ESC
 				&mkp MCLK                 &kp DELETE
 				&mkp LCLK                 &mkp RCLK
 				&ltm LAYER_EXTRAS MB4     &ltm LAYER_DEVICE MB5
+
+				// rotary encoders
+				&kp C_VOL_UP              &kp LC(TAB)
+				&kp C_VOL_DN              &kp LC(LS(TAB))
 			>;
 		};
 
 		layer2 {
 			display-name = "Extras";
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp LC(TAB) LC(LS(TAB))>;
+			DECLARE_ENCODERS;
 			bindings = <
-				&kp LC(C)   &kp LC(V)
-				&kp LC(X)   &kp LC(Z)
-				&kp LC(Z)   &kp LC(C)
-				&trans      &kp LC(V)
+				&kp LC(C)      &kp LC(V)
+				&kp LC(X)      &kp LC(Z)
+				&kp LC(Z)      &kp LC(C)
+				&trans         &kp LC(V)
+
+				&kp C_VOL_UP   &kp LC(TAB)
+				&kp C_VOL_DN   &kp LC(LS(TAB))
 			>;
 		};
 
 		layer3 {
 			display-name = "Device";
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp LC(TAB) LC(LS(TAB))>;
+			DECLARE_ENCODERS;
 			bindings = <
 				&rgb_off           &rgb_ug RGB_EFF
 				&bt BT_CLR         &bt BT_NXT
 				&rgb_tog           &bt BT_PRV
 				&studio_unlock     &trans
+
+				&kp C_VOL_UP       &kp LC(TAB)
+				&kp C_VOL_DN       &kp LC(LS(TAB))
 			>;
 		};
 
 		layer4 {
 			display-name = "Scroll";
-			sensor-bindings = <&rotenc_sens P2SM_DEC P2SM_INC &rotenc_scrlsens P2SM_INC P2SM_DEC>;
+			DECLARE_ENCODERS;
 			bindings = <
 			    &trans              &trans
 			    &trans              &scrlsens P2SM_INC 1
 			    &rrl 1              &scrlsens P2SM_DEC 1
 			    &sens P2SM_DEC 1    &sens P2SM_INC 1
+
+				&sens P2SM_DEC 1    &scrlsens P2SM_INC 1
+				&sens P2SM_INC 1    &scrlsens P2SM_DEC 1
 			>;
 		};
 
 		layer5 {
 			display-name = "Snipe";
-			sensor-bindings = <&inc_dec_kp RIGHT LEFT &inc_dec_kp RIGHT LEFT>;
+			DECLARE_ENCODERS;
 			bindings = <
 				&trans           &soft_off
 				&trans           &trans
 				&trans           &trans
 				&trans           &trans
+
+				&kp LEFT         &kp RIGHT
+				&kp RIGHT        &kp LEFT
 			>;
 		};
 
 		layer6 {
 			display-name = "User";
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp LC(TAB) LC(LS(TAB))>;
+			DECLARE_ENCODERS;
 			bindings = <
 				&trans        &trans
 				&trans        &trans
 				&trans        &trans
 				&trans        &trans
+
+				&kp C_VOL_UP  &kp LC(TAB)
+				&kp C_VOL_DN  &kp LC(LS(TAB))
 		    >;
 		};
 	};
@@ -110,6 +130,7 @@
 	macros {
 		rgb_tog: rgb_tog {
 			compatible = "zmk,behavior-macro";
+			display-name = "Toggle RGB";
 			#binding-cells = <0>;
 			wait-ms = <20>;
 			bindings
@@ -120,6 +141,7 @@
 
 		rgb_off: rgb_off {
 			compatible = "zmk,behavior-macro";
+			display-name = "RGB off";
 			#binding-cells = <0>;
 			wait-ms = <20>;
 			bindings
@@ -127,6 +149,17 @@
 			, <&rgb_ug RGB_OFF>
 			;
 		};
+	};
+
+	z_so_off {
+		display-name = "Power off";
+	};
+
+	rgb_off_on_boot {
+		compatible = "zmk,behavior-trigger-on-boot";
+		display-name = "Reserved";
+		#binding-cells = <0>;
+		bindings = <&rgb_off>;
 	};
 
 	behaviors {
@@ -179,6 +212,7 @@
 
 		sens_nowrap: sens_nowrap {
 			compatible = "zmk,behavior-p2sm-sens";
+			display-name = "Pointer sensitivity (no wrapping)";
 			#binding-cells = <2>;
 			feedback-duration = <65>;
 			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
@@ -190,6 +224,7 @@
 
 		scrlsens_nowrap: scrlsens_nowrap {
 			compatible = "zmk,behavior-p2sm-sens";
+			display-name = "Scroll sensitivity (no wrapping)";
 			#binding-cells = <2>;
 			feedback-duration = <65>;
 			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
@@ -198,6 +233,12 @@
 			min-step = <2>;
 			max-step = <12>;
 			scroll;
+		};
+
+		rotenc_follower: rotenc_follower {
+			compatible = "zmk,behavior-sensor-rotate-var";
+			#sensor-binding-cells = <2>;
+			bindings = <&flw>, <&flw>;
 		};
 
 		rotenc_sens: rotenc_sens {

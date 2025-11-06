@@ -12,6 +12,8 @@
 #include "encoders.dtsi"
 #include "visuals.dtsi"
 
+#define DECLARE_ENCODERS sensor-bindings = <&rotenc_follower 10 8 &rotenc_follower 9 11>
+
 / {
     model = "Endgame Trackball";
     compatible = "efogtech,trackball";
@@ -60,14 +62,16 @@
 
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
-        rows = <8>;
+        rows = <12>;
         columns = <1>;
         map =
 			<
-				RC(0, 0) RC(1, 0)
-				RC(2, 0) RC(3, 0)
-				RC(4, 0) RC(5, 0)
-				RC(6, 0) RC(7, 0)
+				RC(0, 0)  RC(1, 0)
+				RC(2, 0)  RC(3, 0)
+				RC(4, 0)  RC(5, 0)
+				RC(6, 0)  RC(7, 0)
+				RC(8, 0)  RC(9, 0)
+				RC(10, 0) RC(11, 0)
 			>;
     };
 
@@ -78,20 +82,22 @@
         transform = <&default_transform>;
         kscan = <&kscan0>;
 
-		// encoder switches:
-		//        = <&key_physical_attrs 120  120  95   80   0    120  120>
-		//        , <&key_physical_attrs 120  120  611  80   0    120  120>
+		keys  //               w     h     x     y     rot  rx   ry
+		= <&key_physical_attrs 200   150   275   0     0    8    8  >
+		, <&key_physical_attrs 200   150   525   0     0    8    8  >
+		, <&key_physical_attrs 150   375   75    25    0    8    8  >
+		, <&key_physical_attrs 150   375   775   25    0    8    8  >
+		, <&key_physical_attrs 150   375   75    450   0    8    8  >
+		, <&key_physical_attrs 150   375   775   450   0    8    8  >
+		, <&key_physical_attrs 200   150   275   700   0    8    8  >
+		, <&key_physical_attrs 200   150   525   700   0    8    8  >
 
-        keys  //               w    h   x   y   rot rx ry
-        = <&key_physical_attrs 160  80   177  275  0    0    0  >
-		, <&key_physical_attrs 160  80   489  275  0    0    0  >
-		, <&key_physical_attrs 80   160  80   347  0    0    0  >
-		, <&key_physical_attrs 80   160  666  347  0    0    0  >
-		, <&key_physical_attrs 80   160  80   676  0    0    0  >
-		, <&key_physical_attrs 80   160  666  676  0    0    0  >
-		, <&key_physical_attrs 160  80   177  870  0    0    0  >
-		, <&key_physical_attrs 160  80   489  870  0    0    0  >
-        ;
+		, <&key_physical_attrs 35    100   15    750   0    8    8  >
+		, <&key_physical_attrs 35    100   950   750   0    8    8  >
+
+		, <&key_physical_attrs 100   35    65    850   0    8    8  >
+		, <&key_physical_attrs 100   35    835   850   0    8    8  >
+		;
     };
 
     position_map {
@@ -100,7 +106,7 @@
 
         layout1: layout1 {
             physical-layout = <&physical_layout0>;
-            positions = <0>, <1>, <2>, <3>, <4>, <5>, <6>, <7>;
+            positions = <0>, <1>, <2>, <3>, <4>, <5>, <6>, <7>, <8>, <10>, <9>, <11>;
         };
     };
 
