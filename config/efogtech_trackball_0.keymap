@@ -17,6 +17,9 @@
 #define LAYER_SNIPE 4
 #define LAYER_USER 5
 
+#define TWIST_MULTIPLIER 1
+#define TWIST_DIVISOR 10
+
 #define SCROLL_MULTIPLIER 1
 #define SCROLL_DIVISOR 2
 
@@ -113,6 +116,8 @@
 	};
 
 	trackball {
+		input-processors = <&zip_scroll_scaler TWIST_MULTIPLIER TWIST_DIVISOR>;
+
 		scroll {
 			layers = <LAYER_SCROLL>;
 			input-processors = <&zip_xy_scaler SCROLL_MULTIPLIER SCROLL_DIVISOR>, <&zip_axis_clamper>,
