@@ -29,67 +29,85 @@
 
 		default_layer {
 			display-name = "Default";
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp LC(LA(RIGHT)) LC(LA(LEFT))>;
+			DECLARE_ENCODERS;
 			bindings = <
 				&kp LGUI                  &ltmkp LAYER_SCROLL ESC
 				&mkp LCLK                 &ltmkp LAYER_SNIPE ENTER
 				&mkp MCLK                 &mkp RCLK
 				&ltm LAYER_EXTRAS MB4     &ltm LAYER_DEVICE MB5
+
+				&kp C_VOL_UP              &kp LC(LA(RIGHT))
+				&kp C_VOL_DN              &kp LC(LA(LEFT))
 			>;
 		};
 
 		layer2 {
 			display-name = "Extras";
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp LC(LA(RIGHT)) LC(LA(LEFT))>;
+			DECLARE_ENCODERS;
 			bindings = <
-				&kp LC(C)   &kp LC(V)
-				&kp LC(X)   &kp LG(Q)
-				&kp LC(Z)   &kp LG(W)
-				&trans      &kp LC(W)
+				&kp LC(C)     &kp LC(V)
+				&kp LC(X)     &kp LG(Q)
+				&kp LC(Z)     &kp LG(W)
+				&trans        &kp LC(W)
+
+				&kp C_VOL_UP  &kp LC(LA(RIGHT))
+				&kp C_VOL_DN  &kp LC(LA(LEFT))
 			>;
 		};
 
 		layer3 {
 			display-name = "Device";
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp LC(LA(RIGHT)) LC(LA(LEFT))>;
+			DECLARE_ENCODERS;
 			bindings = <
 				&rgb_off           &rgb_ug RGB_EFF
 				&bt BT_CLR         &bt BT_NXT
 				&rgb_tog           &bt BT_PRV
 				&studio_unlock     &trans
+
+				&kp C_VOL_UP       &kp LC(LA(RIGHT))
+				&kp C_VOL_DN       &kp LC(LA(LEFT))
 			>;
 		};
 
 		layer4 {
 			display-name = "Scroll";
-			sensor-bindings = <&rotenc_sens P2SM_DEC P2SM_INC &rotenc_scrlsens P2SM_INC P2SM_DEC>;
+			DECLARE_ENCODERS;
 			bindings = <
 			    &trans              &trans
 			    &trans              &scrlsens P2SM_INC 1
 			    &rrl 1              &scrlsens P2SM_DEC 1
 			    &sens P2SM_DEC 1    &sens P2SM_INC 1
+
+				&sens P2SM_DEC 1    &scrlsens P2SM_INC 1
+				&sens P2SM_INC 1    &scrlsens P2SM_DEC 1
 			>;
 		};
 
 		layer5 {
 			display-name = "Snipe";
-			sensor-bindings = <&inc_dec_kp RIGHT LEFT &inc_dec_kp RIGHT LEFT>;
+			DECLARE_ENCODERS;
 			bindings = <
 				&kp LA(F4)       &trans
 				&trans           &trans
 				&trans           &soft_off
 				&trans           &trans
+
+				&kp LEFT         &kp RIGHT
+				&kp RIGHT        &kp LEFT
 			>;
 		};
 
 		layer6 {
 			display-name = "User";
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp LC(LA(RIGHT)) LC(LA(LEFT))>;
+			DECLARE_ENCODERS;
 			bindings = <
 				&trans        &trans
 				&trans        &trans
 				&trans        &trans
 				&trans        &trans
+
+				&kp C_VOL_UP  &kp LC(LA(RIGHT))
+				&kp C_VOL_DN  &kp LC(LA(LEFT))
 		    >;
 		};
 	};
@@ -110,6 +128,7 @@
 	macros {
 		rgb_tog: rgb_tog {
 			compatible = "zmk,behavior-macro";
+			display-name = "Toggle RGB";
 			#binding-cells = <0>;
 			wait-ms = <20>;
 			bindings
@@ -120,102 +139,13 @@
 
 		rgb_off: rgb_off {
 			compatible = "zmk,behavior-macro";
+			display-name = "RGB off";
 			#binding-cells = <0>;
 			wait-ms = <20>;
 			bindings
 			= <&ext_power EP_OFF>
 			, <&rgb_ug RGB_OFF>
 			;
-		};
-	};
-
-	rgb_off_on_boot {
-		compatible = "zmk,behavior-trigger-on-boot";
-		#binding-cells = <0>;
-		bindings = <&rgb_off>;
-	};
-
-	behaviors {
-		rrl {
-			values-ms = <8 6 4 2>;
-			feedback-duration = <65>;
-		};
-
-		ltm: layer-tap-momentary {
-			compatible = "zmk,behavior-hold-tap";
-			display-name = "Hold/tap (layer/mouse key)";
-			#binding-cells = <2>;
-			flavor = "tap-preferred";
-			tapping-term-ms = <250>;
-			hold-while-undecided;
-			bindings = <&mo>, <&mkp>;
-		};
-
-		ltmkp: layer-tap-momentary-key-press {
-			compatible = "zmk,behavior-hold-tap";
-			display-name = "Hold/tap (layer/keyboard key)";
-			#binding-cells = <2>;
-			flavor = "tap-preferred";
-			tapping-term-ms = <250>;
-			hold-while-undecided;
-			bindings = <&mo>, <&kp>;
-		};
-
-		sens: p2sm_sensitivity {
-			feedback-duration = <65>;
-			step = <50>;
-			max-step = <8>;
-		};
-
-		scrlsens: p2sm_scroll_sensitivity {
-			feedback-duration = <65>;
-			step = <10>;
-			min-step = <2>;
-			max-step = <12>;
-		};
-
-		scrlsenstog: p2sm_sens_toggle {
-			display-name = "Scroll sensitivity (toggle 3%/6%)";
-			feedback-duration = <65>;
-			step = <30>;
-			min-step = <1>;
-			max-step = <2>;
-			scroll;
-		};
-
-		sens_nowrap: sens_nowrap {
-			compatible = "zmk,behavior-p2sm-sens";
-			#binding-cells = <2>;
-			feedback-duration = <65>;
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-			step = <50>;
-			min-step = <1>;
-			max-step = <8>;
-		};
-
-		scrlsens_nowrap: scrlsens_nowrap {
-			compatible = "zmk,behavior-p2sm-sens";
-			#binding-cells = <2>;
-			feedback-duration = <65>;
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-			step = <10>;
-			min-step = <2>;
-			max-step = <12>;
-			scroll;
-		};
-
-		rotenc_sens: rotenc_sens {
-			compatible = "zmk,behavior-sensor-rotate-var";
-			#sensor-binding-cells = <2>;
-			bindings = <&sens_nowrap>, <&sens_nowrap>;
-		};
-
-		rotenc_scrlsens: rotenc_scrlsens {
-			compatible = "zmk,behavior-sensor-rotate-var";
-			#sensor-binding-cells = <2>;
-			bindings = <&scrlsens_nowrap>, <&scrlsens_nowrap>;
 		};
 	};
 };
