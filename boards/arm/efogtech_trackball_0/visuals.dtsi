@@ -1,34 +1,14 @@
 #include <dt-bindings/spi/spi.h>
 
 / {
-	aliases {
-		led-strip = &led_strip;
-	};
-
-	chosen {
-		zmk,underglow = &led_strip;
-//		zmk,backlight = &backlight;
-	};
+	aliases { led-strip = &led_strip; };
+	chosen { zmk,underglow = &led_strip; };
 
 	leds {
 		compatible = "gpio-leds";
-
-		led_0 {
-			gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
-		};
-
-		led_1 {
-			gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>;
-		};
+		led_0 { gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>; };
+		led_1 { gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>; };
 	};
-
-//	backlight: pwmleds {
-//		compatible = "pwm-leds";
-//
-//		pwm_led_0 {
-//			pwms = <&pwm0 0 PWM_MSEC(10) PWM_POLARITY_NORMAL>;
-//		};
-//	};
 
 	EXT_POWER: EXT_POWER {
 		compatible = "zmk,ext-power-generic";
@@ -36,13 +16,6 @@
 		init-delay-ms = <10>;
 	};
 };
-
-//&pwm0 {
-//	status = "okay";
-//	pinctrl-0 = <&pwm0_default>;
-//	pinctrl-1 = <&pwm0_sleep>;
-//	pinctrl-names = "default", "sleep";
-//};
 
 &spi2 {
 	compatible = "nordic,nrf-spim";
