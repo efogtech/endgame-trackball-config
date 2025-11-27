@@ -90,9 +90,9 @@
 			DECLARE_ENCODERS;
 			bindings = <
 				&trans           &soft_off
-				&trans           &trans
-				&trans           &trans
-				&trans           &trans
+				&trans           &bt BT_SEL 4
+				&bt BT_SEL 0     &bt BT_SEL 3
+				&bt BT_SEL 1     &bt BT_SEL 2
 
 				&kp LEFT         &kp RIGHT
 				&kp RIGHT        &kp LEFT
