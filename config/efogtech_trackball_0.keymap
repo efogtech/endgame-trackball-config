@@ -7,15 +7,18 @@
 #include <dt-bindings/zmk/bistable_behavior.h>
 #include <dt-bindings/zmk/p2sm.h>
 
-#define LAYER_DEFAULT 0
-#define LAYER_EXTRAS 1
-#define LAYER_DEVICE 2
-#define LAYER_SCROLL 3
-#define LAYER_SNIPE 4
-#define LAYER_USER 5
+#define LAYER_DEFAULT  0
+#define LAYER_DEVICE   1
+#define LAYER_BLE      2
+#define LAYER_SNIPE    3
+#define LAYER_SETTINGS 4
+#define LAYER_USER     5  
 
 #define SCROLL_MULTIPLIER 1
-#define SCROLL_DIVISOR 32000
+#define SCROLL_DIVISOR 3
+
+#define TWIST_SCROLL_MULTIPLIER 1
+#define TWIST_SCROLL_DIVISOR 30
 
 #define SNIPE_MULTIPLIER 1
 #define SNIPE_DIVISOR 4
@@ -24,76 +27,86 @@
 	keymap {
 		compatible = "zmk,keymap";
 
-		default_layer {
+		layer_default {
 			display-name = "Default";
 			DECLARE_ENCODERS;
 			bindings = <
-			    // buttons
-			    &ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_SCROLL ESC
-			    &mkp MCLK                 &cdch LAYER_SCROLL 0
-			    &mkp LCLK                 &mkp RCLK
-			    &ltm LAYER_EXTRAS MB4     &ltm LAYER_DEVICE MB5
+				// buttons
+				&ltmkp LAYER_SETTINGS ENTER  	&ltmkp LAYER_DEVICE ESC
 
-			    // rotary encoders
-			    &kp C_VOL_UP              &kp LC(TAB)
-			    &kp C_VOL_DN              &kp LC(LS(TAB))
-		    >;
+				&mkp MCLK                 		&mkp RCLK
+				&mkp LCLK                 		&kp  DELETE
+
+				&ltm LAYER_SNIPE  MB4     		&ltm LAYER_BLE MB5
+
+				// rotary encoders
+				&kp C_VOL_UP              		&kp LC(TAB)
+				&kp C_VOL_DN              		&kp LC(LS(TAB))
+			>;
 		};
 
-		layer1 {
-			display-name = "Extras";
-			DECLARE_ENCODERS;
-			bindings = <
-			    &bst_copy      &bst_paste
-			    &bst_cut       &bst_undo
-			    &bst_undo      &bst_copy
-			    &trans         &bst_paste
-
-			    &kp C_VOL_UP   &kp LC(TAB)
-			    &kp C_VOL_DN   &kp LC(LS(TAB))
-	   		>;
-		};
-
-		layer2 {
+		layer_device {
 			display-name = "Device";
 			DECLARE_ENCODERS;
 			bindings = <
-			    &zbs_adv           &bt BT_CLR
-			    &bst_tog ZBS_TOG   &bt BT_NXT
-			    &af_toggle AF_TOG  &bt BT_PRV
-			    &studio_unlock     &trans
+				&soft_off      					&trans
+				
+				&trans         					&bt BT_CLR
+				&studio_unlock 					&trans
+				             
+				&trans         					&trans    
 
-			    &kp C_VOL_UP       &kp LC(TAB)
-			    &kp C_VOL_DN       &kp LC(LS(TAB))
-		   	>;
+				&kp C_VOL_UP                    &kp LC(TAB)
+				&kp C_VOL_DN                    &kp LC(LS(TAB))
+			>;
 		};
 
-		layer3 {
-			display-name = "Scroll";
+		layer_ble {
+			display-name = "BLE";
 			DECLARE_ENCODERS;
 			bindings = <
-			    &trans              &trans
-			    &trans              &scrlsens P2SM_INC 1
-			    &rrl 1              &scrlsens P2SM_DEC 1
-			    &sens P2SM_DEC 1    &sens P2SM_INC 1
+				&bt BT_SEL 1   					&bt BT_SEL 2
 
-			    &sens P2SM_DEC 1    &scrlsens P2SM_INC 1
-			    &sens P2SM_INC 1    &scrlsens P2SM_DEC 1
-		  	>;
+				&bt BT_SEL 0       				&bt BT_SEL 3
+				&bt BT_PRV           			&bt BT_SEL 4
+				    
+				&bt BT_NXT     					&trans
+
+				&kp C_VOL_UP                    &kp LC(TAB)
+				&kp C_VOL_DN                    &kp LC(LS(TAB))
+			>;
 		};
 
-		layer4 {
+		layer_snipe {
 			display-name = "Snipe";
 			DECLARE_ENCODERS;
 			bindings = <
-				&trans           &soft_off
-				&trans           &bt BT_SEL 4
-				&bt BT_SEL 0     &bt BT_SEL 3
-				&bt BT_SEL 1     &bt BT_SEL 2
+			    &trans        					&rrl 1
 
-			    &kp LEFT         &kp RIGHT
-			    &kp RIGHT        &kp LEFT
-	   		>;
+			    &sens   P2SM_INC 1				&scrlsens	P2SM_INC 1
+			    &sens   P2SM_DEC 1				&scrlsens 	P2SM_DEC 1
+				       
+			    &trans          				&trans
+
+				&sens P2SM_DEC 1                &scrlsens P2SM_INC 1
+				&sens P2SM_INC 1                &scrlsens P2SM_DEC 1
+			>;
+		};
+
+		layer_setting {
+			display-name = "Setting";
+			DECLARE_ENCODERS;
+			bindings = <
+				&trans           				&rgb_off
+
+				&rgb_tog         				&trans
+				&rgb_ug RGB_EFF					&trans
+				    
+				&trans           				&trans
+
+				&kp LEFT         				&kp RIGHT
+				&kp RIGHT        				&kp LEFT
+			>;
 		};
 
 		layer5 {
