@@ -118,11 +118,6 @@
 	};
 
 	behaviors {
-		rrl {
-			values-ms = <8 6 4 2>;
-			feedback-duration = <65>;
-		};
-
 		ltm: layer-tap-momentary {
 			compatible = "zmk,behavior-hold-tap";
 			display-name = "Hold/tap (layer/mouse key)";

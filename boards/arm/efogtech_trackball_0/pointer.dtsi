@@ -8,7 +8,7 @@
 
 &zip_2s_mixer {
 	status = "okay";
-	sync-report-ms = <1>;
+	sync-report-ms = <0>;
 
 	sync-scroll-report-ms = <8>;
 	twist-thres = <3>;
@@ -28,28 +28,6 @@
 };
 
 / {
-	behaviors {
-		rrl {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_scroll_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_sens_toggle {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-	};
-
 	trackball {
 		compatible = "zmk,input-listener";
 		device = <&zip_2s_mixer>;
@@ -76,26 +54,21 @@
 	pinctrl-1 = <&spi0_sleep>;
 	pinctrl-names = "default", "sleep";
 	cs-gpios = <&gpio0 30 GPIO_ACTIVE_LOW>;
-	clock-frequency = <2000000>;
+	clock-frequency = <4000000>;
 
 	trackball_primary: trackball_primary@0 {
 		status = "okay";
-		compatible = "pixart,pmw3610-efogtech";
-		init-retry-interval = <200>;
-		init-retry-count = <100>;
+		compatible = "pixart,paw3395";
 		reg = <0>;
-		spi-max-frequency = <2000000>;
+		spi-max-frequency = <4000000>;
 		irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-		cpi = <3200>;
+		cpi = <1200>;
 		evt-type = <INPUT_EV_REL>;
 		x-input-code = <INPUT_REL_X>;
 		y-input-code = <INPUT_REL_Y>;
-
-		force-awake;
-		force-high-performance;
-		xy-swap;
-		x-invert;
-		y-invert;
+		power-mode = <2>;
+		invert-x;
+		invert-y;
 	};
 };
 
@@ -106,25 +79,83 @@
 	pinctrl-1 = <&spi1_sleep>;
 	pinctrl-names = "default", "sleep";
 	cs-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
-	clock-frequency = <2000000>;
+	clock-frequency = <4000000>;
 
 	trackball_secondary: trackball_secondary@0 {
 		status = "okay";
-		compatible = "pixart,pmw3610-efogtech";
-		init-retry-interval = <200>;
-		init-retry-count = <100>;
+		compatible = "pixart,paw3395";
 		reg = <0>;
-		spi-max-frequency = <2000000>;
+		spi-max-frequency = <4000000>;
 		irq-gpios = <&gpio1 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-		rst-gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
-		cpi = <3200>;
+		cpi = <1200>;
 		evt-type = <INPUT_EV_REL>;
 		x-input-code = <INPUT_REL_X>;
 		y-input-code = <INPUT_REL_Y>;
+		power-mode = <2>;
+	};
+};
 
-		force-awake;
-		force-high-performance;
-		xy-swap;
-		enable-pm-support;
+/ {
+	behaviors {
+		rrl {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			values-ms = <0 1 2 4 6 8>;
+		};
+
+		p2sm_sensitivity {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+		};
+
+		p2sm_scroll_sensitivity {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+		};
+
+		p2sm_sens_toggle {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+		};
+
+		paw_cal1: paw_cal1 {
+			compatible = "zmk,behavior-paw3395-calibrate";
+			#binding-cells = <0>;
+			display-name = "Manual calibration of the left sensor";
+			feedback-duration = <200>;
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			bindings = <&trackball_primary>;
+		};
+
+		paw_cal2: paw_cal2 {
+			compatible = "zmk,behavior-paw3395-calibrate";
+			#binding-cells = <0>;
+			display-name = "Manual calibration of the right sensor";
+			feedback-duration = <200>;
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			bindings = <&trackball_secondary>;
+		};
+
+		paw_mode1: paw_mode1 {
+			compatible = "zmk,behavior-paw3395-power-mode-toggle";
+			#binding-cells = <2>;
+			display-name = "Switch mode of the left sensor";
+			feedback-duration = <200>;
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			bindings = <&trackball_primary>;
+		};
+
+		paw_mode2: paw_mode2 {
+			compatible = "zmk,behavior-paw3395-power-mode-toggle";
+			#binding-cells = <2>;
+			display-name = "Switch mode of the right sensor";
+			feedback-duration = <200>;
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			bindings = <&trackball_secondary>;
+		};
 	};
 };

@@ -127,6 +127,12 @@
 		};
 	};
 
+	behaviors {
+		rrl {
+			values-ms = <0 1 2 4 6 8>;
+		};
+	};
+
 	macros {
 		rgb_tog: rgb_tog {
 			compatible = "zmk,behavior-macro";
