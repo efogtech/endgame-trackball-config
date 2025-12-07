@@ -3,8 +3,8 @@
 / {
 	left_encoder: encoder_left {
 		compatible = "efog,ec11-ish";
-		a-gpios = <&gpio0 17 0>;
-		b-gpios = <&gpio0 16 0>;
+		a-gpios = <&gpio0 17 GPIO_PULL_UP>;
+		b-gpios = <&gpio0 16 GPIO_PULL_UP>;
 		steps = <24>;
 		pulses = <4>;
 	};
