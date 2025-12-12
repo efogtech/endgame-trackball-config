@@ -181,6 +181,7 @@
 			step = <50>;
 			min-step = <1>;
 			max-step = <8>;
+			feedback-on-limit;
 		};
 
 		scrlsens_nowrap: scrlsens_nowrap {
@@ -194,6 +195,7 @@
 			min-step = <2>;
 			max-step = <12>;
 			scroll;
+			feedback-on-limit;
 		};
 
 		rotenc_follower: rotenc_follower {
