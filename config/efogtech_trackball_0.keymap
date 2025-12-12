@@ -10,18 +10,21 @@
 #include <behaviors/rate_limit.dtsi>
 #include <behaviors/auto_hold.dtsi>
 
-#define LAYER_DEFAULT 0
-#define LAYER_EXTRAS 1
-#define LAYER_DEVICE 2
-#define LAYER_SCROLL 3
-#define LAYER_SNIPE 4
-#define LAYER_USER 5
+#define LAYER_DEFAULT      0
+#define LAYER_EXTRAS       1
+#define LAYER_DEVICE       2
+#define LAYER_SCROLL       3
+#define LAYER_SNIPE        4
+#define LAYER_USER         5
 
-#define SCROLL_MULTIPLIER 1
-#define SCROLL_DIVISOR 3
+#define TWIST_MULTIPLIER   1
+#define TWIST_DIVISOR      12
 
-#define SNIPE_MULTIPLIER 1
-#define SNIPE_DIVISOR 4
+#define SCROLL_MULTIPLIER  1
+#define SCROLL_DIVISOR     3
+
+#define SNIPE_MULTIPLIER   1
+#define SNIPE_DIVISOR      4
 
 / {
 	keymap {
@@ -115,6 +118,8 @@
 	};
 
 	trackball {
+		input-processors = <&zip_scroll_scaler TWIST_MULTIPLIER TWIST_DIVISOR>;
+
 		scroll {
 			layers = <LAYER_SCROLL>;
 			input-processors = <&zip_xy_scaler SCROLL_MULTIPLIER SCROLL_DIVISOR>, <&zip_axis_clamper>,
