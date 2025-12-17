@@ -13,7 +13,7 @@
 	EXT_POWER: EXT_POWER {
 		compatible = "zmk,ext-power-generic";
 		control-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>, <&gpio1 3 GPIO_ACTIVE_HIGH>;
-		init-delay-ms = <10>;
+		init-delay-ms = <1000>;
 	};
 };
 
@@ -25,6 +25,7 @@
 	pinctrl-names = "default", "sleep";
 
 	led_strip: ws2812@0 {
+		status = "okay";
 		compatible = "worldsemi,ws2812-spi";
 		reg = <0>;
 		chain-length = <16>;

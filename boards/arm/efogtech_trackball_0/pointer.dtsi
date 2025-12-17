@@ -54,7 +54,7 @@
 	pinctrl-0 = <&spi0_default>;
 	pinctrl-1 = <&spi0_sleep>;
 	pinctrl-names = "default", "sleep";
-	cs-gpios = <&gpio0 30 GPIO_ACTIVE_LOW>;
+	cs-gpios = <&gpio0 30 (GPIO_ACTIVE_LOW)>;
 	clock-frequency = <4000000>;
 
 	trackball_primary: trackball_primary@0 {
@@ -67,7 +67,7 @@
 		evt-type = <INPUT_EV_REL>;
 		x-input-code = <INPUT_REL_X>;
 		y-input-code = <INPUT_REL_Y>;
-		power-mode = <PAW3395_LOW_POWER>;
+		power-mode = <PAW3395_OFFICE>;
 		invert-x;
 		invert-y;
 	};
@@ -79,7 +79,7 @@
 	pinctrl-0 = <&spi1_default>;
 	pinctrl-1 = <&spi1_sleep>;
 	pinctrl-names = "default", "sleep";
-	cs-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
+	cs-gpios = <&gpio1 7 (GPIO_ACTIVE_LOW)>;
 	clock-frequency = <4000000>;
 
 	trackball_secondary: trackball_secondary@0 {
@@ -92,7 +92,7 @@
 		evt-type = <INPUT_EV_REL>;
 		x-input-code = <INPUT_REL_X>;
 		y-input-code = <INPUT_REL_Y>;
-		power-mode = <PAW3395_LOW_POWER>;
+		power-mode = <PAW3395_OFFICE>;
 	};
 };
 
@@ -120,6 +120,7 @@
 		};
 
 		paw_cal1: paw_cal1 {
+			status = "disabled";
 			compatible = "zmk,behavior-paw3395-calibrate";
 			#binding-cells = <0>;
 			display-name = "Manual calibration of the left sensor";
@@ -130,6 +131,7 @@
 		};
 
 		paw_cal2: paw_cal2 {
+			status = "disabled";
 			compatible = "zmk,behavior-paw3395-calibrate";
 			#binding-cells = <0>;
 			display-name = "Manual calibration of the right sensor";
