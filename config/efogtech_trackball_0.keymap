@@ -6,9 +6,6 @@
 #include <dt-bindings/zmk/p2sm.h>
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/ext_power.h>
-#include <behaviors/p2sm_behaviors.dtsi>
-#include <behaviors/rate_limit.dtsi>
-#include <behaviors/auto_hold.dtsi>
 
 #define LAYER_DEFAULT      0
 #define LAYER_EXTRAS       1
@@ -118,12 +115,13 @@
 	};
 
 	trackball {
-		input-processors = <&zip_scroll_scaler TWIST_MULTIPLIER TWIST_DIVISOR>;
+		input-processors = <&zip_scroll_scaler TWIST_MULTIPLIER TWIST_DIVISOR>, <&zip_pointer_accel>, <&zip_scroll_accel>;
 
 		scroll {
 			layers = <LAYER_SCROLL>;
 			input-processors = <&zip_xy_scaler SCROLL_MULTIPLIER SCROLL_DIVISOR>, <&zip_axis_clamper>,
-							   <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>;
+							   <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>,
+							   <&zip_scroll_accel>;
 		};
 
 		snipe {

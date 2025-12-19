@@ -2,6 +2,7 @@
 #include <input/processors/p2sm.dtsi>
 #include <input/processors/axis_clamper.dtsi>
 #include <input/processors/report_rate_limit.dtsi>
+#include <input/processors/accel_curve.dtsi>
 #include <behaviors/p2sm_behaviors.dtsi>
 #include <behaviors/rate_limit.dtsi>
 #include <behaviors/auto_hold.dtsi>
