@@ -239,7 +239,7 @@
 &uart0 {
 	compatible = "nordic,nrf-uarte";
 	status = "okay";
-	current-speed = <115200>;
+	current-speed = <460800>;
 	pinctrl-0 = <&uart0_default>;
 	pinctrl-1 = <&uart0_sleep>;
 	pinctrl-names = "default", "sleep";
@@ -250,13 +250,10 @@
 //	pinctrl-0 = <&i2c0_default>;
 //	pinctrl-1 = <&i2c0_sleep>;
 //	pinctrl-names = "default", "sleep";
+//	clock-frequency = <100000>;
 //};
 
 &adc {
-	status = "okay";
-};
-
-&gpiote {
 	status = "okay";
 };
 
