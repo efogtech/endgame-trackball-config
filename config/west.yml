@@ -14,13 +14,13 @@ manifest:
       revision: zephyr-4.1
     - name: zmk-pointer-2s-mixer
       remote: efogdev
-      revision: shell
+      revision: main
     - name: zmk-axis-clamper
       remote: efogdev
       revision: main
     - name: zmk-report-rate-limit
       remote: efogdev
-      revision: shell
+      revision: main
     - name: zmk-ec11-ish-driver
       remote: efogdev
       revision: main
