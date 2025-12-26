@@ -4,10 +4,53 @@
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/sys/sys_io.h>
 #include <zephyr/devicetree.h>
+#include <zephyr/shell/shell.h>
+#include <zephyr/sys/util.h>
+#include <zephyr/settings/settings.h>
 #include <zmk/events/usb_conn_state_changed.h>
 #include <zmk/event_manager.h>
 #include <zephyr/device.h>
 #include <zephyr/pm/device.h>
+#include "zmk/endpoints.h"
+
+#if IS_ENABLED(CONFIG_SHELL)
+#define shprint(_sh, _fmt, ...) \
+do { \
+    if ((_sh) != NULL) \
+        shell_print((_sh), _fmt, ##__VA_ARGS__); \
+} while (0)
+
+static int cmd_output(const struct shell *sh, const size_t argc, char **argv) {
+    if (argc < 1) {
+        shprint(sh, "Usage: board output [usb|ble]");
+        return -EINVAL;
+    }
+
+    if (strcmp(argv[1], "usb") == 0) {
+        zmk_endpoints_select_transport(ZMK_TRANSPORT_USB);
+    } else if (strcmp(argv[1], "ble") == 0) {
+        zmk_endpoints_select_transport(ZMK_TRANSPORT_BLE);
+    } else {
+        if (zmk_endpoints_selected().transport == ZMK_TRANSPORT_USB) {
+            shprint(sh, "Output: USB");
+        } else {
+            shprint(sh, "Output: BLE");
+        }
+
+        return 0;
+    }
+
+    shprint(sh, "Done.");
+    return 0;
+}
+
+SHELL_STATIC_SUBCMD_SET_CREATE(sub_board,
+    SHELL_CMD(output, NULL, "Get or set output channel (USB/BLE)", cmd_output),
+    SHELL_SUBCMD_SET_END
+);
+
+SHELL_CMD_REGISTER(board, &sub_board, "Control the device", NULL);
+#endif
 
 static const struct device *p0 = DEVICE_DT_GET(DT_NODELABEL(gpio0));
 static const struct device *p1 = DEVICE_DT_GET(DT_NODELABEL(gpio1));
