@@ -4,8 +4,6 @@ manifest:
       url-base: https://github.com/zmkfirmware
     - name: efogdev
       url-base: https://github.com/efogdev
-    - name: efogtech
-      url-base: https://github.com/efogtech
   projects:
     - name: zmk
       remote: zmkfirmware
