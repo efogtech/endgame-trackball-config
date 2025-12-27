@@ -127,7 +127,7 @@
 
 		snipe {
 			layers = <LAYER_SNIPE>;
-			input-processors = <&zip_xy_scaler SNIPE_MULTIPLIER SNIPE_DIVISOR>;
+			input-processors = <&zip_xy_scaler SNIPE_MULTIPLIER SNIPE_DIVISOR>, <&zip_ble_report_rate_limit>;
 		};
 	};
 
