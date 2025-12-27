@@ -116,13 +116,13 @@
 
 	trackball {
 		input-processors = <&zip_scroll_scaler TWIST_MULTIPLIER TWIST_DIVISOR>,
-						   <&zip_pointer_accel>, <&zip_scroll_accel>, <&zip_ble_report_rate_limit>;
+						   <&zip_ble_report_rate_limit>, <&zip_pointer_accel>, <&zip_scroll_accel>;
 
 		scroll {
 			layers = <LAYER_SCROLL>;
 			input-processors = <&zip_xy_scaler SCROLL_MULTIPLIER SCROLL_DIVISOR>, <&zip_axis_clamper>,
 							   <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>,
-							   <&zip_scroll_accel>, <&zip_ble_report_rate_limit>;
+							   <&zip_ble_report_rate_limit>, <&zip_scroll_accel>;
 		};
 
 		snipe {
