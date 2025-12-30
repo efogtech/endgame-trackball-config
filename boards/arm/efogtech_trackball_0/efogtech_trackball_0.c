@@ -20,6 +20,11 @@ do { \
         shell_print((_sh), _fmt, ##__VA_ARGS__); \
 } while (0)
 
+static int cmd_version(const struct shell *sh, const size_t argc, char **argv) {
+    shprint(sh, "Firmware version: %d.%d.%d", CONFIG_BOARD_EFOGTECH_0_VER_MAJOR, CONFIG_BOARD_EFOGTECH_0_VER_MINOR, CONFIG_BOARD_EFOGTECH_0_VER_PATCH);
+    return 0;
+}
+
 static int cmd_output(const struct shell *sh, const size_t argc, char **argv) {
     if (argc < 1) {
         shprint(sh, "Usage: board output [usb|ble]");
@@ -46,6 +51,7 @@ static int cmd_output(const struct shell *sh, const size_t argc, char **argv) {
 
 SHELL_STATIC_SUBCMD_SET_CREATE(sub_board,
     SHELL_CMD(output, NULL, "Get or set output channel (USB/BLE)", cmd_output),
+    SHELL_CMD(version, NULL, "Read firmware version", cmd_version),
     SHELL_SUBCMD_SET_END
 );
 
