@@ -2,6 +2,7 @@
 #include <input/processors/p2sm.dtsi>
 #include <input/processors/axis_clamper.dtsi>
 #include <input/processors/report_rate_limit.dtsi>
+#include <input/processors/accel_curve.dtsi>
 #include <behaviors/p2sm_behaviors.dtsi>
 #include <behaviors/rate_limit.dtsi>
 #include <behaviors/auto_hold.dtsi>
@@ -9,7 +10,11 @@
 &zip_2s_mixer {
 	status = "okay";
 	sync-report-ms = <1>;
+
 	sync-scroll-report-ms = <8>;
+	twist-thres = <3>;
+	twist-interference-thres = <200>;
+	twist-interference-window = <8>;
 
 	// arbitrary bounding box (0, 0, 0) - (255, 255, 255)
 	ball-radius = <102>; // maximum = 127
@@ -18,9 +23,9 @@
 
 	feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 	feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-	twist-feedback-threshold = <150>;
-	twist-feedback-delay = <5>;
-	// twist-feedback-duration = <50>;
+	twist-feedback-threshold = <20>;
+	twist-feedback-delay = <8>;
+	twist-feedback-duration = <50>;
 };
 
 / {
@@ -81,7 +86,7 @@
 		init-retry-count = <100>;
 		reg = <0>;
 		spi-max-frequency = <2000000>;
-		irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+		irq-gpios = <&gpio0 2 GPIO_ACTIVE_LOW>;
 		cpi = <3200>;
 		evt-type = <INPUT_EV_REL>;
 		x-input-code = <INPUT_REL_X>;
@@ -111,7 +116,7 @@
 		init-retry-count = <100>;
 		reg = <0>;
 		spi-max-frequency = <2000000>;
-		irq-gpios = <&gpio1 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+		irq-gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
 		rst-gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
 		cpi = <3200>;
 		evt-type = <INPUT_EV_REL>;

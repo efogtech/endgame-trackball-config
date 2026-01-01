@@ -6,7 +6,7 @@
 if BOARD_EFOGTECH_TRBL_52833
 
 config ZMK_KEYBOARD_NAME
-    default "Endgame Trackball"
+    default "Endgame"
 
 config EC11
     default y

@@ -1,4 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 
-config BOARD_EFOGTECH_TRACKBALL_0
+config BOARD_EFOGTECH_TRBL_52833
+    bool "true"
 	select SOC_NRF52833_QIAA
+
+config BOARD_EFOGTECH_0_VER_MAJOR
+    int "0"
+
+config BOARD_EFOGTECH_0_VER_MINOR
+    int "2"
+
+config BOARD_EFOGTECH_0_VER_PATCH
+    int "0"

@@ -12,6 +12,8 @@
 #include "encoders.dtsi"
 #include "visuals.dtsi"
 
+#define DECLARE_ENCODERS sensor-bindings = <&rotenc_follower 10 8 &rotenc_follower 9 11>
+
 / {
     model = "Endgame Trackball";
     compatible = "efogtech,trackball";
@@ -61,14 +63,16 @@
 
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
-        rows = <8>;
+        rows = <12>;
         columns = <1>;
         map =
 			<
-				RC(0, 0) RC(1, 0)
-				RC(2, 0) RC(3, 0)
-				RC(4, 0) RC(5, 0)
-				RC(6, 0) RC(7, 0)
+				RC(0, 0)  RC(1, 0)
+				RC(2, 0)  RC(3, 0)
+				RC(4, 0)  RC(5, 0)
+				RC(6, 0)  RC(7, 0)
+				RC(8, 0)  RC(9, 0)
+				RC(10, 0) RC(11, 0)
 			>;
     };
 
@@ -79,20 +83,22 @@
         transform = <&default_transform>;
         kscan = <&kscan0>;
 
-		// encoder switches:
-		//        = <&key_physical_attrs 120  120  95   80   0    120  120>
-		//        , <&key_physical_attrs 120  120  611  80   0    120  120>
+		keys  //               w     h     x     y     rot  rx   ry
+		= <&key_physical_attrs 200   150   275   0     0    8    8  >
+		, <&key_physical_attrs 200   150   525   0     0    8    8  >
+		, <&key_physical_attrs 150   375   75    25    0    8    8  >
+		, <&key_physical_attrs 150   375   775   25    0    8    8  >
+		, <&key_physical_attrs 150   375   75    450   0    8    8  >
+		, <&key_physical_attrs 150   375   775   450   0    8    8  >
+		, <&key_physical_attrs 200   150   275   700   0    8    8  >
+		, <&key_physical_attrs 200   150   525   700   0    8    8  >
 
-        keys  //               w    h   x   y   rot rx ry
-        = <&key_physical_attrs 160  80   177  275  0    0    0  >
-		, <&key_physical_attrs 160  80   489  275  0    0    0  >
-		, <&key_physical_attrs 80   160  80   347  0    0    0  >
-		, <&key_physical_attrs 80   160  666  347  0    0    0  >
-		, <&key_physical_attrs 80   160  80   676  0    0    0  >
-		, <&key_physical_attrs 80   160  666  676  0    0    0  >
-		, <&key_physical_attrs 160  80   177  870  0    0    0  >
-		, <&key_physical_attrs 160  80   489  870  0    0    0  >
-        ;
+		, <&key_physical_attrs 35    100   15    750   0    8    8  >
+		, <&key_physical_attrs 35    100   950   750   0    8    8  >
+
+		, <&key_physical_attrs 100   35    65    850   0    8    8  >
+		, <&key_physical_attrs 100   35    835   850   0    8    8  >
+		;
     };
 
     position_map {
@@ -101,7 +107,7 @@
 
         layout1: layout1 {
             physical-layout = <&physical_layout0>;
-            positions = <0>, <1>, <2>, <3>, <4>, <5>, <6>, <7>;
+            positions = <0>, <1>, <2>, <3>, <4>, <5>, <6>, <7>, <8>, <10>, <9>, <11>;
         };
     };
 
@@ -111,12 +117,130 @@
 		output-ohms = <1>;
 		full-ohms = <2>;
 	};
+
+	behaviors {
+		rrl {
+			values-ms = <8 6 4 2>;
+			feedback-duration = <65>;
+		};
+
+		ltm: layer-tap-momentary {
+			compatible = "zmk,behavior-hold-tap";
+			display-name = "Hold/tap (layer/mouse key)";
+			#binding-cells = <2>;
+			flavor = "tap-preferred";
+			tapping-term-ms = <250>;
+			hold-while-undecided;
+			bindings = <&mo>, <&mkp>;
+		};
+
+		ltmkp: layer-tap-momentary-key-press {
+			compatible = "zmk,behavior-hold-tap";
+			display-name = "Hold/tap (layer/keyboard key)";
+			#binding-cells = <2>;
+			flavor = "tap-preferred";
+			tapping-term-ms = <250>;
+			hold-while-undecided;
+			bindings = <&mo>, <&kp>;
+		};
+
+		rgb_off_on_boot {
+			compatible = "zmk,behavior-trigger-on-boot";
+			display-name = "Reserved";
+			#binding-cells = <0>;
+			bindings = <&rgb_off>;
+		};
+
+		z_so_off {
+			display-name = "Power off";
+		};
+
+		sens: p2sm_sensitivity {
+			feedback-duration = <65>;
+			step = <50>;
+			max-step = <8>;
+		};
+
+		scrlsens: p2sm_scroll_sensitivity {
+			feedback-duration = <65>;
+			step = <10>;
+			min-step = <2>;
+			max-step = <12>;
+		};
+
+		scrlsenstog: p2sm_sens_toggle {
+			display-name = "Scroll sensitivity (toggle 3%/6%)";
+			feedback-duration = <65>;
+			step = <30>;
+			min-step = <1>;
+			max-step = <2>;
+			scroll;
+		};
+
+		sens_nowrap: sens_nowrap {
+			compatible = "zmk,behavior-p2sm-sens";
+			display-name = "Pointer sensitivity (no wrapping)";
+			#binding-cells = <2>;
+			feedback-duration = <65>;
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			step = <50>;
+			min-step = <1>;
+			max-step = <8>;
+		};
+
+		scrlsens_nowrap: scrlsens_nowrap {
+			compatible = "zmk,behavior-p2sm-sens";
+			display-name = "Scroll sensitivity (no wrapping)";
+			#binding-cells = <2>;
+			feedback-duration = <65>;
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			step = <10>;
+			min-step = <2>;
+			max-step = <12>;
+			scroll;
+		};
+
+		rotenc_follower: rotenc_follower {
+			compatible = "zmk,behavior-sensor-rotate-var";
+			#sensor-binding-cells = <2>;
+			bindings = <&flw>, <&flw>;
+		};
+
+		rotenc_sens: rotenc_sens {
+			compatible = "zmk,behavior-sensor-rotate-var";
+			#sensor-binding-cells = <2>;
+			bindings = <&sens_nowrap>, <&sens_nowrap>;
+		};
+
+		rotenc_scrlsens: rotenc_scrlsens {
+			compatible = "zmk,behavior-sensor-rotate-var";
+			#sensor-binding-cells = <2>;
+			bindings = <&scrlsens_nowrap>, <&scrlsens_nowrap>;
+		};
+
+		p2sm_accel_toggle {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+		};
+
+		p2sm_accel_adj {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+		};
+
+		p2sm_twist_toggle {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+		};
+	};
 };
 
 &uart0 {
 	compatible = "nordic,nrf-uarte";
 	status = "okay";
-	current-speed = <115200>;
+	current-speed = <460800>;
 	pinctrl-0 = <&uart0_default>;
 	pinctrl-1 = <&uart0_sleep>;
 	pinctrl-names = "default", "sleep";
@@ -127,13 +251,10 @@
 //	pinctrl-0 = <&i2c0_default>;
 //	pinctrl-1 = <&i2c0_sleep>;
 //	pinctrl-names = "default", "sleep";
+//	clock-frequency = <100000>;
 //};
 
 &adc {
-	status = "okay";
-};
-
-&gpiote {
 	status = "okay";
 };
 
@@ -142,6 +263,10 @@
 };
 
 &gpio1 {
+	status = "okay";
+};
+
+&gpiote {
 	status = "okay";
 };
 
