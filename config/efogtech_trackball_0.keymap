@@ -15,7 +15,7 @@
 #define LAYER_USER         5
 
 #define TWIST_MULTIPLIER   1
-#define TWIST_DIVISOR      10
+#define TWIST_DIVISOR      8
 
 #define SCROLL_MULTIPLIER  1
 #define SCROLL_DIVISOR     3
