@@ -14,7 +14,7 @@ manifest:
       revision: zephyr-4.1
     - name: zmk-pointer-2s-mixer
       remote: efogdev
-      revision: refactoring/twist-v2
+      revision: main
     - name: zmk-axis-clamper
       remote: efogdev
       revision: main
