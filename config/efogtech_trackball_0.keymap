@@ -15,10 +15,10 @@
 #define LAYER_USER     5  
 
 #define TWIST_MULTIPLIER   1
-#define TWIST_DIVISOR      1
+#define TWIST_DIVISOR      80
 
 #define SCROLL_MULTIPLIER  1
-#define SCROLL_DIVISOR     3
+#define SCROLL_DIVISOR     80
 
 #define SNIPE_MULTIPLIER   1
 #define SNIPE_DIVISOR      4
@@ -129,7 +129,7 @@
 						   <&zip_ble_report_rate_limit>, <&zip_pointer_accel>, <&zip_scroll_accel>;
 
 		scroll {
-			layers = <LAYER_USER>;
+			layers = <LAYER_SNIPE>;
 			input-processors = <&zip_xy_scaler SCROLL_MULTIPLIER SCROLL_DIVISOR>, <&zip_axis_clamper>,
 							   <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>,
 							   <&zip_ble_report_rate_limit>, <&zip_scroll_accel>;

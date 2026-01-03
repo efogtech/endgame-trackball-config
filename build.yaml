@@ -21,7 +21,4 @@
 include:
   - board: efogtech_trackball_0
     cmake-args: -DCONFIG_ZMK_STUDIO=y
-    snippet: studio-rpc-usb-uart
-  - board: efogtech_trackball_0
-    shield: settings_reset
-    artifact-name: efogtech_trackball_0_reset
+    snippet: studio-rpc-usb-uart zmk-usb-logging
