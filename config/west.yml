@@ -33,5 +33,11 @@ manifest:
     - name: zmk-behavior-follower
       remote: efogdev
       revision: main
+    - name: zmk-keymap-shell
+      remote: efogdev
+      revision: main
+    - name: zmk-acceleration-curves
+      remote: efogdev
+      revision: main
   self:
     path: config

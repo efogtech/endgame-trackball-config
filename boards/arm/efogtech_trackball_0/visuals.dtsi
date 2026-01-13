@@ -4,12 +4,6 @@
 	aliases { led-strip = &led_strip; };
 	chosen { zmk,underglow = &led_strip; };
 
-	leds {
-		compatible = "gpio-leds";
-		led_0 { gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>; };
-		led_1 { gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>; };
-	};
-
 	EXT_POWER: EXT_POWER {
 		compatible = "zmk,ext-power-generic";
 		control-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>, <&gpio1 3 GPIO_ACTIVE_HIGH>;

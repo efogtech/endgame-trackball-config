@@ -7,18 +7,21 @@
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/ext_power.h>
 
-#define LAYER_DEFAULT 0
-#define LAYER_EXTRAS 1
-#define LAYER_DEVICE 2
-#define LAYER_SCROLL 3
-#define LAYER_SNIPE 4
-#define LAYER_USER 5
+#define LAYER_DEFAULT      0
+#define LAYER_EXTRAS       1
+#define LAYER_DEVICE       2
+#define LAYER_SCROLL       3
+#define LAYER_SNIPE        4
+#define LAYER_USER         5
 
-#define SCROLL_MULTIPLIER 1
-#define SCROLL_DIVISOR 3
+#define TWIST_MULTIPLIER   1
+#define TWIST_DIVISOR      1
 
-#define SNIPE_MULTIPLIER 1
-#define SNIPE_DIVISOR 4
+#define SCROLL_MULTIPLIER  1
+#define SCROLL_DIVISOR     3
+
+#define SNIPE_MULTIPLIER   1
+#define SNIPE_DIVISOR      4
 
 / {
 	keymap {
@@ -112,15 +115,19 @@
 	};
 
 	trackball {
+		input-processors = <&zip_scroll_scaler TWIST_MULTIPLIER TWIST_DIVISOR>,
+						   <&zip_ble_report_rate_limit>, <&zip_pointer_accel>, <&zip_scroll_accel>;
+
 		scroll {
 			layers = <LAYER_SCROLL>;
 			input-processors = <&zip_xy_scaler SCROLL_MULTIPLIER SCROLL_DIVISOR>, <&zip_axis_clamper>,
-							   <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>;
+							   <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>,
+							   <&zip_ble_report_rate_limit>, <&zip_scroll_accel>;
 		};
 
 		snipe {
 			layers = <LAYER_SNIPE>;
-			input-processors = <&zip_xy_scaler SNIPE_MULTIPLIER SNIPE_DIVISOR>;
+			input-processors = <&zip_xy_scaler SNIPE_MULTIPLIER SNIPE_DIVISOR>, <&zip_ble_report_rate_limit>;
 		};
 	};
 
