@@ -3,16 +3,16 @@
 / {
 	left_encoder: encoder_left {
 		compatible = "efog,ec11-ish";
-		a-gpios = <&gpio0 17 0>;
-		b-gpios = <&gpio0 16 0>;
+		a-gpios = <&gpio0 17 GPIO_PULL_UP>;
+		b-gpios = <&gpio0 16 GPIO_PULL_UP>;
 		steps = <24>;
 		pulses = <4>;
 	};
 
 	right_encoder: encoder_right {
 		compatible = "efog,ec11-ish";
-		a-gpios = <&gpio1 8 0>;
-		b-gpios = <&gpio1 9 0>;
+		a-gpios = <&gpio1 8 GPIO_PULL_UP>;
+		b-gpios = <&gpio1 9 GPIO_PULL_UP>;
 		steps = <24>;
 		pulses = <4>;
 	};
@@ -24,5 +24,5 @@
 	};
 };
 
-&left_encoder { status = "disabled"; };
-&right_encoder { status = "disabled"; };
+&left_encoder { status = "okay"; };
+&right_encoder { status = "okay"; };
