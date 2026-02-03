@@ -2,5 +2,61 @@ name: Build ZMK firmware
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
+  meta:
+    name: Prepare release metadata
+    runs-on: ubuntu-latest
+    outputs:
+      release_version: ${{ steps.release_version.outputs.value }}
+      archive_name: ${{ steps.archive_name.outputs.value }}
+      release_name: ${{ steps.release_name.outputs.value }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Read release version
+        id: release_version
+        run: |
+          set -euo pipefail
+          defconfig="boards/arm/efogtech_trackball_0/efogtech_trackball_0_defconfig"
+          major=$(grep -E '^CONFIG_BOARD_EFOGTECH_0_VER_MAJOR=' "$defconfig" | cut -d= -f2)
+          minor=$(grep -E '^CONFIG_BOARD_EFOGTECH_0_VER_MINOR=' "$defconfig" | cut -d= -f2)
+          patch=$(grep -E '^CONFIG_BOARD_EFOGTECH_0_VER_PATCH=' "$defconfig" | cut -d= -f2)
+          if [ -z "$major" ] || [ -z "$minor" ] || [ -z "$patch" ]; then
+            echo "Version not found in $defconfig" >&2
+            exit 1
+          fi
+          echo "value=endgame-${major}.${minor}.${patch}" >> "$GITHUB_OUTPUT"
+      - name: Set release name
+        id: release_name
+        run: echo "value=${{ steps.release_version.outputs.value }}" >> "$GITHUB_OUTPUT"
+      - name: Set archive name
+        id: archive_name
+        run: echo "value=firmware" >> "$GITHUB_OUTPUT"
+
   build:
+    needs: meta
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3.0
+    with:
+      archive_name: ${{ needs.meta.outputs.archive_name }}
+
+  release:
+    name: Create release
+    runs-on: ubuntu-latest
+    needs: [meta, build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+    steps:
+      - name: Download firmware artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: .
+          merge-multiple: true
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.meta.outputs.release_version }}
+          name: "${{ needs.meta.outputs.release_name }}"
+          files: |
+            ./*.uf2
+          draft: false
+          prerelease: false

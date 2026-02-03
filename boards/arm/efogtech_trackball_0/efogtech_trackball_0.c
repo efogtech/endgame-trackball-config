@@ -6,6 +6,7 @@
 #include <zephyr/devicetree.h>
 #include <zephyr/shell/shell.h>
 #include <zephyr/sys/util.h>
+#include <zephyr/sys/reboot.h>
 #include <zephyr/settings/settings.h>
 #include <zmk/events/usb_conn_state_changed.h>
 #include <zmk/event_manager.h>
@@ -49,8 +50,16 @@ static int cmd_output(const struct shell *sh, const size_t argc, char **argv) {
     return 0;
 }
 
+static int cmd_reboot(const struct shell *sh, const size_t argc, char **argv) {
+    shprint(sh, "Rebooting device...");
+    k_sleep(K_MSEC(100));
+    sys_reboot(SYS_REBOOT_COLD);
+    return 0;
+}
+
 SHELL_STATIC_SUBCMD_SET_CREATE(sub_board,
     SHELL_CMD(output, NULL, "Get or set output channel (USB/BLE)", cmd_output),
+    SHELL_CMD(reboot, NULL, "Reboot the device", cmd_reboot),
     SHELL_CMD(version, NULL, "Read firmware version", cmd_version),
     SHELL_SUBCMD_SET_END
 );
