@@ -32,14 +32,14 @@
 			DECLARE_ENCODERS;
 			bindings = <
 				// buttons
-				&ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_SCROLL ESC
-				&mkp MCLK                 &kp DELETE
+				&ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_EXTRAS ESC
+				&mkp MCLK                 &kp LS(LA(LC(LG(S))))
 				&mkp LCLK                 &mkp RCLK
-				&ltm LAYER_EXTRAS MB4     &ltm LAYER_DEVICE MB5
+				&ltm LAYER_SCROLL MB4     &ltm LAYER_DEVICE MB5
 
 				// rotary encoders
-				&kp C_VOL_UP              &kp LC(TAB)
-				&kp C_VOL_DN              &kp LC(LS(TAB))
+				&kp C_VOL_UP              &kp LG(TAB)
+				&kp C_VOL_DN              &kp LG(LS(TAB))
 			>;
 		};
 
@@ -47,13 +47,13 @@
 			display-name = "Extras";
 			DECLARE_ENCODERS;
 			bindings = <
-				&kp LC(C)      &kp LC(V)
-				&kp LC(X)      &kp LC(Z)
-				&kp LC(Z)      &kp LC(C)
-				&trans         &kp LC(V)
+				&kp LG(C)      &kp LG(V)
+				&kp LG(X)      &kp LG(Z)
+				&kp LG(Z)      &kp LG(C)
+				&trans         &kp LG(V)
 
-				&kp C_VOL_UP   &kp LC(TAB)
-				&kp C_VOL_DN   &kp LC(LS(TAB))
+				&kp C_VOL_UP   &kp LG(TAB)
+				&kp C_VOL_DN   &kp LG(LS(TAB))
 			>;
 		};
 
@@ -66,8 +66,8 @@
 				&rgb_tog           &bt BT_PRV
 				&studio_unlock     &trans
 
-				&kp C_VOL_UP       &kp LC(TAB)
-				&kp C_VOL_DN       &kp LC(LS(TAB))
+				&kp C_VOL_UP       &kp LG(TAB)
+				&kp C_VOL_DN       &kp LG(LS(TAB))
 			>;
 		};
 
@@ -108,8 +108,8 @@
 				&trans        &trans
 				&trans        &trans
 
-				&kp C_VOL_UP  &kp LC(TAB)
-				&kp C_VOL_DN  &kp LC(LS(TAB))
+				&kp C_VOL_UP  &kp LG(TAB)
+				&kp C_VOL_DN  &kp LG(LS(TAB))
 		    >;
 		};
 	};
