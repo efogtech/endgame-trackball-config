@@ -12,7 +12,13 @@
 #include <zmk/event_manager.h>
 #include <zephyr/device.h>
 #include <zephyr/pm/device.h>
+
+#include "zephyr/bluetooth/bluetooth.h"
 #include "zmk/endpoints.h"
+#include "zmk/settings.h"
+
+#define DT_DRV_COMPAT zmk_endgame
+LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #if IS_ENABLED(CONFIG_SHELL)
 #define shprint(_sh, _fmt, ...) \
@@ -57,9 +63,38 @@ static int cmd_reboot(const struct shell *sh, const size_t argc, char **argv) {
     return 0;
 }
 
+static int cmd_erase(const struct shell *sh, const size_t argc, char **argv) {
+    shprint(sh, "I hope you know what you're doing.");
+
+    bt_unpair(BT_ID_DEFAULT, NULL);
+
+    for (int i = 0; i < 8; i++) {
+        char setting_name[15];
+        sprintf(setting_name, "ble/profiles/%d", i);
+
+        const int err = settings_delete(setting_name);
+        if (err) {
+            LOG_ERR("Failed to delete setting: %d", err);
+        }
+    }
+
+    for (int i = 0; i < 8; i++) {
+        char setting_name[32];
+        sprintf(setting_name, "ble/peripheral_addresses/%d", i);
+
+        const int err = settings_delete(setting_name);
+        if (err) {
+            LOG_ERR("Failed to delete setting: %d", err);
+        }
+    }
+
+    return zmk_settings_erase();
+}
+
 SHELL_STATIC_SUBCMD_SET_CREATE(sub_board,
     SHELL_CMD(output, NULL, "Get or set output channel (USB/BLE)", cmd_output),
     SHELL_CMD(reboot, NULL, "Reboot the device", cmd_reboot),
+    SHELL_CMD(erase, NULL, "Erase all settings", cmd_erase),
     SHELL_CMD(version, NULL, "Read firmware version", cmd_version),
     SHELL_SUBCMD_SET_END
 );

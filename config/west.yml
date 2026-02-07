@@ -7,37 +7,37 @@ manifest:
   projects:
     - name: zmk
       remote: zmkfirmware
-      revision: v0.3.0
+      revision: "v0.3.0"
       import: app/west.yml
     - name: zmk-pmw3610-driver
       remote: efogdev
-      revision: zephyr-4.1
+      revision: "c9288fb"
     - name: zmk-pointer-2s-mixer
       remote: efogdev
-      revision: main
+      revision: "eae4984"
     - name: zmk-axis-clamper
       remote: efogdev
-      revision: main
+      revision: "e3f8b6c"
     - name: zmk-report-rate-limit
       remote: efogdev
-      revision: main
+      revision: "1400f9f"
     - name: zmk-ec11-ish-driver
       remote: efogdev
-      revision: main
+      revision: "0a75a5f"
     - name: zmk-auto-hold
       remote: efogdev
-      revision: main
+      revision: "4682281"
     - name: zmk-trigger-on-boot
       remote: efogdev
-      revision: main
+      revision: "c06d9d8"
     - name: zmk-behavior-follower
       remote: efogdev
-      revision: main
+      revision: "76df19c"
     - name: zmk-keymap-shell
       remote: efogdev
-      revision: main
+      revision: "f65c917"
     - name: zmk-acceleration-curves
       remote: efogdev
-      revision: main
+      revision: "d8b272a"
   self:
     path: config
