@@ -35,7 +35,7 @@
 				&ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_EXTRAS ESC
 				&mkp MCLK                 &kp LS(LA(LC(LG(S))))
 				&mkp LCLK                 &mkp RCLK
-				&ltm LAYER_SCROLL MB4     &ltm LAYER_DEVICE MB5
+				&ltm LAYER_SCROLL LCLK     &ltm LAYER_DEVICE RCLK
 
 				// rotary encoders
 				&kp C_VOL_UP              &kp LG(TAB)
@@ -75,10 +75,10 @@
 			display-name = "Scroll";
 			DECLARE_ENCODERS;
 			bindings = <
-			    &trans              &trans
-			    &trans              &scrlsens P2SM_INC 1
-			    &rrl 1              &scrlsens P2SM_DEC 1
-			    &sens P2SM_DEC 1    &sens P2SM_INC 1
+			    &sens P2SM_DEC 1 &sens P2SM_INC 1
+			    &trans           &scrlsens P2SM_INC 1
+			    &rrl 1           &scrlsens P2SM_DEC 1
+			    &trans           &trans
 
 				&sens P2SM_DEC 1    &scrlsens P2SM_INC 1
 				&sens P2SM_INC 1    &scrlsens P2SM_DEC 1
