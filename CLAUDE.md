@@ -77,3 +77,29 @@ When connected via USB, access shell at `endgame$ ` prompt:
 - `board output [usb|ble]` - get/set output transport
 - `board reboot` - reboot device
 - `board erase` - factory reset (clears BLE pairings + settings)
+
+## Scripts
+
+### `scripts/gen-keymap-ascii.sh`
+
+Generates ASCII keymap visualization from the `.keymap` file. Updates both:
+- `config/efogtech_trackball_0.keymap` - C block comment at end of file
+- `README.md` - markdown code block
+
+Run manually: `./scripts/gen-keymap-ascii.sh`
+
+### Neovim Auto-update
+
+Add to your Neovim config for auto-regeneration on save:
+
+```lua
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*efogtech_trackball_0.keymap",
+  callback = function()
+    local dir = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":h:h")
+    vim.fn.jobstart(dir .. "/scripts/gen-keymap-ascii.sh", {
+      on_exit = function() vim.cmd("edit") end
+    })
+  end
+})
+```

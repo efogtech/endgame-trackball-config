@@ -1,162 +1,27 @@
-#include <behaviors.dtsi>
-#include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/pointing.h>
-#include <dt-bindings/zmk/outputs.h>
-#include <dt-bindings/zmk/p2sm.h>
-#include <dt-bindings/zmk/rgb.h>
-#include <dt-bindings/zmk/ext_power.h>
+# Endgame Trackball
 
-#define LAYER_DEFAULT      0
-#define LAYER_EXTRAS       1
-#define LAYER_DEVICE       2
-#define LAYER_SCROLL       3
-#define LAYER_SNIPE        4
-#define LAYER_USER         5
+ZMK firmware configuration for the Endgame Trackball - a dual-sensor trackball
+with 8 buttons, 2 rotary encoders, and RGB underglow.
 
-#define TWIST_MULTIPLIER   1
-#define TWIST_DIVISOR      1
+## Features
 
-#define SCROLL_MULTIPLIER  1
-#define SCROLL_DIVISOR     3
+- **Dual PMW3610 sensors** - Combined for smooth tracking and twist detection
+- **6 layers** - Default, Extras (clipboard), Device (BLE/RGB), Scroll, Snipe, User
+- **ZMK Studio** - Real-time keymap editing via USB/BLE
+- **Soft-off** - Deep sleep with GPIO wakeup
 
-#define SNIPE_MULTIPLIER   1
-#define SNIPE_DIVISOR      4
+## Hardware
 
-/ {
-	keymap {
-		compatible = "zmk,keymap";
+- MCU: Nordic nRF52833 (BLE 5.0 + USB HID)
+- Sensors: 2x PMW3610 optical sensors
+- Buttons: 8 programmable buttons
+- Encoders: 2 rotary encoders
+- RGB: WS2812 underglow
 
-		default_layer {
-			display-name = "Default";
-			DECLARE_ENCODERS;
-			bindings = <
-				// buttons
-				&ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_EXTRAS ESC
-				&mkp MCLK                 &kp LS(LA(LC(LG(S))))
-				&mkp LCLK                 &mkp RCLK
-				&ltm LAYER_SCROLL MB4     &ltm LAYER_DEVICE MB5
+## Keymap
 
-				// rotary encoders
-				&kp C_VOL_UP              &kp LG(TAB)
-				&kp C_VOL_DN              &kp LG(LS(TAB))
-			>;
-		};
-
-		layer2 {
-			display-name = "Extras";
-			DECLARE_ENCODERS;
-			bindings = <
-				&kp LG(C)      &kp LG(V)
-				&kp LG(X)      &kp LG(Z)
-				&kp LG(Z)      &kp LG(C)
-				&trans         &kp LG(V)
-
-				&kp C_VOL_UP   &kp LG(TAB)
-				&kp C_VOL_DN   &kp LG(LS(TAB))
-			>;
-		};
-
-		layer3 {
-			display-name = "Device";
-			DECLARE_ENCODERS;
-			bindings = <
-				&rgb_off           &rgb_ug RGB_EFF
-				&bt BT_CLR         &bt BT_NXT
-				&rgb_tog           &bt BT_PRV
-				&studio_unlock     &trans
-
-				&kp C_VOL_UP       &kp LG(TAB)
-				&kp C_VOL_DN       &kp LG(LS(TAB))
-			>;
-		};
-
-		layer4 {
-			display-name = "Scroll";
-			DECLARE_ENCODERS;
-			bindings = <
-			    &trans              &trans
-			    &trans              &scrlsens P2SM_INC 1
-			    &rrl 1              &scrlsens P2SM_DEC 1
-			    &sens P2SM_DEC 1    &sens P2SM_INC 1
-
-				&sens P2SM_DEC 1    &scrlsens P2SM_INC 1
-				&sens P2SM_INC 1    &scrlsens P2SM_DEC 1
-			>;
-		};
-
-		layer5 {
-			display-name = "Snipe";
-			DECLARE_ENCODERS;
-			bindings = <
-				&trans           &soft_off
-				&trans           &trans
-				&trans           &trans
-				&trans           &trans
-
-				&kp LEFT         &kp RIGHT
-				&kp RIGHT        &kp LEFT
-			>;
-		};
-
-		layer6 {
-			display-name = "User";
-			DECLARE_ENCODERS;
-			bindings = <
-				&trans        &trans
-				&trans        &trans
-				&trans        &trans
-				&trans        &trans
-
-				&kp C_VOL_UP  &kp LG(TAB)
-				&kp C_VOL_DN  &kp LG(LS(TAB))
-		    >;
-		};
-	};
-
-	trackball {
-		input-processors = <&zip_scroll_scaler TWIST_MULTIPLIER TWIST_DIVISOR>,
-						   <&zip_ble_report_rate_limit>, <&zip_pointer_accel>, <&zip_scroll_accel>;
-
-		scroll {
-			layers = <LAYER_SCROLL>;
-			input-processors = <&zip_xy_scaler SCROLL_MULTIPLIER SCROLL_DIVISOR>, <&zip_axis_clamper>,
-							   <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>,
-							   <&zip_ble_report_rate_limit>, <&zip_scroll_accel>;
-		};
-
-		snipe {
-			layers = <LAYER_SNIPE>;
-			input-processors = <&zip_xy_scaler SNIPE_MULTIPLIER SNIPE_DIVISOR>, <&zip_ble_report_rate_limit>;
-		};
-	};
-
-	macros {
-		rgb_tog: rgb_tog {
-			compatible = "zmk,behavior-macro";
-			display-name = "Toggle RGB";
-			#binding-cells = <0>;
-			wait-ms = <20>;
-			bindings
-			= <&rgb_ug RGB_TOG>
-			, <&ext_power EP_TOG>
-			;
-		};
-
-		rgb_off: rgb_off {
-			compatible = "zmk,behavior-macro";
-			display-name = "RGB off";
-			#binding-cells = <0>;
-			wait-ms = <20>;
-			bindings
-			= <&ext_power EP_OFF>
-			, <&rgb_ug RGB_OFF>
-			;
-		};
-	};
-};
-
-/* KEYMAP_ASCII_START
+<!-- KEYMAP_ASCII_START -->
+```
 ╔═══════════════════════════════════════════════════════════════════════════════╗
 ║                        ENDGAME TRACKBALL KEYMAP                               ║
 ╠═══════════════════════════════════════════════════════════════════════════════╣
@@ -282,4 +147,38 @@ LAYER 5: User                                          Pointer: Normal
               └─────────────────┘ └─────────────────┘
 
     ENC1: Vol+/Vol-                          ENC2: ⌘Tab/⌘⇧Tab
-KEYMAP_ASCII_END */
+```
+<!-- KEYMAP_ASCII_END -->
+
+## Building
+
+Firmware is built automatically via GitHub Actions.
+
+1. Push to `main` branch
+2. Wait for workflow to complete
+3. Download `.uf2` from [Releases](../../releases)
+
+## Flashing
+
+1. Put device in bootloader mode (double-tap reset or hold boot button)
+2. Copy `.uf2` file to the mounted drive
+3. Device reboots automatically
+
+## Shell Commands
+
+Connect via USB and use serial terminal:
+
+| Command | Description |
+|---------|-------------|
+| `board version` | Show firmware version |
+| `board output [usb\|ble]` | Get/set output transport |
+| `board reboot` | Reboot device |
+| `board erase` | Factory reset |
+
+## Customization
+
+Edit `config/efogtech_trackball_0.keymap` to customize bindings.
+
+## License
+
+MIT
