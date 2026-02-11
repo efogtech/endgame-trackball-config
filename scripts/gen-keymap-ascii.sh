@@ -29,19 +29,21 @@ declare -A LABELS=(
     ["&ltmkp LAYER_EXTRAS ESC"]="EXTRAS/Esc"
     ["&ltm LAYER_SCROLL MB4"]="SCROLL/MB4"
     ["&ltm LAYER_DEVICE MB5"]="DEVICE/MB5"
+    ["&ltm LAYER_SCROLL LCLK"]="SCROLL/LCLK"
+    ["&ltm LAYER_DEVICE RCLK"]="DEVICE/RCLK"
 
     # Keyboard keys
     ["&kp LS(LA(LC(LG(S))))"]="Hyper+S"
     ["&kp C_VOL_UP"]="Vol+"
     ["&kp C_VOL_DN"]="Vol-"
-    ["&kp LG(TAB)"]="⌘Tab"
-    ["&kp LG(LS(TAB))"]="⌘⇧Tab"
-    ["&kp LG(C)"]="⌘C"
-    ["&kp LG(V)"]="⌘V"
-    ["&kp LG(X)"]="⌘X"
-    ["&kp LG(Z)"]="⌘Z"
-    ["&kp LEFT"]="←"
-    ["&kp RIGHT"]="→"
+    ["&kp LG(TAB)"]="Cmd-Tab"
+    ["&kp LG(LS(TAB))"]="Cmd-S-Tab"
+    ["&kp LG(C)"]="Cmd-C"
+    ["&kp LG(V)"]="Cmd-V"
+    ["&kp LG(X)"]="Cmd-X"
+    ["&kp LG(Z)"]="Cmd-Z"
+    ["&kp LEFT"]="Left"
+    ["&kp RIGHT"]="Right"
 
     # Bluetooth
     ["&bt BT_CLR"]="BT Clear"
@@ -61,7 +63,7 @@ declare -A LABELS=(
     ["&rrl 1"]="RptRate"
 
     # Special
-    ["&trans"]="·"
+    ["&trans"]="."
     ["&studio_unlock"]="Studio"
     ["&soft_off"]="Power Off"
 )
@@ -80,10 +82,69 @@ declare -A POINTER_MODES=(
     [0]="Normal + Accel"
     [1]="Normal"
     [2]="Normal"
-    [3]="Scroll (1:3)"
+    [3]="Scroll (1:10)"
     [4]="Snipe (1:4)"
     [5]="Normal"
 )
+
+# Maps layer define names to layer numbers
+declare -A LAYER_NUM_MAP=(
+    ["LAYER_DEFAULT"]=0
+    ["LAYER_EXTRAS"]=1
+    ["LAYER_DEVICE"]=2
+    ["LAYER_SCROLL"]=3
+    ["LAYER_SNIPE"]=4
+    ["LAYER_USER"]=5
+)
+
+# Populated by build_layer_activators: [layer_num]=button_position
+declare -A LAYER_ACTIVATORS=()
+
+# Parse default layer bindings to find which button activates each layer
+build_layer_activators() {
+    local keymap_content="$1"
+    mapfile -t bindings < <(extract_layer_bindings 0 "$keymap_content")
+
+    local pos=0
+    for binding in "${bindings[@]}"; do
+        # Only look at button bindings (first 8), not encoders
+        (( pos >= 8 )) && break
+
+        if [[ "$binding" =~ ^"&ltm "([A-Z_]+)" " || "$binding" =~ ^"&ltmkp "([A-Z_]+)" " ]]; then
+            local layer_name="${BASH_REMATCH[1]}"
+            if [[ -v "LAYER_NUM_MAP[$layer_name]" ]]; then
+                LAYER_ACTIVATORS[${LAYER_NUM_MAP[$layer_name]}]=$pos
+            fi
+        fi
+        (( pos++ )) || true
+    done
+}
+
+# Generate a single row of the 4-row key thumbnail
+# Physical layout rows: 0=[0,1] 1=[2,3] 2=[4,5] 3=[6,7]
+# Row 0,3 (center): " XY" (space + 2 chars)
+# Row 1,2 (sides):  "X  Y" (char + 2 spaces + char)
+generate_thumbnail_row() {
+    local row="$1"
+    local active_pos="$2"  # -1 for none
+
+    local left_btn right_btn
+    case $row in
+        0) left_btn=0; right_btn=1 ;;
+        1) left_btn=2; right_btn=3 ;;
+        2) left_btn=4; right_btn=5 ;;
+        3) left_btn=6; right_btn=7 ;;
+    esac
+
+    local left_char="□" right_char="□"
+    [[ $active_pos -eq $left_btn ]]  && left_char="■"
+    [[ $active_pos -eq $right_btn ]] && right_char="■"
+
+    case $row in
+        0|3) echo " ${left_char}${right_char}" ;;
+        1|2) echo "${left_char}  ${right_char}" ;;
+    esac
+}
 
 # Parse a binding string and return the label
 get_label() {
@@ -101,10 +162,10 @@ get_label() {
         local key="${BASH_REMATCH[1]}"
         # Simplify modifier combinations
         key=$(echo "$key" | sed 's/LS(LA(LC(LG(\(.*\)))))/Hyper+\1/')
-        key=$(echo "$key" | sed 's/LG(\(.*\))/⌘\1/')
-        key=$(echo "$key" | sed 's/LS(\(.*\))/⇧\1/')
-        key=$(echo "$key" | sed 's/LA(\(.*\))/⌥\1/')
-        key=$(echo "$key" | sed 's/LC(\(.*\))/⌃\1/')
+        key=$(echo "$key" | sed 's/LG(\(.*\))/Cmd-\1/')
+        key=$(echo "$key" | sed 's/LS(\(.*\))/Shf-\1/')
+        key=$(echo "$key" | sed 's/LA(\(.*\))/Opt-\1/')
+        key=$(echo "$key" | sed 's/LC(\(.*\))/Ctl-\1/')
         key=$(echo "$key" | sed 's/C_VOL_UP/Vol+/')
         key=$(echo "$key" | sed 's/C_VOL_DN/Vol-/')
         echo "$key"
@@ -234,22 +295,46 @@ generate_layer_ascii() {
     local e2_ccw=$(get_label "${bindings[11]:-&trans}")
 
     # Pad labels to fixed width
-    pad() { printf "%-13s" "$1"; }
-    pad_short() { printf "%-6s" "$1"; }
+    # Pad string to fixed display width (Unicode-safe, avoids printf byte-counting)
+    pad() {
+        local str="$1" width="${2:-14}"
+        local len=${#str}
+        local spaces=$((width - len))
+        (( spaces < 0 )) && spaces=0
+        printf '%s%*s' "$str" "$spaces" ""
+    }
+    pad_short() { pad "$1" 10; }
+
+    # Determine activator button for this layer
+    local active_pos=-1
+    [[ -v "LAYER_ACTIVATORS[$layer_num]" ]] && active_pos=${LAYER_ACTIVATORS[$layer_num]}
+
+    local t0 t1 t2 t3
+    t0=$(generate_thumbnail_row 0 "$active_pos")
+    t1=$(generate_thumbnail_row 1 "$active_pos")
+    t2=$(generate_thumbnail_row 2 "$active_pos")
+    t3=$(generate_thumbnail_row 3 "$active_pos")
+
+    local layer_label
+    layer_label=$(printf "LAYER %d: %-12s" "$layer_num" "$layer_name")
+
+    printf '═══════════════════════════════════════════════════════════════════════════════\n'
+    printf '                                     %s\n' "$t0"
+    printf '%-30s       %s                Pointer: %s\n' "$layer_label" "$t1" "$pointer_mode"
+    printf '                                    %s\n' "$t2"
+    printf '                                     %s\n' "$t3"
+    printf '═══════════════════════════════════════════════════════════════════════════════\n'
 
     cat << EOF
-═══════════════════════════════════════════════════════════════════════════════
-LAYER $layer_num: $(printf "%-12s" "$layer_name")                                  Pointer: $pointer_mode
-═══════════════════════════════════════════════════════════════════════════════
               ┌─────────────────┐ ┌─────────────────┐
               │ $(pad "$b0")  │ │ $(pad "$b1")  │
               └─────────────────┘ └─────────────────┘
-    ┌────────┐                               ┌────────┐
-    │$(pad_short "$b2")  │                               │$(pad_short "$b3")  │
-    └────────┘                               └────────┘
-    ┌────────┐                               ┌────────┐
-    │$(pad_short "$b4")  │                               │$(pad_short "$b5")  │
-    └────────┘                               └────────┘
+    ┌────────────┐                       ┌────────────┐
+    │$(pad_short "$b2")  │                       │$(pad_short "$b3")  │
+    └────────────┘                       └────────────┘
+    ┌────────────┐                       ┌────────────┐
+    │$(pad_short "$b4")  │                       │$(pad_short "$b5")  │
+    └────────────┘                       └────────────┘
               ┌─────────────────┐ ┌─────────────────┐
               │ $(pad "$b6")  │ │ $(pad "$b7")  │
               └─────────────────┘ └─────────────────┘
@@ -335,6 +420,8 @@ main() {
 
     local keymap_content
     keymap_content=$(cat "$KEYMAP_FILE")
+
+    build_layer_activators "$keymap_content"
 
     local ascii_content
     ascii_content=$(generate_full_ascii "$keymap_content")
