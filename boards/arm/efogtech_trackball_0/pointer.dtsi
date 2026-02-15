@@ -4,6 +4,7 @@
 #include <input/processors/axis_clamper.dtsi>
 #include <input/processors/report_rate_limit.dtsi>
 #include <input/processors/accel_curve.dtsi>
+#include <input/processors/rotate_plane.dtsi>
 #include <behaviors/p2sm_behaviors.dtsi>
 #include <behaviors/rate_limit.dtsi>
 #include <behaviors/auto_hold.dtsi>
@@ -29,11 +30,29 @@
 	twist-feedback-duration = <50>;
 };
 
+&zip_rotate_pointer {
+	timeout = <1>;
+};
+
+&zip_rotate_scroll {
+	timeout = <8>;
+};
+
 / {
 	trackball {
 		compatible = "zmk,input-listener";
 		device = <&zip_2s_mixer>;
 		input-processors = <&zip_ble_report_rate_limit>;
+	};
+
+	rotated_pointer_plane {
+		compatible = "zmk,input-listener";
+		device = <&zip_rotate_pointer>;
+	};
+
+	rotated_scroll_plane {
+		compatible = "zmk,input-listener";
+		device = <&zip_rotate_scroll>;
 	};
 
 	trackball_primary_listener: trackball_primary_listener {
