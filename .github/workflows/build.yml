@@ -9,9 +9,20 @@ jobs:
       release_version: ${{ steps.release_version.outputs.value }}
       archive_name: ${{ steps.archive_name.outputs.value }}
       release_name: ${{ steps.release_name.outputs.value }}
+      paw3395_version: ${{ steps.paw3395_version.outputs.value }}
+      paw3395_lookup_version: ${{ steps.paw3395_lookup_version.outputs.value }}
+      is_paw3395_branch: ${{ steps.check_branch.outputs.is_paw3395 }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Check if paw3395 branch
+        id: check_branch
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/paw3395" ]; then
+            echo "is_paw3395=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_paw3395=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Read release version
         id: release_version
         run: |
@@ -25,6 +36,18 @@ jobs:
             exit 1
           fi
           echo "value=endgame-${major}.${minor}.${patch}" >> "$GITHUB_OUTPUT"
+          echo "major=${major}" >> "$GITHUB_OUTPUT"
+          echo "minor=${minor}" >> "$GITHUB_OUTPUT"
+          echo "patch=${patch}" >> "$GITHUB_OUTPUT"
+      - name: Set paw3395 version
+        id: paw3395_version
+        run: echo "value=endgame-paw3395-${{ steps.release_version.outputs.major }}.${{ steps.release_version.outputs.minor }}.${{ steps.release_version.outputs.patch }}" >> "$GITHUB_OUTPUT"
+      - name: Set paw3395 lookup version (major - 100)
+        id: paw3395_lookup_version
+        run: |
+          major=${{ steps.release_version.outputs.major }}
+          lookup_major=$((major - 100))
+          echo "value=endgame-${lookup_major}.${{ steps.release_version.outputs.minor }}.${{ steps.release_version.outputs.patch }}" >> "$GITHUB_OUTPUT"
       - name: Set release name
         id: release_name
         run: echo "value=${{ steps.release_version.outputs.value }}" >> "$GITHUB_OUTPUT"
@@ -60,3 +83,30 @@ jobs:
             ./*.uf2
           draft: false
           prerelease: false
+
+  paw3395-release:
+    name: Add paw3395 firmware to existing release
+    runs-on: ubuntu-latest
+    needs: [meta, build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/paw3395'
+    permissions:
+      contents: write
+    steps:
+      - name: Download firmware artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: .
+          merge-multiple: true
+      - name: Rename firmware for paw3395
+        run: |
+          # Find and rename the uf2 file
+          for file in *.uf2; do
+            mv "$file" "${{ needs.meta.outputs.paw3395_version }}.uf2"
+            break
+          done
+      - name: Upload paw3395 firmware to existing release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.meta.outputs.paw3395_lookup_version }}
+          files: |
+            ./*.uf2
