@@ -69,11 +69,13 @@
 	rotated_pointer_plane {
 		compatible = "zmk,input-listener";
 		device = <&zip_rotate_pointer>;
+		input-processors = <&zip_ble_report_rate_limit>;
 	};
 
 	rotated_scroll_plane {
 		compatible = "zmk,input-listener";
 		device = <&zip_rotate_scroll>;
+		input-processors = <&zip_ble_report_rate_limit>;
 	};
 
 	trackball_primary_listener: trackball_primary_listener {
