@@ -14,7 +14,7 @@ manifest:
       revision: "c9288fb"
     - name: zmk-pointer-2s-mixer
       remote: efogdev
-      revision: "1c477cf"
+      revision: "4de60c9"
     - name: zmk-axis-clamper
       remote: efogdev
       revision: "e3f8b6c"
