@@ -133,9 +133,11 @@ SYS_INIT(pinmux_efgtch_trckbl_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORIT
 #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
 static int usb_conn_chg(const zmk_event_t *eh) {
     if (zmk_usb_get_conn_state() == ZMK_USB_CONN_HID) {
+        pm_device_action_run(uart, PM_DEVICE_ACTION_TURN_ON);
         pm_device_action_run(uart, PM_DEVICE_ACTION_RESUME);
     } else {
         pm_device_action_run(uart, PM_DEVICE_ACTION_SUSPEND);
+        pm_device_action_run(uart, PM_DEVICE_ACTION_TURN_OFF);
     }
 
     return 0;
