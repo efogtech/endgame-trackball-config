@@ -41,6 +41,6 @@ manifest:
       revision: "d8b272a"
     - name: zmk-input-processor-rotate-plane
       remote: efogdev
-      revision: "c2e2947"
+      revision: "306b901"
   self:
     path: config
