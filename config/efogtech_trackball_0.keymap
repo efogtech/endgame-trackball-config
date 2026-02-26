@@ -33,7 +33,7 @@
 			bindings = <
 				// buttons
 				&ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_SCROLL ESC
-				&mkp MCLK                 &kp DELETE
+				&mkp MCLK                 &cdch LAYER_SCROLL 0
 				&mkp LCLK                 &mkp RCLK
 				&ltm LAYER_EXTRAS MB4     &ltm LAYER_DEVICE MB5
 
@@ -111,6 +111,25 @@
 				&kp C_VOL_UP  &kp LC(TAB)
 				&kp C_VOL_DN  &kp LC(LS(TAB))
 		    >;
+		};
+	};
+
+	behaviors {
+		cdch: click-double-click-hold {
+			compatible = "zmk,behavior-hold-tap";
+			display-name = "Copy/paste/layer (click/double-click/hold)";
+			#binding-cells = <2>;
+			flavor = "tap-preferred";
+			tapping-term-ms = <325>;
+			bindings = <&mo>, <&cdc>;
+		};
+
+		cdc: click-double-click {
+			compatible = "zmk,behavior-tap-dance";
+			display-name = "Copy/paste (click/double-click)";
+			#binding-cells = <0>;
+			tapping-term-ms = <300>;
+			bindings = <&kp K_COPY>, <&kp K_PASTE>;
 		};
 	};
 
