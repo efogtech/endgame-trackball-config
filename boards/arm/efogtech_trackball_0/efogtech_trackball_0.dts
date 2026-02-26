@@ -128,7 +128,7 @@
 			display-name = "Hold/tap (layer/mouse key)";
 			#binding-cells = <2>;
 			flavor = "tap-preferred";
-			tapping-term-ms = <250>;
+			tapping-term-ms = <200>;
 			hold-while-undecided;
 			bindings = <&mo>, <&mkp>;
 		};
@@ -138,7 +138,7 @@
 			display-name = "Hold/tap (layer/keyboard key)";
 			#binding-cells = <2>;
 			flavor = "tap-preferred";
-			tapping-term-ms = <250>;
+			tapping-term-ms = <200>;
 			hold-while-undecided;
 			bindings = <&mo>, <&kp>;
 		};
