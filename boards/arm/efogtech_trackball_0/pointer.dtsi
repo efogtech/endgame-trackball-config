@@ -7,6 +7,7 @@
 #include <behaviors/p2sm_behaviors.dtsi>
 #include <behaviors/rate_limit.dtsi>
 #include <behaviors/auto_hold.dtsi>
+#include <behaviors/switch_keymap.dtsi>
 
 &zip_2s_mixer {
 	status = "okay";
@@ -39,6 +40,12 @@
 
 / {
 	behaviors {
+		skmp {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			feedback-duration = <150>;
+		};
+
 		rrl {
 			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
