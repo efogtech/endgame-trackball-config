@@ -41,7 +41,10 @@ jobs:
           echo "patch=${patch}" >> "$GITHUB_OUTPUT"
       - name: Set paw3395 version
         id: paw3395_version
-        run: echo "value=endgame-paw3395-${{ steps.release_version.outputs.major }}.${{ steps.release_version.outputs.minor }}.${{ steps.release_version.outputs.patch }}" >> "$GITHUB_OUTPUT"
+        run: |
+          major=${{ steps.release_version.outputs.major }}
+          paw3395_major=$((major - 100))
+          echo "value=endgame-paw3395-${paw3395_major}.${{ steps.release_version.outputs.minor }}.${{ steps.release_version.outputs.patch }}" >> "$GITHUB_OUTPUT"
       - name: Set paw3395 lookup version (major - 100)
         id: paw3395_lookup_version
         run: |
@@ -74,6 +77,12 @@ jobs:
         with:
           path: .
           merge-multiple: true
+      - name: Rename firmware
+        run: |
+          for file in *.uf2; do
+            mv "$file" "endgame-${{ needs.meta.outputs.release_version }}.uf2"
+            break
+          done
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
