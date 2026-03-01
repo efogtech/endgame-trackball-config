@@ -80,7 +80,7 @@ jobs:
       - name: Rename firmware
         run: |
           for file in *.uf2; do
-            mv "$file" "endgame-${{ needs.meta.outputs.release_version }}.uf2"
+            mv "$file" "${{ needs.meta.outputs.release_version }}.uf2"
             break
           done
       - name: Publish release
