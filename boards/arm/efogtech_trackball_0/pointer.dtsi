@@ -30,14 +30,6 @@
 	twist-feedback-duration = <50>;
 };
 
-&zip_rotate_pointer {
-	timeout = <1>;
-};
-
-&zip_rotate_scroll {
-	timeout = <8>;
-};
-
 / {
 	behaviors {
 		skmp {
