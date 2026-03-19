@@ -44,6 +44,6 @@ manifest:
       revision: "bf6d960"
     - name: zmk-runtime-config
       remote: efogdev
-      revision: "c263728"
+      revision: "9727296"
   self:
     path: config
