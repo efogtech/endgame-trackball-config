@@ -154,6 +154,38 @@
 	};
 
 	macros {
+		scroll_down: scroll_down {
+			compatible = "zmk,behavior-macro";
+			display-name = "Scroll down";
+			#binding-cells = <0>;
+			wait-ms = <2>;
+			bindings = <&msc MOVE_Y(-2000)>;
+		};
+
+		scroll_up: scroll_up {
+			compatible = "zmk,behavior-macro";
+			display-name = "Scroll up";
+			#binding-cells = <0>;
+			wait-ms = <2>;
+			bindings = <&msc MOVE_Y(2000)>;
+		};
+
+		scroll_left: scroll_left {
+			compatible = "zmk,behavior-macro";
+			display-name = "Scroll left";
+			#binding-cells = <0>;
+			wait-ms = <2>;
+			bindings = <&msc MOVE_X(-2000)>;
+		};
+
+		scroll_right: scroll_right {
+			compatible = "zmk,behavior-macro";
+			display-name = "Scroll right";
+			#binding-cells = <0>;
+			wait-ms = <2>;
+			bindings = <&msc MOVE_X(2000)>;
+		};
+
 		rgb_tog: rgb_tog {
 			compatible = "zmk,behavior-macro";
 			display-name = "Toggle RGB";
