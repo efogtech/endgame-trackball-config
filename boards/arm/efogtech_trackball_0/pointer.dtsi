@@ -1,3 +1,4 @@
+#include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/p2sm.h>
 #include <dt-bindings/zmk/paw3395-modes.h>
 #include <input/processors/p2sm.dtsi>
@@ -9,6 +10,7 @@
 #include <behaviors/rate_limit.dtsi>
 #include <behaviors/auto_hold.dtsi>
 #include <behaviors/switch_keymap.dtsi>
+#include <behaviors/mouse_scroll.dtsi>
 
 &zip_2s_mixer {
 	status = "okay";
@@ -69,6 +71,11 @@
 		device = <&trackball_secondary>;
 		input-processors = <&zip_2s_mixer INPUT_MIXER_SENSOR2>;
 	};
+};
+
+&msc {
+	time-to-max-speed-ms = <1>;
+	acceleration-exponent = <0>;
 };
 
 &spi0 {
