@@ -31,44 +31,42 @@
 			display-name = "Default";
 			DECLARE_ENCODERS;
 			bindings = <
-				// buttons
-				&ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_SCROLL ESC
-				&mkp MCLK                 &cdch LAYER_SCROLL 0
-				&mkp LCLK                 &mkp RCLK
+				&kp LGUI                  &ltmkp LAYER_SCROLL ESC
+				&mkp LCLK                 &ltmkp LAYER_SNIPE ENTER
+				&mkp MCLK                 &mkp RCLK
 				&ltm LAYER_EXTRAS MB4     &ltm LAYER_DEVICE MB5
 
-				// rotary encoders
-				&kp C_VOL_UP              &kp LC(TAB)
-				&kp C_VOL_DN              &kp LC(LS(TAB))
-			>;
+				&kp C_VOL_UP              &kp LC(LA(RIGHT))
+				&kp C_VOL_DN              &kp LC(LA(LEFT))
+		    >;
 		};
 
 		layer2 {
 			display-name = "Extras";
 			DECLARE_ENCODERS;
 			bindings = <
-				&kp LC(C)      &kp LC(V)
-				&kp LC(X)      &kp LC(Z)
-				&kp LC(Z)      &kp LC(C)
-				&trans         &kp LC(V)
+			    &kp LC(C)     &kp LC(V)
+			    &kp LC(X)     &kp LG(Q)
+			    &kp LC(Z)     &kp LG(W)
+			    &trans        &kp LC(W)
 
-				&kp C_VOL_UP   &kp LC(TAB)
-				&kp C_VOL_DN   &kp LC(LS(TAB))
-			>;
+			    &kp C_VOL_UP  &kp LC(LA(RIGHT))
+			    &kp C_VOL_DN  &kp LC(LA(LEFT))
+		    >;
 		};
 
 		layer3 {
 			display-name = "Device";
 			DECLARE_ENCODERS;
 			bindings = <
-				&rgb_off           &rgb_ug RGB_EFF
-				&bt BT_CLR         &bt BT_NXT
-				&rgb_tog           &bt BT_PRV
-				&studio_unlock     &trans
+			    &rgb_off           &rgb_ug RGB_EFF
+			    &bt BT_CLR         &bt BT_NXT
+			    &rgb_tog           &bt BT_PRV
+			    &studio_unlock     &trans
 
-				&kp C_VOL_UP       &kp LC(TAB)
-				&kp C_VOL_DN       &kp LC(LS(TAB))
-			>;
+			    &kp C_VOL_UP       &kp LC(LA(RIGHT))
+			    &kp C_VOL_DN       &kp LC(LA(LEFT))
+		    >;
 		};
 
 		layer4 {
@@ -80,36 +78,36 @@
 			    &rrl 1              &scrlsens P2SM_DEC 1
 			    &sens P2SM_DEC 1    &sens P2SM_INC 1
 
-				&sens P2SM_DEC 1    &scrlsens P2SM_INC 1
-				&sens P2SM_INC 1    &scrlsens P2SM_DEC 1
-			>;
+			    &sens P2SM_DEC 1    &scrlsens P2SM_INC 1
+			    &sens P2SM_INC 1    &scrlsens P2SM_DEC 1
+		    >;
 		};
 
 		layer5 {
 			display-name = "Snipe";
 			DECLARE_ENCODERS;
 			bindings = <
-				&trans           &soft_off
-				&trans           &trans
-				&trans           &trans
-				&trans           &trans
+			    &kp LA(F4)       &trans
+			    &trans           &trans
+			    &trans           &soft_off
+			    &trans           &trans
 
-				&kp LEFT         &kp RIGHT
-				&kp RIGHT        &kp LEFT
-			>;
+			    &kp LEFT         &kp RIGHT
+			    &kp RIGHT        &kp LEFT
+		   >;
 		};
 
 		layer6 {
 			display-name = "User";
 			DECLARE_ENCODERS;
 			bindings = <
-				&trans        &trans
-				&trans        &trans
-				&trans        &trans
-				&trans        &trans
+			    &trans        &trans
+			    &trans        &trans
+			    &trans        &trans
+			    &trans        &trans
 
-				&kp C_VOL_UP  &kp LC(TAB)
-				&kp C_VOL_DN  &kp LC(LS(TAB))
+			    &kp C_VOL_UP  &kp LC(LA(RIGHT))
+			    &kp C_VOL_DN  &kp LC(LA(LEFT))
 		    >;
 		};
 	};
