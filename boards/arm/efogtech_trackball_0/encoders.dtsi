@@ -5,7 +5,7 @@
 		compatible = "efog,ec11-ish";
 		a-gpios = <&gpio0 17 0>;
 		b-gpios = <&gpio0 16 0>;
-		steps = <24>;
+		steps = <48>;
 		pulses = <4>;
 	};
 
@@ -13,14 +13,14 @@
 		compatible = "efog,ec11-ish";
 		a-gpios = <&gpio1 8 0>;
 		b-gpios = <&gpio1 9 0>;
-		steps = <24>;
+		steps = <48>;
 		pulses = <4>;
 	};
 
 	sensors: sensors {
 		compatible = "zmk,keymap-sensors";
 		sensors = <&left_encoder &right_encoder>;
-		triggers-per-rotation = <24>;
+		triggers-per-rotation = <12>;
 	};
 };
 
