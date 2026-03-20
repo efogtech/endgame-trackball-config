@@ -1,3 +1,4 @@
+#include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/p2sm.h>
 #include <input/processors/p2sm.dtsi>
 #include <input/processors/axis_clamper.dtsi>
@@ -8,6 +9,7 @@
 #include <behaviors/rate_limit.dtsi>
 #include <behaviors/auto_hold.dtsi>
 #include <behaviors/switch_keymap.dtsi>
+#include <behaviors/mouse_scroll.dtsi>
 
 &zip_2s_mixer {
 	status = "okay";
@@ -90,6 +92,11 @@
 	};
 };
 
+&msc {
+	time-to-max-speed-ms = <1>;
+	acceleration-exponent = <0>;
+};
+
 &spi0 {
 	status = "okay";
 	compatible = "nordic,nrf-spim";
@@ -102,7 +109,7 @@
 	trackball_primary: trackball_primary@0 {
 		status = "okay";
 		compatible = "pixart,pmw3610-efogtech";
-		init-retry-interval = <20>;
+		init-retry-interval = <25>;
 		init-retry-count = <100>;
 		reg = <0>;
 		spi-max-frequency = <2000000>;
@@ -132,7 +139,7 @@
 	trackball_secondary: trackball_secondary@0 {
 		status = "okay";
 		compatible = "pixart,pmw3610-efogtech";
-		init-retry-interval = <20>;
+		init-retry-interval = <25>;
 		init-retry-count = <100>;
 		reg = <0>;
 		spi-max-frequency = <2000000>;
