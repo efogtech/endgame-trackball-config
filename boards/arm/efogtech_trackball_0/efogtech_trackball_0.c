@@ -70,7 +70,7 @@ static int cmd_erase(const struct shell *sh, const size_t argc, char **argv) {
 
     for (int i = 0; i < 8; i++) {
         char setting_name[15];
-        sprintf(setting_name, "ble/profiles/%d", i);
+        snprintf(setting_name, sizeof(setting_name), "ble/profiles/%d", i);
 
         const int err = settings_delete(setting_name);
         if (err) {
@@ -80,7 +80,7 @@ static int cmd_erase(const struct shell *sh, const size_t argc, char **argv) {
 
     for (int i = 0; i < 8; i++) {
         char setting_name[32];
-        sprintf(setting_name, "ble/peripheral_addresses/%d", i);
+        snprintf(setting_name, sizeof(setting_name), "ble/peripheral_addresses/%d", i);
 
         const int err = settings_delete(setting_name);
         if (err) {
