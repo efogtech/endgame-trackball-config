@@ -33,6 +33,15 @@
 };
 
 / {
+	zip_dragscroll_accel: zip_dragscroll_accel {
+		compatible = "zmk,accel-curve";
+		#input-processor-cells = <0>;
+		max-curves = <4>;
+		points = <16>;
+		device-name = "dragscroll";
+		event-codes = <INPUT_REL_WHEEL INPUT_REL_HWHEEL>;
+	};
+
 	behaviors {
 		skmp {
 			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
