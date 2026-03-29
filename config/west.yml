@@ -29,21 +29,21 @@ manifest:
       revision: "74017d9"
     - name: zmk-trigger-on-boot
       remote: efogdev
-      revision: "c06d9d8"
+      revision: "dcf842a"
     - name: zmk-behavior-follower
       remote: efogdev
       revision: "76df19c"
     - name: zmk-keymap-shell
       remote: efogdev
-      revision: "fde9b20"
+      revision: "a6a4c3f"
     - name: zmk-acceleration-curves
       remote: efogdev
       revision: "f19dcb8"
     - name: zmk-input-processor-rotate-plane
       remote: efogdev
-      revision: "1a560ec"
+      revision: "84e508a"
     - name: zmk-runtime-config
       remote: efogdev
-      revision: "b349f62"
+      revision: "e173b5e"
   self:
     path: config
