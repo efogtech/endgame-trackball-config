@@ -73,6 +73,20 @@
 		device = <&trackball_secondary>;
 		input-processors = <&zip_2s_mixer INPUT_MIXER_SENSOR2>;
 	};
+
+	behaviors {
+		bst_tog {
+			display-name = "Toggle OS-dependent behaviors";
+		};
+
+		mouse_scroll {
+			display-name = "Reserved";
+		};
+
+		mouse_move {
+			display-name = "Reserved";
+		};
+	};
 };
 
 &msc {

@@ -201,18 +201,25 @@
 			compatible = "zmk,behavior-sensor-rotate-var";
 			#sensor-binding-cells = <2>;
 			bindings = <&flw>, <&flw>;
+			label = "Reserved";
 		};
 
 		rotenc_sens: rotenc_sens {
 			compatible = "zmk,behavior-sensor-rotate-var";
 			#sensor-binding-cells = <2>;
 			bindings = <&sens_nowrap>, <&sens_nowrap>;
+			label = "Reserved";
 		};
 
 		rotenc_scrlsens: rotenc_scrlsens {
 			compatible = "zmk,behavior-sensor-rotate-var";
 			#sensor-binding-cells = <2>;
 			bindings = <&scrlsens_nowrap>, <&scrlsens_nowrap>;
+			label = "Reserved";
+		};
+
+		z_so_off {
+			display-name = "Power off";
 		};
 
 		p2sm_accel_toggle {
@@ -256,10 +263,6 @@
 			display-name = "Undo (OS-dependent)";
 			#binding-cells = <0>;
 			bindings = <&winlin_undo>, <&macos_undo>;
-		};
-
-		bst_tog {
-			display-name = "Toggle OS-dependent behaviors";
 		};
 	};
 };
