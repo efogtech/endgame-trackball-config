@@ -10,6 +10,8 @@
 #include <behaviors/auto_hold.dtsi>
 #include <behaviors/switch_keymap.dtsi>
 #include <behaviors/mouse_scroll.dtsi>
+#include <behaviors/af_toggle.dtsi>
+#include <behaviors/bistable_toggle.dtsi>
 
 &zip_2s_mixer {
 	status = "okay";
@@ -21,7 +23,7 @@
 	twist-interference-window = <8>;
 
 	// arbitrary bounding box (0, 0, 0) - (255, 255, 255)
-	ball-radius = <102>; // maximum = 127
+	ball-radius = <102>; // maximum = 127, center is at (127, 127, 127)
 	sensor1-pos = [31 4B 2D];  // X Y Z
 	sensor2-pos = [C1 3C 2D];
 
@@ -40,34 +42,6 @@
 		points = <16>;
 		device-name = "dragscroll";
 		event-codes = <INPUT_REL_WHEEL INPUT_REL_HWHEEL>;
-	};
-
-	behaviors {
-		skmp {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-			feedback-duration = <150>;
-		};
-
-		rrl {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_scroll_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_sens_toggle {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
 	};
 
 	trackball {
@@ -119,7 +93,7 @@
 		status = "okay";
 		compatible = "pixart,pmw3610-efogtech";
 		init-retry-interval = <25>;
-		init-retry-count = <100>;
+		init-retry-count = <25>;
 		reg = <0>;
 		spi-max-frequency = <2000000>;
 		irq-gpios = <&gpio0 2 GPIO_ACTIVE_LOW>;
@@ -149,7 +123,7 @@
 		status = "okay";
 		compatible = "pixart,pmw3610-efogtech";
 		init-retry-interval = <25>;
-		init-retry-count = <100>;
+		init-retry-count = <25>;
 		reg = <0>;
 		spi-max-frequency = <2000000>;
 		irq-gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
