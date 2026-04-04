@@ -33,16 +33,14 @@
 			display-name = "Default";
 			DECLARE_ENCODERS;
 			bindings = <
-				// buttons
-				&ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_SCROLL ESC
-				&mkp MCLK                 &cdch LAYER_SCROLL 0
-				&mkp LCLK                 &mkp RCLK
-				&ltm LAYER_EXTRAS MB4     &ltm LAYER_DEVICE MB5
+			    &kp LGUI                  &ltmkp LAYER_SCROLL ENTER
+			    &mkp LCLK                 &cdch LAYER_SNIPE 0
+			    &mkp MCLK                 &mkp RCLK
+			    &ltm LAYER_EXTRAS MB4     &ltm LAYER_DEVICE MB5
 
-				// rotary encoders
-				&kp C_VOL_UP              &kp LC(TAB)
-				&kp C_VOL_DN              &kp LC(LS(TAB))
-			>;
+			    &kp C_VOL_UP              &kp LC(LA(RIGHT))
+			    &kp C_VOL_DN              &kp LC(LA(LEFT))
+		    >;
 		};
 
 		layer1 {
@@ -91,7 +89,7 @@
 			display-name = "Snipe";
 			DECLARE_ENCODERS;
 			bindings = <
-				&trans           &soft_off
+				&kp LA(F4)       &soft_off
 				&trans           &trans
 				&trans           &trans
 				&trans           &trans
