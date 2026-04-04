@@ -20,16 +20,16 @@ manifest:
       revision: "637719f"
     - name: zmk-report-rate-limit
       remote: efogdev
-      revision: "5a6e29a"
+      revision: "789d6df"
     - name: zmk-ec11-ish-driver
       remote: efogdev
       revision: "a539bed"
     - name: zmk-auto-hold
       remote: efogdev
       revision: "74017d9"
-    - name: zmk-trigger-on-boot
+    - name: zmk-adaptive-feedback
       remote: efogdev
-      revision: "dcf842a"
+      revision: "c9cce81"
     - name: zmk-behavior-follower
       remote: efogdev
       revision: "76df19c"
@@ -38,12 +38,15 @@ manifest:
       revision: "a6a4c3f"
     - name: zmk-acceleration-curves
       remote: efogdev
-      revision: "f19dcb8"
+      revision: "b4b7c1c"
     - name: zmk-input-processor-rotate-plane
       remote: efogdev
-      revision: "84e508a"
+      revision: "4b3c299"
     - name: zmk-runtime-config
       remote: efogdev
-      revision: "e173b5e"
+      revision: "fce5cb3"
+    - name: zmk-bistable-behavior
+      remote: efogdev
+      revision: "9363c8a"
   self:
     path: config

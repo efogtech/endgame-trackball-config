@@ -11,6 +11,8 @@
 #include <behaviors/auto_hold.dtsi>
 #include <behaviors/switch_keymap.dtsi>
 #include <behaviors/mouse_scroll.dtsi>
+#include <behaviors/af_toggle.dtsi>
+#include <behaviors/bistable_toggle.dtsi>
 
 &zip_2s_mixer {
 	status = "okay";
@@ -22,7 +24,7 @@
 	twist-interference-window = <8>;
 
 	// arbitrary bounding box (0, 0, 0) - (255, 255, 255)
-	ball-radius = <102>; // maximum = 127
+	ball-radius = <102>; // maximum = 127, center is at (127, 127, 127)
 	sensor1-pos = [31 4B 2D];  // X Y Z
 	sensor2-pos = [C1 3C 2D];
 
@@ -43,14 +45,6 @@
 		event-codes = <INPUT_REL_WHEEL INPUT_REL_HWHEEL>;
 	};
 
-	behaviors {
-		skmp {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-			feedback-duration = <150>;
-		};
-	};
-	
 	trackball {
 		compatible = "zmk,input-listener";
 		device = <&zip_2s_mixer>;

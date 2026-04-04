@@ -1,13 +1,160 @@
 #include <dt-bindings/spi/spi.h>
 
-/ {
-	aliases { led-strip = &led_strip; };
-	chosen { zmk,underglow = &led_strip; };
+#ifndef LAYER_DEFAULT
+#define LAYER_DEFAULT      0
+#define LAYER_EXTRAS       1
+#define LAYER_DEVICE       2
+#define LAYER_SCROLL       3
+#define LAYER_SNIPE        4
+#define LAYER_USER         5
+#endif
 
-	EXT_POWER: EXT_POWER {
+/ {
+	epwr: ext_pwr {
 		compatible = "zmk,ext-power-generic";
 		control-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>, <&gpio1 3 GPIO_ACTIVE_HIGH>;
 		init-delay-ms = <1000>;
+	};
+
+	adaptive_feedback: adaptive_feedback {
+		compatible = "zmk,adaptive-feedback";
+		led-strip = <&led_strip>;
+		chain-length = <16>;
+
+		feedback-enabled;
+		feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+		feedback-delay = <10>;
+		ext-power = <&epwr>;
+
+		layer_default {
+			event-type = "layer";
+			layer-index = <LAYER_DEFAULT>;
+			colors = [00 00 00];
+			persistent;
+		};
+
+		layer_extras {
+			event-type = "layer";
+			layer-index = <LAYER_EXTRAS>;
+			colors = [00 00 00];
+			persistent;
+		};
+
+		layer_device {
+			event-type = "layer";
+			layer-index = <LAYER_DEVICE>;
+			colors = [00 00 ff];
+			feedback-duration = <40>;
+			persistent;
+		};
+
+		layer_scroll {
+			event-type = "layer";
+			layer-index = <LAYER_SCROLL>;
+			colors = [00 00 00];
+			persistent;
+		};
+
+		layer_snipe {
+			event-type = "layer";
+			layer-index = <LAYER_SNIPE>;
+			colors = [ff 00 00];
+			persistent;
+		};
+
+		layer_user {
+			event-type = "layer";
+			layer-index = <LAYER_USER>;
+			colors = [00 00 00];
+			persistent;
+		};
+
+		evt_usb_conn {
+			event-type = "usb-connected";
+			colors = [00 ff 00];
+			animation = "flash";
+			flash-duration-ms = <350>;
+			feedback-duration = <80>;
+		};
+
+		evt_usb_disconn {
+			event-type = "usb-disconnected";
+			colors = [ff 80 00];
+			animation = "flash";
+			flash-duration-ms = <350>;
+			feedback-duration = <80>;
+		};
+
+		evt_ble {
+			event-type = "ble-profile-changed";
+			colors = [00 40 ff];
+			animation = "flash";
+			flash-duration-ms = <350>;
+			feedback-duration = <80>;
+		};
+
+		evt_no_ep {
+			event-type = "no-endpoint";
+			colors = [ff 00 00];
+			animation = "blink";
+			blink-on-ms = <500>;
+			blink-off-ms = <9500>;
+			feedback-duration = <125>;
+		};
+
+		evt_bw1 {
+			event-type = "battery-warning";
+			battery-level = <1>;
+			colors = [ff e0 00];
+			animation = "flash";
+			flash-duration-ms = <1000>;
+			feedback-duration = <80>;
+		};
+
+		evt_bw2 {
+			event-type = "battery-warning";
+			battery-level = <2>;
+			colors = [ff 80 00];
+			animation = "flash";
+			flash-duration-ms = <1500>;
+			feedback-duration = <80>;
+		};
+
+		evt_bw3 {
+			event-type = "battery-warning";
+			battery-level = <3>;
+			colors = [ff 40 00];
+			animation = "flash";
+			flash-duration-ms = <2000>;
+			feedback-duration = <80>;
+		};
+
+		evt_bc1 {
+			event-type = "battery-critical";
+			battery-level = <1>;
+			colors = [ff 00 00];
+			animation = "flash";
+			flash-duration-ms = <1000>;
+			feedback-duration = <125>;
+		};
+
+		evt_bc2 {
+			event-type = "battery-critical";
+			battery-level = <2>;
+			colors = [ff 00 00];
+			animation = "flash";
+			flash-duration-ms = <1500>;
+			feedback-duration = <125>;
+		};
+
+		evt_bc3 {
+			event-type = "battery-critical";
+			battery-level = <3>;
+			colors = [ff 00 00];
+			animation = "flash";
+			flash-duration-ms = <3000>;
+			feedback-duration = <125>;
+		};
 	};
 };
 
