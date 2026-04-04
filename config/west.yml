@@ -38,10 +38,10 @@ manifest:
       revision: "a6a4c3f"
     - name: zmk-acceleration-curves
       remote: efogdev
-      revision: "f19dcb8"
+      revision: "b4b7c1c"
     - name: zmk-input-processor-rotate-plane
       remote: efogdev
-      revision: "ebe76f0"
+      revision: "4b3c299"
     - name: zmk-runtime-config
       remote: efogdev
       revision: "fce5cb3"
