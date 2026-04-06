@@ -5,7 +5,7 @@
         gpio-map-mask = <0xffffffff 0xffffffc0>;
         gpio-map-pass-thru = <0 0x3f>;
         gpio-map
-            // Top-right then CCW
+            // Top-top-right then CCW
             = <0 0 &gpio0 26 0>
             , <1 0 &gpio0 27 0>
             , <2 0 &gpio0 1 0>
@@ -51,10 +51,10 @@
         wakeup-source;
     };
 
-    soft_off_wakers {
-        compatible = "zmk,soft-off-wakeup-sources";
-        wakeup-sources = <&wakeup_source>;
-    };
+//    soft_off_wakers {
+//        compatible = "zmk,soft-off-wakeup-sources";
+//        wakeup-sources = <&wakeup_source>;
+//    };
 
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";

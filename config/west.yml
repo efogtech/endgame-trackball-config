@@ -23,19 +23,19 @@ manifest:
       revision: "789d6df"
     - name: zmk-ec11-ish-driver
       remote: efogdev
-      revision: "a539bed"
+      revision: "083320d"
     - name: zmk-auto-hold
       remote: efogdev
-      revision: "74017d9"
+      revision: "3f99c3f"
     - name: zmk-adaptive-feedback
       remote: efogdev
-      revision: "c9cce81"
+      revision: "39dbc7f"
     - name: zmk-behavior-follower
       remote: efogdev
-      revision: "76df19c"
+      revision: "c27fe57"
     - name: zmk-keymap-shell
       remote: efogdev
-      revision: "a6a4c3f"
+      revision: "b31cc0f"
     - name: zmk-acceleration-curves
       remote: efogdev
       revision: "b4b7c1c"
@@ -47,6 +47,6 @@ manifest:
       revision: "fce5cb3"
     - name: zmk-bistable-behavior
       remote: efogdev
-      revision: "9363c8a"
+      revision: "8838f94"
   self:
     path: config

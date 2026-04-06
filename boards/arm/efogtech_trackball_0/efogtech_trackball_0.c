@@ -20,6 +20,7 @@
 #include "zmk/endpoints.h"
 #include "zmk/settings.h"
 #include "zmk/keymap.h"
+#include "zmk/studio/core.h"
 
 #define DT_DRV_COMPAT zmk_endgame
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
@@ -140,6 +141,12 @@ static uint8_t crc8_checksum(const uint8_t *data, const size_t len) {
  *   BACKUP END
  */
 static int cmd_backup(const struct shell *sh, const size_t argc, char **argv) {
+    const enum zmk_studio_core_lock_state lock_state = zmk_studio_core_get_lock_state();
+    if (lock_state == ZMK_STUDIO_CORE_LOCK_STATE_LOCKED) {
+        shprint(sh, "Unlock ZMK Studio to allow backup.");
+        return -EPERM;
+    }
+
     const uint32_t storage_addr = 0x0006c000;
     const uint32_t storage_size = 0x00008000;
     const uint32_t saved_level = log_filter_set(NULL, CONFIG_LOG_DOMAIN_ID, 0, LOG_LEVEL_NONE);
