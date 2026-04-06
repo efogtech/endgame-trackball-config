@@ -81,11 +81,11 @@
 		};
 
 		mouse_scroll {
-			display-name = "Reserved";
+			display-name = "Reserved [3]";
 		};
 
 		mouse_move {
-			display-name = "Reserved";
+			display-name = "Reserved [4]";
 		};
 	};
 };
