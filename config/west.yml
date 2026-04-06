@@ -11,7 +11,7 @@ manifest:
       import: app/west.yml
     - name: zmk-pmw3610-driver
       remote: efogdev
-      revision: "f69a66d"
+      revision: "8f19120"
     - name: zmk-pointer-2s-mixer
       remote: efogdev
       revision: "ca0381f"
@@ -26,16 +26,16 @@ manifest:
       revision: "083320d"
     - name: zmk-auto-hold
       remote: efogdev
-      revision: "74017d9"
+      revision: "3f99c3f"
     - name: zmk-adaptive-feedback
       remote: efogdev
-      revision: "c9cce81"
+      revision: "39dbc7f"
     - name: zmk-behavior-follower
       remote: efogdev
       revision: "c27fe57"
     - name: zmk-keymap-shell
       remote: efogdev
-      revision: "a6a4c3f"
+      revision: "b31cc0f"
     - name: zmk-acceleration-curves
       remote: efogdev
       revision: "b4b7c1c"
@@ -47,6 +47,6 @@ manifest:
       revision: "fce5cb3"
     - name: zmk-bistable-behavior
       remote: efogdev
-      revision: "9363c8a"
+      revision: "8838f94"
   self:
     path: config
