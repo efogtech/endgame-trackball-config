@@ -201,21 +201,21 @@
 			compatible = "zmk,behavior-sensor-rotate-var";
 			#sensor-binding-cells = <2>;
 			bindings = <&flw>, <&flw>;
-			label = "Reserved";
+			label = "Reserved [0]";
 		};
 
 		rotenc_sens: rotenc_sens {
 			compatible = "zmk,behavior-sensor-rotate-var";
 			#sensor-binding-cells = <2>;
 			bindings = <&sens_nowrap>, <&sens_nowrap>;
-			label = "Reserved";
+			label = "Reserved [1]";
 		};
 
 		rotenc_scrlsens: rotenc_scrlsens {
 			compatible = "zmk,behavior-sensor-rotate-var";
 			#sensor-binding-cells = <2>;
 			bindings = <&scrlsens_nowrap>, <&scrlsens_nowrap>;
-			label = "Reserved";
+			label = "Reserved [2]";
 		};
 
 		z_so_off {
