@@ -29,7 +29,7 @@ manifest:
       revision: "3f99c3f"
     - name: zmk-adaptive-feedback
       remote: efogdev
-      revision: "39dbc7f"
+      revision: "cd051f2"
     - name: zmk-behavior-follower
       remote: efogdev
       revision: "c27fe57"

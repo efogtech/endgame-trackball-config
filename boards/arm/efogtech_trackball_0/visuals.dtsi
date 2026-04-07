@@ -46,7 +46,7 @@
 			event-type = "layer";
 			layer-index = <LAYER_DEVICE>;
 			colors = [00 00 ff];
-			feedback-duration = <40>;
+			feedback-pattern = [28];
 			persistent;
 		};
 
@@ -91,7 +91,7 @@
 			colors = [ff 00 00];
 			animation = "flash";
 			flash-duration-ms = <1000>;
-			feedback-duration = <350>;
+			feedback-pattern = [fa];
 		};
 
 		evt_usb_conn {
@@ -100,7 +100,7 @@
 			colors = [00 ff 00];
 			animation = "flash";
 			flash-duration-ms = <350>;
-			feedback-duration = <80>;
+			feedback-pattern = [50];
 		};
 
 		evt_usb_disconn {
@@ -109,7 +109,7 @@
 			colors = [ff 80 00];
 			animation = "flash";
 			flash-duration-ms = <350>;
-			feedback-duration = <80>;
+			feedback-pattern = [50];
 		};
 
 		evt_ble {
@@ -118,7 +118,7 @@
 			colors = [00 40 ff];
 			animation = "flash";
 			flash-duration-ms = <350>;
-			feedback-duration = <80>;
+			feedback-pattern = [50];
 		};
 
 		evt_no_ep {
@@ -127,7 +127,7 @@
 			colors = [ff 00 00];
 			animation = "flash";
 			flash-duration-ms = <350>;
-			feedback-duration = <80>;
+			feedback-pattern = [50];
 		};
 
 		evt_bw1 {
@@ -137,7 +137,7 @@
 			colors = [ff e0 00];
 			animation = "flash";
 			flash-duration-ms = <1000>;
-			feedback-duration = <80>;
+			feedback-pattern = [50];
 		};
 
 		evt_bw2 {
@@ -147,7 +147,7 @@
 			colors = [ff 80 00];
 			animation = "flash";
 			flash-duration-ms = <1500>;
-			feedback-duration = <80>;
+			feedback-pattern = [50];
 		};
 
 		evt_bw3 {
@@ -157,7 +157,7 @@
 			colors = [ff 40 00];
 			animation = "flash";
 			flash-duration-ms = <2000>;
-			feedback-duration = <80>;
+			feedback-pattern = [50];
 		};
 
 		evt_bc1 {
@@ -167,7 +167,7 @@
 			colors = [ff 00 00];
 			animation = "flash";
 			flash-duration-ms = <1000>;
-			feedback-duration = <125>;
+			feedback-pattern = [7D];
 		};
 
 		evt_bc2 {
@@ -177,7 +177,7 @@
 			colors = [ff 00 00];
 			animation = "flash";
 			flash-duration-ms = <1500>;
-			feedback-duration = <125>;
+			feedback-pattern = [7D];
 		};
 
 		evt_bc3 {
@@ -187,7 +187,7 @@
 			colors = [ff 00 00];
 			animation = "flash";
 			flash-duration-ms = <3000>;
-			feedback-duration = <125>;
+			feedback-pattern = [7D];
 		};
 
 		os_switched {
@@ -197,7 +197,7 @@
 			colors = [00 FF FF];
 			animation = "flash";
 			flash-duration-ms = <250>;
-			feedback-duration = <80>;
+			feedback-pattern = [50];
 		};
 
 		keymap_switched {
@@ -205,8 +205,8 @@
 			event-type = "custom";
 			custom-event-name = "keymap-slot-switched";
 			colors = [00 00 00];
-			feedback-duration = <80>;
 			animation = "flash";
+			feedback-pattern = [50];
 		};
 
 		key_auto_held {
@@ -214,8 +214,8 @@
 			event-type = "custom";
 			custom-event-name = "key-auto-held";
 			colors = [00 00 00];
-			feedback-duration = <25>;
 			animation = "flash";
+			feedback-pattern = [28];
 		};
 
 		err_left_sensor {
@@ -226,7 +226,7 @@
 			animation = "blink";
 			blink-on-ms = <750>;
 			blink-off-ms = <750>;
-			feedback-duration = <500>;
+			feedback-pattern = [FA];
 		};
 
 		err_right_sensor {
@@ -237,7 +237,7 @@
 			animation = "blink";
 			blink-on-ms = <750>;
 			blink-off-ms = <750>;
-			feedback-duration = <500>;
+			feedback-pattern = [FA];
 		};
 	};
 };

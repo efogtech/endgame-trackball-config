@@ -21,6 +21,7 @@
 #include "zmk/settings.h"
 #include "zmk/keymap.h"
 #include "zmk/studio/core.h"
+#include "zmk_adaptive_feedback/adaptive_feedback.h"
 
 #define DT_DRV_COMPAT zmk_endgame
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
@@ -120,6 +121,12 @@ static uint8_t crc8_checksum(const uint8_t *data, const size_t len) {
     return crc;
 }
 
+static bool rgb_supported = false;
+static int cmd_check_rgb(const struct shell *sh, const size_t argc, char **argv) {
+    shprint(sh, "RGB support: %s", rgb_supported ? "yes" : "no");
+    return 0;
+}
+
 /**
  * Dumps NVS storage partition contents in HEX format with checksums.
  *
@@ -182,6 +189,7 @@ SHELL_STATIC_SUBCMD_SET_CREATE(sub_board,
     SHELL_CMD(version, NULL, "Read firmware version", cmd_version),
     SHELL_CMD(layers, NULL, "List all layers", cmd_layers),
     SHELL_CMD(backup, NULL, "Backup NVS partition", cmd_backup),
+    SHELL_CMD(rgb, NULL, "Check RGB support", cmd_check_rgb),
     SHELL_SUBCMD_SET_END
 );
 
@@ -191,6 +199,9 @@ SHELL_CMD_REGISTER(board, &sub_board, "Control the device", NULL);
 static const struct device *p0 = DEVICE_DT_GET(DT_NODELABEL(gpio0));
 static const struct device *p1 = DEVICE_DT_GET(DT_NODELABEL(gpio1));
 static const struct device *uart = DEVICE_DT_GET(DT_NODELABEL(uart0));
+
+static int16_t settings_log_source_id = -1;
+static uint32_t settings_log_saved_level;
 
 static void set_3v3_en(const bool en) {
     gpio_pin_configure(p1, 0, GPIO_OUTPUT);
@@ -207,12 +218,46 @@ static void set_bl_en(const bool en) {
     gpio_pin_set(p0, 20, en);
 }
 
+static void rgb_hw_check_work_handler(struct k_work *work) {
+    gpio_pin_configure(p0, 11, GPIO_INPUT | GPIO_PULL_DOWN);
+    gpio_pin_configure(p0, 15, GPIO_INPUT | GPIO_PULL_DOWN);
+
+    if (gpio_pin_get(p0, 11) && gpio_pin_get(p0, 15)) {
+        zaf_set_rgb_not_supported();
+        LOG_WRN("RGB not supported on this hardware!");
+    } else {
+        rgb_supported = true;
+    }
+
+    gpio_pin_configure(p0, 11, GPIO_DISCONNECTED);
+    gpio_pin_configure(p0, 15, GPIO_DISCONNECTED);
+
+    if (settings_log_source_id >= 0) {
+        log_filter_set(NULL, CONFIG_LOG_DOMAIN_ID, settings_log_source_id, settings_log_saved_level);
+        settings_log_source_id = -1;
+    }
+}
+
+static K_WORK_DELAYABLE_DEFINE(rgb_hw_check_work, rgb_hw_check_work_handler);
+
 static int pinmux_efgtch_trckbl_init(void) {
     pm_device_action_run(uart, PM_DEVICE_ACTION_SUSPEND);
     pm_device_action_run(uart, PM_DEVICE_ACTION_TURN_OFF);
+
     set_3v3_en(false);
     set_rgb_en(false);
     set_bl_en(false);
+
+    const uint32_t src_cnt = log_src_cnt_get(CONFIG_LOG_DOMAIN_ID);
+    for (uint32_t i = 0; i < src_cnt; i++) {
+        if (strcmp(log_source_name_get(CONFIG_LOG_DOMAIN_ID, i), "settings") == 0) {
+            settings_log_source_id = (int16_t)i;
+            settings_log_saved_level = log_filter_set(NULL, CONFIG_LOG_DOMAIN_ID, settings_log_source_id, LOG_LEVEL_NONE);
+            break;
+        }
+    }
+
+    k_work_schedule(&rgb_hw_check_work, K_MSEC(100));
     return 0;
 }
 
