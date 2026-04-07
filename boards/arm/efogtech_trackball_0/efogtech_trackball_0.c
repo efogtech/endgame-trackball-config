@@ -70,7 +70,7 @@ static int cmd_reboot(const struct shell *sh, const size_t argc, char **argv) {
 
 static int cmd_erase(const struct shell *sh, const size_t argc, char **argv) {
     shprint(sh, "I hope you know what you're doing.");
-
+    k_sleep(K_MSEC(100));
     bt_unpair(BT_ID_DEFAULT, NULL);
 
     for (int i = 0; i < 8; i++) {
@@ -122,8 +122,32 @@ static uint8_t crc8_checksum(const uint8_t *data, const size_t len) {
 }
 
 static bool rgb_supported = false;
+static bool rgb_override = false;
+
+static int rgb_settings_set(const char *name, size_t len, settings_read_cb read_cb, void *cb_arg) {
+    if (strcmp(name, "override") == 0) {
+        bool val;
+        const int rc = read_cb(cb_arg, &val, sizeof(val));
+        if (rc >= 0) {
+            rgb_override = val;
+        }
+        return rc;
+    }
+    return -ENOENT;
+}
+
+SETTINGS_STATIC_HANDLER_DEFINE(board_rgb, "board/rgb", NULL, rgb_settings_set, NULL, NULL);
+
 static int cmd_check_rgb(const struct shell *sh, const size_t argc, char **argv) {
-    shprint(sh, "RGB support: %s", rgb_supported ? "yes" : "no");
+    if (argc == 1) {
+        shprint(sh, "RGB support: %s", rgb_supported ? "yes" : "no");
+    } else {
+        rgb_override = true;
+        rgb_supported = true;
+        settings_save_one("board/rgb/override", &rgb_override, sizeof(rgb_override));
+        shprint(sh, "RGB support overridden.");
+    }
+
     return 0;
 }
 
@@ -219,18 +243,24 @@ static void set_bl_en(const bool en) {
 }
 
 static void rgb_hw_check_work_handler(struct k_work *work) {
-    gpio_pin_configure(p0, 11, GPIO_INPUT | GPIO_PULL_DOWN);
-    gpio_pin_configure(p0, 15, GPIO_INPUT | GPIO_PULL_DOWN);
+    settings_load_subtree("board/rgb");
 
-    if (gpio_pin_get(p0, 11) && gpio_pin_get(p0, 15)) {
-        zaf_set_rgb_not_supported();
-        LOG_WRN("RGB not supported on this hardware!");
-    } else {
+    if (rgb_override) {
         rgb_supported = true;
-    }
+    } else {
+        gpio_pin_configure(p0, 11, GPIO_INPUT | GPIO_PULL_DOWN);
+        gpio_pin_configure(p0, 15, GPIO_INPUT | GPIO_PULL_DOWN);
 
-    gpio_pin_configure(p0, 11, GPIO_DISCONNECTED);
-    gpio_pin_configure(p0, 15, GPIO_DISCONNECTED);
+        if (gpio_pin_get(p0, 11) && gpio_pin_get(p0, 15)) {
+            zaf_set_rgb_not_supported();
+            LOG_WRN("RGB not supported on this hardware!");
+        } else {
+            rgb_supported = true;
+        }
+
+        gpio_pin_configure(p0, 11, GPIO_DISCONNECTED);
+        gpio_pin_configure(p0, 15, GPIO_DISCONNECTED);
+    }
 
     if (settings_log_source_id >= 0) {
         log_filter_set(NULL, CONFIG_LOG_DOMAIN_ID, settings_log_source_id, settings_log_saved_level);
