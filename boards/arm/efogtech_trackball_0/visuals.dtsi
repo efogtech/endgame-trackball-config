@@ -217,28 +217,6 @@
 			animation = "flash";
 			feedback-pattern = [28];
 		};
-
-		err_left_sensor {
-			label = "Left sensor error";
-			event-type = "error";
-			error-slot-index = <0>;
-			colors = [FF 00 00];
-			animation = "blink";
-			blink-on-ms = <750>;
-			blink-off-ms = <750>;
-			feedback-pattern = [FA];
-		};
-
-		err_right_sensor {
-			label = "Right sensor error";
-			event-type = "error";
-			error-slot-index = <1>;
-			colors = [FF 00 00];
-			animation = "blink";
-			blink-on-ms = <750>;
-			blink-off-ms = <750>;
-			feedback-pattern = [FA];
-		};
 	};
 };
 
