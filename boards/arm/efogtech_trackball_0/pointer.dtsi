@@ -30,7 +30,7 @@
 	feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 	feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 	twist-feedback-threshold = <20>;
-	twist-feedback-delay = <8>;
+	twist-feedback-delay = <5>;
 	twist-feedback-duration = <50>;
 };
 
