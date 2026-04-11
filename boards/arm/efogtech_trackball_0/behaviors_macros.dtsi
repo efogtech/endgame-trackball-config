@@ -1,0 +1,268 @@
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/pointing.h>
+#include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/adaptive_feedback.h>
+#include <dt-bindings/zmk/bistable_behavior.h>
+#include <dt-bindings/zmk/p2sm.h>
+
+/ {
+	macros {
+		winlin_copy: winlin_copy {
+			compatible = "zmk,behavior-macro";
+			display-name = "Copy (Windows/Linux)";
+			#binding-cells = <0>;
+			wait-ms = <10>;
+			bindings = <&kp LC(C)>;
+		};
+
+		macos_copy: macos_copy {
+			compatible = "zmk,behavior-macro";
+			display-name = "Copy (MacOS)";
+			#binding-cells = <0>;
+			wait-ms = <10>;
+			bindings = <&kp LG(C)>;
+		};
+
+		winlin_paste: winlin_paste {
+			compatible = "zmk,behavior-macro";
+			display-name = "Paste (Windows/Linux)";
+			#binding-cells = <0>;
+			wait-ms = <10>;
+			bindings = <&kp LC(V)>;
+		};
+
+		macos_paste: macos_paste {
+			compatible = "zmk,behavior-macro";
+			display-name = "Paste (MacOS)";
+			#binding-cells = <0>;
+			wait-ms = <10>;
+			bindings = <&kp LG(V)>;
+		};
+
+		winlin_cut: winlin_cut {
+			compatible = "zmk,behavior-macro";
+			display-name = "Cut (Windows/Linux)";
+			#binding-cells = <0>;
+			wait-ms = <10>;
+			bindings = <&kp LC(X)>;
+		};
+
+		macos_cut: macos_cut {
+			compatible = "zmk,behavior-macro";
+			display-name = "Cut (MacOS)";
+			#binding-cells = <0>;
+			wait-ms = <10>;
+			bindings = <&kp LG(X)>;
+		};
+
+		winlin_undo: winlin_undo {
+			compatible = "zmk,behavior-macro";
+			display-name = "Undo (Windows/Linux)";
+			#binding-cells = <0>;
+			wait-ms = <10>;
+			bindings = <&kp LC(Z)>;
+		};
+
+		macos_undo: macos_undo {
+			compatible = "zmk,behavior-macro";
+			display-name = "Undo (MacOS)";
+			#binding-cells = <0>;
+			wait-ms = <10>;
+			bindings = <&kp LG(Z)>;
+		};
+
+		scroll_down: scroll_down {
+			compatible = "zmk,behavior-macro";
+			display-name = "Scroll down";
+			#binding-cells = <0>;
+			wait-ms = <2>;
+			bindings = <&msc MOVE_Y(-2000)>;
+		};
+
+		scroll_up: scroll_up {
+			compatible = "zmk,behavior-macro";
+			display-name = "Scroll up";
+			#binding-cells = <0>;
+			wait-ms = <2>;
+			bindings = <&msc MOVE_Y(2000)>;
+		};
+
+		scroll_left: scroll_left {
+			compatible = "zmk,behavior-macro";
+			display-name = "Scroll left";
+			#binding-cells = <0>;
+			wait-ms = <2>;
+			bindings = <&msc MOVE_X(-2000)>;
+		};
+
+		scroll_right: scroll_right {
+			compatible = "zmk,behavior-macro";
+			display-name = "Scroll right";
+			#binding-cells = <0>;
+			wait-ms = <2>;
+			bindings = <&msc MOVE_X(2000)>;
+		};
+	};
+
+	behaviors {
+		cdch: click-double-click-hold {
+			compatible = "zmk,behavior-hold-tap";
+			display-name = "Copy/paste/layer (click/double-click/hold)";
+			#binding-cells = <2>;
+			flavor = "tap-preferred";
+			tapping-term-ms = <325>;
+			bindings = <&mo>, <&cdc>;
+		};
+
+		cdc: click-double-click {
+			compatible = "zmk,behavior-tap-dance";
+			display-name = "Copy/paste (click/double-click)";
+			#binding-cells = <0>;
+			tapping-term-ms = <300>;
+			bindings = <&bst_copy>, <&bst_paste>;
+		};
+
+		skmp {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			feedback-duration = <150>;
+		};
+
+		rrl {
+			values-ms = <8 6 4 2>;
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			feedback-duration = <65>;
+		};
+
+		ltm: layer-tap-momentary {
+			compatible = "zmk,behavior-hold-tap";
+			display-name = "Hold/tap (layer/mouse key)";
+			#binding-cells = <2>;
+			flavor = "tap-preferred";
+			tapping-term-ms = <200>;
+			hold-while-undecided;
+			bindings = <&mo>, <&mkp>;
+		};
+
+		ltmkp: layer-tap-momentary-key-press {
+			compatible = "zmk,behavior-hold-tap";
+			display-name = "Hold/tap (layer/keyboard key)";
+			#binding-cells = <2>;
+			flavor = "tap-preferred";
+			tapping-term-ms = <200>;
+			hold-while-undecided;
+			bindings = <&mo>, <&kp>;
+		};
+
+		sens: p2sm_sensitivity {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			feedback-duration = <65>;
+			step = <50>;
+			max-step = <8>;
+		};
+
+		scrlsens: p2sm_scroll_sensitivity {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			feedback-duration = <65>;
+			step = <10>;
+			min-step = <2>;
+			max-step = <12>;
+		};
+
+		sens_nowrap: sens_nowrap {
+			compatible = "zmk,behavior-p2sm-sens";
+			display-name = "Pointer sensitivity (no wrapping)";
+			#binding-cells = <2>;
+			feedback-duration = <65>;
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			step = <50>;
+			min-step = <1>;
+			max-step = <8>;
+		};
+
+		scrlsens_nowrap: scrlsens_nowrap {
+			compatible = "zmk,behavior-p2sm-sens";
+			display-name = "Scroll sensitivity (no wrapping)";
+			#binding-cells = <2>;
+			feedback-duration = <65>;
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+			step = <10>;
+			min-step = <2>;
+			max-step = <12>;
+			scroll;
+		};
+
+		rotenc_follower: rotenc_follower {
+			compatible = "zmk,behavior-sensor-rotate-var";
+			#sensor-binding-cells = <2>;
+			bindings = <&flw>, <&flw>;
+			label = "Reserved [0]";
+		};
+
+		rotenc_sens: rotenc_sens {
+			compatible = "zmk,behavior-sensor-rotate-var";
+			#sensor-binding-cells = <2>;
+			bindings = <&sens_nowrap>, <&sens_nowrap>;
+			label = "Reserved [1]";
+		};
+
+		rotenc_scrlsens: rotenc_scrlsens {
+			compatible = "zmk,behavior-sensor-rotate-var";
+			#sensor-binding-cells = <2>;
+			bindings = <&scrlsens_nowrap>, <&scrlsens_nowrap>;
+			label = "Reserved [2]";
+		};
+
+		z_so_off {
+			display-name = "Power off";
+		};
+
+		p2sm_accel_toggle {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+		};
+
+		p2sm_accel_adj {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+		};
+
+		p2sm_twist_toggle {
+			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+		};
+
+		bst_copy: bst_copy {
+			compatible = "zmk,behavior-bistable";
+			display-name = "Copy (OS-dependent)";
+			#binding-cells = <0>;
+			bindings = <&winlin_copy>, <&macos_copy>;
+		};
+
+		bst_paste: bst_paste {
+			compatible = "zmk,behavior-bistable";
+			display-name = "Paste (OS-dependent)";
+			#binding-cells = <0>;
+			bindings = <&winlin_paste>, <&macos_paste>;
+		};
+
+		bst_cut: bst_cut {
+			compatible = "zmk,behavior-bistable";
+			display-name = "Cut (OS-dependent)";
+			#binding-cells = <0>;
+			bindings = <&winlin_cut>, <&macos_cut>;
+		};
+
+		bst_undo: bst_undo {
+			compatible = "zmk,behavior-bistable";
+			display-name = "Undo (OS-dependent)";
+			#binding-cells = <0>;
+			bindings = <&winlin_undo>, <&macos_undo>;
+		};
+	};
+};
