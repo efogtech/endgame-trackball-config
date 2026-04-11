@@ -9,7 +9,7 @@ config BOARD
     default "efogtech_trackball_0"
 
 config ZMK_KEYBOARD_NAME
-    default "Endgame Trackball"
+    default "Endgame"
 
 config EC11
     default y

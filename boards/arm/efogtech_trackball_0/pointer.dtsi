@@ -1,12 +1,18 @@
+#include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/p2sm.h>
 #include <dt-bindings/zmk/paw3395-modes.h>
 #include <input/processors/p2sm.dtsi>
 #include <input/processors/axis_clamper.dtsi>
 #include <input/processors/report_rate_limit.dtsi>
 #include <input/processors/accel_curve.dtsi>
+#include <input/processors/rotate_plane.dtsi>
 #include <behaviors/p2sm_behaviors.dtsi>
 #include <behaviors/rate_limit.dtsi>
 #include <behaviors/auto_hold.dtsi>
+#include <behaviors/switch_keymap.dtsi>
+#include <behaviors/mouse_scroll.dtsi>
+#include <behaviors/af_toggle.dtsi>
+#include <behaviors/bistable_toggle.dtsi>
 
 &zip_2s_mixer {
 	status = "okay";
@@ -18,21 +24,42 @@
 	twist-interference-window = <8>;
 
 	// arbitrary bounding box (0, 0, 0) - (255, 255, 255)
-	ball-radius = <102>; // maximum = 127
+	ball-radius = <102>; // maximum = 127, center is at (127, 127, 127)
 	sensor1-pos = [31 4B 2D];  // X Y Z
 	sensor2-pos = [C1 3C 2D];
 
 	feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 	feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 	twist-feedback-threshold = <20>;
-	twist-feedback-delay = <8>;
+	twist-feedback-delay = <5>;
 	twist-feedback-duration = <50>;
 };
 
 / {
+	zip_dragscroll_accel: zip_dragscroll_accel {
+		compatible = "zmk,accel-curve";
+		#input-processor-cells = <0>;
+		max-curves = <4>;
+		points = <16>;
+		device-name = "dragscroll";
+		event-codes = <INPUT_REL_WHEEL INPUT_REL_HWHEEL>;
+	};
+
 	trackball {
 		compatible = "zmk,input-listener";
 		device = <&zip_2s_mixer>;
+		input-processors = <&zip_ble_report_rate_limit>;
+	};
+
+	rotated_pointer_plane {
+		compatible = "zmk,input-listener";
+		device = <&zip_rotate_pointer>;
+		input-processors = <&zip_ble_report_rate_limit>;
+	};
+
+	rotated_scroll_plane {
+		compatible = "zmk,input-listener";
+		device = <&zip_rotate_scroll>;
 		input-processors = <&zip_ble_report_rate_limit>;
 	};
 
@@ -47,6 +74,25 @@
 		device = <&trackball_secondary>;
 		input-processors = <&zip_2s_mixer INPUT_MIXER_SENSOR2>;
 	};
+
+	behaviors {
+		bst_tog {
+			display-name = "Toggle OS-dependent behaviors";
+		};
+
+		mouse_scroll {
+			display-name = "Reserved [3]";
+		};
+
+		mouse_move {
+			display-name = "Reserved [4]";
+		};
+	};
+};
+
+&msc {
+	time-to-max-speed-ms = <1>;
+	acceleration-exponent = <0>;
 };
 
 &spi0 {
