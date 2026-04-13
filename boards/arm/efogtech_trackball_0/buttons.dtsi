@@ -5,7 +5,7 @@
         gpio-map-mask = <0xffffffff 0xffffffc0>;
         gpio-map-pass-thru = <0 0x3f>;
         gpio-map
-            // Top-right then CCW
+            // Top-top-right then CCW
             = <0 0 &gpio0 26 0>
             , <1 0 &gpio0 27 0>
             , <2 0 &gpio0 1 0>
@@ -13,14 +13,88 @@
             , <4 0 &gpio0 8 0>
             , <5 0 &gpio0 7 0>
             , <6 0 &gpio0 5 0>
-            , <7 0 &gpio0 4 0>
+            , <7 0 &gpio0 4 0>;
+    };
 
-            // Encoders
-            , <8 0 &gpio0 15 0> // left
-            , <9 0 &gpio0 11 0> // right
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-direct";
+        input-gpios
+        = <&btns 1 (GPIO_ACTIVE_LOW)>
+        , <&btns 0 (GPIO_ACTIVE_LOW)>
+        , <&btns 2 (GPIO_ACTIVE_LOW)>
+        , <&btns 7 (GPIO_ACTIVE_LOW)>
+        , <&btns 3 (GPIO_ACTIVE_LOW)>
+        , <&btns 6 (GPIO_ACTIVE_LOW)>
+        , <&btns 4 (GPIO_ACTIVE_LOW)>
+        , <&btns 5 (GPIO_ACTIVE_LOW)>
+        ;
+    };
 
-            // Unified wakeup source
-            , <10 0 &gpio0 29 0> // left
-            ;
+//    keys {
+//        compatible = "gpio-keys";
+//        wakeup_key: wakeup_key {
+//            gpios = <&btns 10 GPIO_ACTIVE_LOW>;
+//        };
+//    };
+//
+//    wakeup_source: wakeup_source {
+//        compatible = "zmk,gpio-key-wakeup-trigger";
+//        trigger = <&wakeup_key>;
+//        wakeup-source;
+//    };
+
+//    soft_off_wakers {
+//        compatible = "zmk,soft-off-wakeup-sources";
+//        wakeup-sources = <&wakeup_source>;
+//    };
+
+    default_transform: keymap_transform_0 {
+        compatible = "zmk,matrix-transform";
+        rows = <12>;
+        columns = <1>;
+        map =
+                <
+                RC(0, 0)  RC(1, 0)
+                RC(2, 0)  RC(3, 0)
+                RC(4, 0)  RC(5, 0)
+                RC(6, 0)  RC(7, 0)
+                RC(8, 0)  RC(9, 0)
+                RC(10, 0) RC(11, 0)
+                >;
+    };
+
+    physical_layout0: physical_layout_0 {
+        compatible = "zmk,physical-layout";
+        display-name = "Default Layout";
+
+        transform = <&default_transform>;
+        kscan = <&kscan0>;
+
+        keys  //               w     h     x     y     rot  rx   ry
+        = <&key_physical_attrs 200   150   275   0     0    8    8  >
+        , <&key_physical_attrs 200   150   525   0     0    8    8  >
+        , <&key_physical_attrs 150   375   75    25    0    8    8  >
+        , <&key_physical_attrs 150   375   775   25    0    8    8  >
+        , <&key_physical_attrs 150   375   75    450   0    8    8  >
+        , <&key_physical_attrs 150   375   775   450   0    8    8  >
+        , <&key_physical_attrs 200   150   275   700   0    8    8  >
+        , <&key_physical_attrs 200   150   525   700   0    8    8  >
+
+        , <&key_physical_attrs 35    100   15    750   0    8    8  >
+        , <&key_physical_attrs 35    100   950   750   0    8    8  >
+
+        , <&key_physical_attrs 100   35    65    850   0    8    8  >
+        , <&key_physical_attrs 100   35    835   850   0    8    8  >
+        ;
+    };
+
+    position_map {
+        compatible = "zmk,physical-layout-position-map";
+        complete;
+
+        layout1: layout1 {
+            physical-layout = <&physical_layout0>;
+            positions = <0>, <1>, <2>, <3>, <4>, <5>, <6>, <7>;
+        };
     };
 };

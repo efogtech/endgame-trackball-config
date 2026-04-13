@@ -1,13 +1,322 @@
 #include <dt-bindings/spi/spi.h>
 
-/ {
-	aliases { led-strip = &led_strip; };
-	chosen { zmk,underglow = &led_strip; };
+#ifndef LAYER_DEFAULT
+#define LAYER_DEFAULT      0
+#define LAYER_EXTRAS       1
+#define LAYER_DEVICE       2
+#define LAYER_SCROLL       3
+#define LAYER_SNIPE        4
+#define LAYER_USER         5
+#endif
 
-	EXT_POWER: EXT_POWER {
+/ {
+	epwr: ext_pwr {
 		compatible = "zmk,ext-power-generic";
 		control-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>, <&gpio1 3 GPIO_ACTIVE_HIGH>;
-		init-delay-ms = <10>;
+		init-delay-ms = <5>;
+	};
+
+	adaptive_feedback: adaptive_feedback {
+		compatible = "zmk,adaptive-feedback";
+		led-strip = <&led_strip>;
+		chain-length = <16>;
+		error-slots = <2>;
+		error-slots-reverse;
+
+		feedback-enabled;
+		feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+		feedback-delay = <5>;
+		ext-power = <&epwr>;
+
+		layer_default {
+			event-type = "layer";
+			layer-index = <LAYER_DEFAULT>;
+			colors = [00 00 00];
+			persistent;
+		};
+
+		layer_extras {
+			event-type = "layer";
+			layer-index = <LAYER_EXTRAS>;
+			colors = [00 00 00];
+			persistent;
+		};
+
+		layer_device {
+			event-type = "layer";
+			layer-index = <LAYER_DEVICE>;
+			colors = [80 00 FF];
+			animation = "flash";
+			flash-duration-ms = <30000>;
+			flash-ease-in-ms = <250>;
+			feedback-pattern = <40>;
+			persistent;
+		};
+
+		layer_scroll {
+			event-type = "layer";
+			layer-index = <LAYER_SCROLL>;
+			colors = [00 00 00];
+			persistent;
+		};
+
+		layer_snipe {
+			event-type = "layer";
+			layer-index = <LAYER_SNIPE>;
+			colors = [ff 00 00];
+			persistent;
+		};
+
+		layer_user {
+			event-type = "layer";
+			layer-index = <LAYER_USER>;
+			colors = [00 00 00];
+			persistent;
+		};
+
+		idle {
+			label = "Idle";
+			event-type = "idle";
+			colors = [00 00 00];
+			animation = "flash";
+			headless;
+		};
+
+		studio_locked {
+			label = "Studio locked";
+			event-type = "studio-lock";
+			colors = [00 00 00];
+			animation = "flash";
+		};
+
+		studio_unlocked {
+			label = "Studio unlocked";
+			event-type = "studio-unlock";
+			colors = [ff 00 00];
+			animation = "flash";
+			flash-duration-ms = <1000>;
+			flash-ease-in-ms = <150>;
+			flash-ease-out-ms = <150>;
+			feedback-pattern = <250>;
+		};
+
+		evt_usb_conn {
+			label = "USB connected";
+			event-type = "usb-conn";
+			colors = [00 ff 00];
+			animation = "flash";
+			flash-duration-ms = <350>;
+			feedback-pattern = <80>;
+		};
+
+		evt_usb_disconn {
+			label = "USB disconnected";
+			event-type = "usb-disconn";
+			colors = [ff 80 00];
+			animation = "flash";
+			flash-duration-ms = <350>;
+			flash-ease-in-ms = <150>;
+			flash-ease-out-ms = <150>;
+			feedback-pattern = <80>;
+		};
+
+		evt_ble_1 {
+			label = "Bluetooth device";
+			event-type = "ble-profile";
+			colors = [00 40 ff];
+			animation = "flash";
+			flash-duration-ms = <350>;
+			flash-ease-in-ms = <100>;
+			flash-ease-out-ms = <100>;
+			feedback-pattern = <80>;
+			ble-profile-index = <0>;
+		};
+
+		evt_ble_2 {
+			label = "Bluetooth device";
+			event-type = "ble-profile";
+			colors = [00 40 ff];
+			animation = "flash";
+			flash-duration-ms = <350>;
+			flash-ease-in-ms = <100>;
+			flash-ease-out-ms = <100>;
+			feedback-pattern = <80>;
+			ble-profile-index = <1>;
+		};
+
+		evt_ble_3 {
+			label = "Bluetooth device";
+			event-type = "ble-profile";
+			colors = [00 40 ff];
+			animation = "flash";
+			flash-duration-ms = <350>;
+			flash-ease-in-ms = <100>;
+			flash-ease-out-ms = <100>;
+			feedback-pattern = <80>;
+			ble-profile-index = <2>;
+		};
+
+		evt_ble_4 {
+			label = "Bluetooth device";
+			event-type = "ble-profile";
+			colors = [00 40 ff];
+			animation = "flash";
+			flash-duration-ms = <350>;
+			flash-ease-in-ms = <100>;
+			flash-ease-out-ms = <100>;
+			feedback-pattern = <80>;
+			ble-profile-index = <3>;
+		};
+
+		evt_ble_5 {
+			label = "Bluetooth device";
+			event-type = "ble-profile";
+			colors = [00 40 ff];
+			animation = "flash";
+			flash-duration-ms = <350>;
+			flash-ease-in-ms = <100>;
+			flash-ease-out-ms = <100>;
+			feedback-pattern = <80>;
+			ble-profile-index = <4>;
+		};
+
+		evt_no_ep {
+			label = "No endpoint available";
+			event-type = "no-endpoint";
+			colors = [ff 00 00];
+			animation = "flash";
+			flash-duration-ms = <350>;
+			flash-ease-in-ms = <100>;
+			flash-ease-out-ms = <100>;
+			feedback-pattern = <80>;
+		};
+
+		evt_bw1 {
+			label = "Battery warning";
+			event-type = "batt-warn";
+			battery-level = <1>;
+			colors = [ff e0 00];
+			animation = "flash";
+			flash-duration-ms = <1000>;
+			flash-ease-in-ms = <100>;
+			flash-ease-out-ms = <100>;
+			feedback-pattern = <80>;
+		};
+
+		evt_bw2 {
+			label = "Battery warning";
+			event-type = "batt-warn";
+			battery-level = <2>;
+			colors = [ff 80 00];
+			animation = "flash";
+			flash-duration-ms = <1500>;
+			flash-ease-in-ms = <100>;
+			flash-ease-out-ms = <100>;
+			feedback-pattern = <80>;
+		};
+
+		evt_bw3 {
+			label = "Battery warning";
+			event-type = "batt-warn";
+			battery-level = <3>;
+			colors = [ff 40 00];
+			animation = "flash";
+			flash-duration-ms = <2000>;
+			flash-ease-in-ms = <100>;
+			flash-ease-out-ms = <100>;
+			feedback-pattern = <80>;
+		};
+
+		evt_bc1 {
+			label = "Battery critical";
+			event-type = "batt-crit";
+			battery-level = <1>;
+			colors = [ff 00 00];
+			animation = "flash";
+			flash-duration-ms = <1000>;
+			flash-ease-in-ms = <50>;
+			flash-ease-out-ms = <50>;
+			feedback-pattern = <125>;
+		};
+
+		evt_bc2 {
+			label = "Battery critical";
+			event-type = "batt-crit";
+			battery-level = <2>;
+			colors = [ff 00 00];
+			animation = "flash";
+			flash-duration-ms = <1500>;
+			flash-ease-in-ms = <50>;
+			flash-ease-out-ms = <50>;
+			feedback-pattern = <125>;
+		};
+
+		evt_bc3 {
+			label = "Battery critical";
+			event-type = "batt-crit";
+			battery-level = <3>;
+			colors = [ff 00 00];
+			animation = "flash";
+			flash-duration-ms = <3000>;
+			flash-ease-in-ms = <50>;
+			flash-ease-out-ms = <50>;
+			feedback-pattern = <125>;
+		};
+
+		os_switched {
+			label = "OS type toggled";
+			event-type = "custom";
+			custom-event-name = "bistable-toggled";
+			colors = [00 FF FF];
+			animation = "flash";
+			flash-duration-ms = <250>;
+			flash-ease-in-ms = <75>;
+			flash-ease-out-ms = <75>;
+			feedback-pattern = <80>;
+		};
+
+		keymap_switched {
+			label = "Keymap slot switched";
+			event-type = "custom";
+			animation = "flash";
+			custom-event-name = "keymap-slot-switched";
+			colors = [FF 00 FF];
+			flash-duration-ms = <250>;
+			flash-ease-in-ms = <75>;
+			flash-ease-out-ms = <75>;
+			feedback-pattern = <80>;
+		};
+
+		key_auto_held {
+			label = "Key auto held";
+			event-type = "custom";
+			custom-event-name = "key-auto-held";
+			colors = [00 00 00];
+			animation = "flash";
+			feedback-pattern = <40>;
+		};
+
+		err_left_sensor {
+			label = "Sensor error (left)";
+			event-type = "error";
+			error-slot-index = <0>;
+			colors = [FF 00 00];
+			animation = "blink";
+			blink-on-ms = <750>;
+			blink-off-ms = <750>;
+			feedback-pattern = <250>;
+		};
+
+		err_right_sensor {
+			label = "Sensor error (right)";
+			event-type = "error";
+			error-slot-index = <1>;
+			colors = [FF 00 00];
+			animation = "blink";
+			blink-on-ms = <750>;
+			blink-off-ms = <750>;
+			feedback-pattern = <250>;
+		};
 	};
 };
 
