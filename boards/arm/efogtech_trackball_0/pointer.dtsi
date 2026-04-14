@@ -30,7 +30,7 @@
 	feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 	feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 	twist-feedback-threshold = <20>;
-	twist-feedback-delay = <8>;
+	twist-feedback-delay = <5>;
 	twist-feedback-duration = <50>;
 };
 
@@ -73,6 +73,20 @@
 		device = <&trackball_secondary>;
 		input-processors = <&zip_2s_mixer INPUT_MIXER_SENSOR2>;
 	};
+
+	behaviors {
+		bst_tog {
+			display-name = "Toggle OS-dependent behaviors";
+		};
+
+		mouse_scroll {
+			display-name = "Reserved [3]";
+		};
+
+		mouse_move {
+			display-name = "Reserved [4]";
+		};
+	};
 };
 
 &msc {
@@ -93,7 +107,7 @@
 		status = "okay";
 		compatible = "pixart,pmw3610-efogtech";
 		init-retry-interval = <25>;
-		init-retry-count = <25>;
+		init-retry-count = <5>;
 		reg = <0>;
 		spi-max-frequency = <2000000>;
 		irq-gpios = <&gpio0 2 GPIO_ACTIVE_LOW>;
@@ -123,7 +137,7 @@
 		status = "okay";
 		compatible = "pixart,pmw3610-efogtech";
 		init-retry-interval = <25>;
-		init-retry-count = <25>;
+		init-retry-count = <5>;
 		reg = <0>;
 		spi-max-frequency = <2000000>;
 		irq-gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
