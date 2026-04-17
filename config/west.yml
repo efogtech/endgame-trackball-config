@@ -11,10 +11,10 @@ manifest:
       import: app/west.yml
     - name: zmk-pmw3610-driver
       remote: efogdev
-      revision: "8f19120"
+      revision: "38105b4"
     - name: zmk-pointer-2s-mixer
       remote: efogdev
-      revision: "ca0381f"
+      revision: "62d6977"
     - name: zmk-axis-clamper
       remote: efogdev
       revision: "637719f"
@@ -29,7 +29,11 @@ manifest:
       revision: "3f99c3f"
     - name: zmk-adaptive-feedback
       remote: efogdev
+<<<<<<< Updated upstream
       revision: "6acf518"
+=======
+      revision: "d5a8c21"
+>>>>>>> Stashed changes
     - name: zmk-behavior-follower
       remote: efogdev
       revision: "c27fe57"
@@ -41,12 +45,15 @@ manifest:
       revision: "b4b7c1c"
     - name: zmk-input-processor-rotate-plane
       remote: efogdev
-      revision: "4b3c299"
+      revision: "88cee03"
     - name: zmk-runtime-config
       remote: efogdev
       revision: "fce5cb3"
     - name: zmk-bistable-behavior
       remote: efogdev
       revision: "8838f94"
+    - name: zmk-ble-shell
+      remote: efogdev
+      revision: "619df07"
   self:
     path: config
