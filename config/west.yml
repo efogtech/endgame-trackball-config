@@ -14,7 +14,7 @@ manifest:
       revision: "209a1f9"
     - name: zmk-pointer-2s-mixer
       remote: efogdev
-      revision: "62d6977"
+      revision: "8267e39"
     - name: zmk-axis-clamper
       remote: efogdev
       revision: "637719f"
@@ -29,13 +29,13 @@ manifest:
       revision: "3f99c3f"
     - name: zmk-adaptive-feedback
       remote: efogdev
-      revision: "d5a8c21"
+      revision: "1a88a84"
     - name: zmk-behavior-follower
       remote: efogdev
       revision: "c27fe57"
     - name: zmk-keymap-shell
       remote: efogdev
-      revision: "b31cc0f"
+      revision: "c4b6324"
     - name: zmk-acceleration-curves
       remote: efogdev
       revision: "b4b7c1c"
@@ -44,7 +44,7 @@ manifest:
       revision: "88cee03"
     - name: zmk-runtime-config
       remote: efogdev
-      revision: "983c316"
+      revision: "de6f034"
     - name: zmk-bistable-behavior
       remote: efogdev
       revision: "8838f94"

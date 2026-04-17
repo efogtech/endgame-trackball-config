@@ -108,13 +108,13 @@ static int cmd_layers(const struct shell *sh, const size_t argc, char **argv) {
 }
 
 #define BACKUP_CHUNK_SIZE 32
-#define RESTORE_BUFFER_SIZE 4096
+#define RESTORE_BUFFER_SIZE 16384
 #define STORAGE_ADDR 0x0006c000
 #define STORAGE_SIZE 0x00008000
 
 static uint8_t crc8_checksum(const uint8_t *data, const size_t len);
 
-static struct {
+struct restore_state {
     uint32_t start_addr;
     uint32_t total_size;
     uint32_t current_offset;
@@ -123,7 +123,9 @@ static struct {
     bool in_progress;
     const struct device *flash_dev;
     int saved_prio;
-} restore_state;
+};
+
+static struct restore_state *restore_state;
 
 static void log_restore_error(void) {
     LOG_ERR("Unsuccessful data restoration!");
@@ -131,12 +133,12 @@ static void log_restore_error(void) {
 }
 
 static int flush_restore_buffer(const struct shell *sh) {
-    if (restore_state.buffer_len == 0) {
+    if (restore_state->buffer_len == 0) {
         return 0;
     }
 
-    const uint32_t write_addr = restore_state.start_addr + restore_state.current_offset;
-    const uint32_t write_len = restore_state.buffer_len;
+    const uint32_t write_addr = restore_state->start_addr + restore_state->current_offset;
+    const uint32_t write_len = restore_state->buffer_len;
 
     /* Lock the scheduler for the entire erase+write sequence so no other
      * thread can preempt between the two operations and leave flash in an
@@ -146,14 +148,14 @@ static int flush_restore_buffer(const struct shell *sh) {
     struct flash_pages_info info;
     uint32_t erase_addr = write_addr;
     while (erase_addr < write_addr + write_len) {
-        int rc = flash_get_page_info_by_offs(restore_state.flash_dev, erase_addr, &info);
+        int rc = flash_get_page_info_by_offs(restore_state->flash_dev, erase_addr, &info);
         if (rc < 0) {
             k_sched_unlock();
             shprint(sh, "Failed to get flash page info at 0x%08x", erase_addr);
             return rc;
         }
         if (erase_addr == info.start_offset) {
-            rc = flash_erase(restore_state.flash_dev, info.start_offset, info.size);
+            rc = flash_erase(restore_state->flash_dev, info.start_offset, info.size);
             if (rc < 0) {
                 k_sched_unlock();
                 shprint(sh, "Failed to erase flash at 0x%08x", (uint32_t) info.start_offset);
@@ -163,7 +165,7 @@ static int flush_restore_buffer(const struct shell *sh) {
         erase_addr = info.start_offset + info.size;
     }
 
-    const int rc = flash_write(restore_state.flash_dev, write_addr, restore_state.buffer, write_len);
+    const int rc = flash_write(restore_state->flash_dev, write_addr, restore_state->buffer, write_len);
     k_sched_unlock();
 
     if (rc < 0) {
@@ -171,8 +173,8 @@ static int flush_restore_buffer(const struct shell *sh) {
         return rc;
     }
 
-    restore_state.current_offset += write_len;
-    restore_state.buffer_len = 0;
+    restore_state->current_offset += write_len;
+    restore_state->buffer_len = 0;
     return 0;
 }
 
@@ -201,36 +203,45 @@ static int cmd_restore(const struct shell *sh, const size_t argc, char **argv) {
             return -EINVAL;
         }
 
-        restore_state.flash_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_flash_controller));
-        if (!device_is_ready(restore_state.flash_dev)) {
+        restore_state = malloc(sizeof(*restore_state));
+        if (!restore_state) {
+            shprint(sh, "Failed to allocate restore state");
+            return -ENOMEM;
+        }
+
+        restore_state->flash_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_flash_controller));
+        if (!device_is_ready(restore_state->flash_dev)) {
             shprint(sh, "Flash device not ready");
+            k_free(restore_state);
+            restore_state = NULL;
             return -ENODEV;
         }
 
-        restore_state.start_addr = STORAGE_ADDR;
-        restore_state.total_size = STORAGE_SIZE;
-        restore_state.current_offset = 0;
-        restore_state.buffer_len = 0;
-        restore_state.in_progress = true;
+        restore_state->start_addr = STORAGE_ADDR;
+        restore_state->total_size = STORAGE_SIZE;
+        restore_state->current_offset = 0;
+        restore_state->buffer_len = 0;
+        restore_state->in_progress = true;
 
         /* Elevate to the highest cooperative priority for the entire restore
          * session so no preemptive thread can starve the restore process. */
-        restore_state.saved_prio = k_thread_priority_get(k_current_get());
+        restore_state->saved_prio = k_thread_priority_get(k_current_get());
         k_thread_priority_set(k_current_get(), K_HIGHEST_THREAD_PRIO);
 
         shprint(sh, "Restore started at 0x%08x, size %u", addr, size);
         return 0;
     }
 
-    if (!restore_state.in_progress) {
+    if (!restore_state || !restore_state->in_progress) {
         shprint(sh, "Restore not in progress");
         return -EAGAIN;
     }
 
     if (argc >= 3 && strcmp(argv[1], "BACKUP") == 0 && strcmp(argv[2], "END") == 0) {
         const int rc = flush_restore_buffer(sh);
-        k_thread_priority_set(k_current_get(), restore_state.saved_prio);
-        restore_state.in_progress = false;
+        k_thread_priority_set(k_current_get(), restore_state->saved_prio);
+        k_free(restore_state);
+        restore_state = NULL;
         if (rc < 0) {
             return rc;
         }
@@ -257,9 +268,9 @@ static int cmd_restore(const struct shell *sh, const size_t argc, char **argv) {
     hexdata[sizeof(hexdata) - 1] = '\0';
     const uint32_t crc_val = strtoul(hash + 1, NULL, 16);
 
-    if (offset != restore_state.current_offset + restore_state.buffer_len) {
+    if (offset != restore_state->current_offset + restore_state->buffer_len) {
         shprint(sh, "Offset mismatch: expected %08x, got %08x",
-                restore_state.current_offset + restore_state.buffer_len, offset);
+                restore_state->current_offset + restore_state->buffer_len, offset);
         log_restore_error();
         return -EINVAL;
     }
@@ -286,7 +297,7 @@ static int cmd_restore(const struct shell *sh, const size_t argc, char **argv) {
         return -EBADMSG;
     }
 
-    if (restore_state.buffer_len + chunk_len > RESTORE_BUFFER_SIZE) {
+    if (restore_state->buffer_len + chunk_len > RESTORE_BUFFER_SIZE) {
         const int rc = flush_restore_buffer(sh);
         if (rc < 0) {
             log_restore_error();
@@ -294,10 +305,10 @@ static int cmd_restore(const struct shell *sh, const size_t argc, char **argv) {
         }
     }
 
-    memcpy(restore_state.buffer + restore_state.buffer_len, chunk, chunk_len);
-    restore_state.buffer_len += chunk_len;
+    memcpy(restore_state->buffer + restore_state->buffer_len, chunk, chunk_len);
+    restore_state->buffer_len += chunk_len;
 
-    if (restore_state.buffer_len >= RESTORE_BUFFER_SIZE) {
+    if (restore_state->buffer_len >= RESTORE_BUFFER_SIZE) {
         const int rc = flush_restore_buffer(sh);
         if (rc < 0) {
             log_restore_error();
