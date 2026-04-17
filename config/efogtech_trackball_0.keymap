@@ -63,7 +63,7 @@
 			display-name = "Device";
 			DECLARE_ENCODERS;
 			bindings = <
-				&trans             &bt BT_CLR
+				&zbs_adv           &bt BT_CLR
 				&bst_tog ZBS_TOG   &bt BT_NXT
 				&af_toggle AF_TOG  &bt BT_PRV
 				&studio_unlock     &trans

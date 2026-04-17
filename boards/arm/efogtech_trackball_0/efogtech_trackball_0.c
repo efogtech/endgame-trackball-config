@@ -6,21 +6,20 @@
 #include <zephyr/devicetree.h>
 #include <zephyr/shell/shell.h>
 #include <zephyr/sys/util.h>
-#include <zephyr/drivers/flash.h>
-#include <zephyr/storage/flash_map.h>
 #include <zephyr/sys/reboot.h>
 #include <zephyr/settings/settings.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/logging/log_ctrl.h>
 #include <string.h>
-#include <stdio.h>
 #include <stdlib.h>
+
 #include <zmk/events/usb_conn_state_changed.h>
 #include <zmk/event_manager.h>
 #include <zephyr/device.h>
 #include <zephyr/pm/device.h>
 
 #include "zephyr/bluetooth/bluetooth.h"
+#include "zephyr/drivers/flash.h"
 #include "zmk/endpoints.h"
 #include "zmk/settings.h"
 #include "zmk/keymap.h"
@@ -74,7 +73,7 @@ static int cmd_reboot(const struct shell *sh, const size_t argc, char **argv) {
 
 static int cmd_erase(const struct shell *sh, const size_t argc, char **argv) {
     shprint(sh, "I hope you know what you're doing.");
-    k_sleep(K_MSEC(20));
+    k_sleep(K_MSEC(100));
     bt_unpair(BT_ID_DEFAULT, NULL);
 
     for (int i = 0; i < 8; i++) {
@@ -97,14 +96,7 @@ static int cmd_erase(const struct shell *sh, const size_t argc, char **argv) {
         }
     }
 
-    const int rc = zmk_settings_erase();
-    if (rc < 0) {
-        LOG_ERR("Failed to erase settings: %d", rc);
-    } else {
-        shprint(sh, "Done.");
-    }
-
-    return rc;
+    return zmk_settings_erase();
 }
 
 static int cmd_layers(const struct shell *sh, const size_t argc, char **argv) {
@@ -116,7 +108,7 @@ static int cmd_layers(const struct shell *sh, const size_t argc, char **argv) {
 }
 
 #define BACKUP_CHUNK_SIZE 32
-#define RESTORE_BUFFER_SIZE 16384
+#define RESTORE_BUFFER_SIZE 4096
 #define STORAGE_ADDR 0x0006c000
 #define STORAGE_SIZE 0x00008000
 
@@ -132,6 +124,11 @@ static struct {
     const struct device *flash_dev;
     int saved_prio;
 } restore_state;
+
+static void log_restore_error(void) {
+    LOG_ERR("Unsuccessful data restoration!");
+    LOG_ERR("Try again or execute `board erase` — your device won't boot otherwise!");
+}
 
 static int flush_restore_buffer(const struct shell *sh) {
     if (restore_state.buffer_len == 0) {
@@ -249,8 +246,7 @@ static int cmd_restore(const struct shell *sh, const size_t argc, char **argv) {
 
     if (!colon || !hash || colon >= hash) {
         shprint(sh, "Invalid data line format");
-        LOG_ERR("Unsuccessful data restoration!");
-        LOG_ERR("Try again or execute `board erase` — your device won't boot otherwise!");
+        log_restore_error();
         return -EINVAL;
     }
 
@@ -262,10 +258,9 @@ static int cmd_restore(const struct shell *sh, const size_t argc, char **argv) {
     const uint32_t crc_val = strtoul(hash + 1, NULL, 16);
 
     if (offset != restore_state.current_offset + restore_state.buffer_len) {
-        shprint(sh, "Offset mismatch: expected %08x, got %08x", 
+        shprint(sh, "Offset mismatch: expected %08x, got %08x",
                 restore_state.current_offset + restore_state.buffer_len, offset);
-        LOG_ERR("Unsuccessful data restoration!");
-        LOG_ERR("Try again or execute `board erase` — your device won't boot otherwise!");
+        log_restore_error();
         return -EINVAL;
     }
 
@@ -273,8 +268,7 @@ static int cmd_restore(const struct shell *sh, const size_t argc, char **argv) {
     size_t chunk_len = strlen(hexdata) / 2;
     if (chunk_len > BACKUP_CHUNK_SIZE) {
         shprint(sh, "Chunk too large");
-        LOG_ERR("Unsuccessful data restoration!");
-        LOG_ERR("Try again or execute `board erase` — your device won't boot otherwise!");
+        log_restore_error();
         return -EINVAL;
     }
 
@@ -288,16 +282,14 @@ static int cmd_restore(const struct shell *sh, const size_t argc, char **argv) {
 
     if (crc8_checksum(chunk, chunk_len) != (uint8_t)crc_val) {
         shprint(sh, "CRC mismatch at offset %08x", offset);
-        LOG_ERR("Unsuccessful data restoration!");
-        LOG_ERR("Try again or execute `board erase` — your device won't boot otherwise!");
+        log_restore_error();
         return -EBADMSG;
     }
 
     if (restore_state.buffer_len + chunk_len > RESTORE_BUFFER_SIZE) {
         const int rc = flush_restore_buffer(sh);
         if (rc < 0) {
-            LOG_ERR("Unsuccessful data restoration!");
-            LOG_ERR("Try again or execute `board erase` — your device won't boot otherwise!");
+            log_restore_error();
             return rc;
         }
     }
@@ -308,8 +300,7 @@ static int cmd_restore(const struct shell *sh, const size_t argc, char **argv) {
     if (restore_state.buffer_len >= RESTORE_BUFFER_SIZE) {
         const int rc = flush_restore_buffer(sh);
         if (rc < 0) {
-            LOG_ERR("Unsuccessful data restoration!");
-            LOG_ERR("Try again or execute `board erase` — your device won't boot otherwise!");
+            log_restore_error();
         }
         return rc;
     }
@@ -390,8 +381,8 @@ static int cmd_backup(const struct shell *sh, const size_t argc, char **argv) {
         return -EPERM;
     }
     
-    const uint32_t storage_addr = STORAGE_ADDR;
-    const uint32_t storage_size = STORAGE_SIZE;
+    const uint32_t storage_addr = 0x0006c000;
+    const uint32_t storage_size = 0x00008000;
     const uint32_t saved_level = log_filter_set(NULL, CONFIG_LOG_DOMAIN_ID, 0, LOG_LEVEL_NONE);
 
     shprint(sh, "");
@@ -425,7 +416,6 @@ SHELL_STATIC_SUBCMD_SET_CREATE(sub_board,
     SHELL_CMD(version, NULL, "Read firmware version", cmd_version),
     SHELL_CMD(layers, NULL, "List all layers", cmd_layers),
     SHELL_CMD(backup, NULL, "Backup NVS partition", cmd_backup),
-    SHELL_CMD(restore, NULL, "Restore from backup", cmd_restore),
     SHELL_CMD(rgb, NULL, "Check RGB support", cmd_check_rgb),
     SHELL_SUBCMD_SET_END
 );
