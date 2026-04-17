@@ -29,11 +29,7 @@ manifest:
       revision: "3f99c3f"
     - name: zmk-adaptive-feedback
       remote: efogdev
-<<<<<<< Updated upstream
-      revision: "6acf518"
-=======
       revision: "d5a8c21"
->>>>>>> Stashed changes
     - name: zmk-behavior-follower
       remote: efogdev
       revision: "c27fe57"
