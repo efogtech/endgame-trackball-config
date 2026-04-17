@@ -17,16 +17,16 @@ manifest:
       revision: "62d6977"
     - name: zmk-axis-clamper
       remote: efogdev
-      revision: "637719f"
+      revision: "37719fc"
     - name: zmk-report-rate-limit
       remote: efogdev
-      revision: "789d6df"
+      revision: "89d6df4"
     - name: zmk-ec11-ish-driver
       remote: efogdev
-      revision: "083320d"
+      revision: "83320d4"
     - name: zmk-auto-hold
       remote: efogdev
-      revision: "3f99c3f"
+      revision: "f99c3fa"
     - name: zmk-adaptive-feedback
       remote: efogdev
       revision: "d5a8c21"
@@ -44,10 +44,10 @@ manifest:
       revision: "88cee03"
     - name: zmk-runtime-config
       remote: efogdev
-      revision: "983c316"
+      revision: "83c3165"
     - name: zmk-bistable-behavior
       remote: efogdev
-      revision: "8838f94"
+      revision: "838f943"
     - name: zmk-ble-shell
       remote: efogdev
       revision: "619df07"
