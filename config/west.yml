@@ -50,6 +50,6 @@ manifest:
       revision: "8838f94"
     - name: zmk-ble-shell
       remote: efogdev
-      revision: "49481b6"
+      revision: "287ac5c"
   self:
     path: config
