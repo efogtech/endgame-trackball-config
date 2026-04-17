@@ -416,6 +416,7 @@ SHELL_STATIC_SUBCMD_SET_CREATE(sub_board,
     SHELL_CMD(version, NULL, "Read firmware version", cmd_version),
     SHELL_CMD(layers, NULL, "List all layers", cmd_layers),
     SHELL_CMD(backup, NULL, "Backup NVS partition", cmd_backup),
+    SHELL_CMD(restore, NULL, "Restore from backup", cmd_restore),
     SHELL_CMD(rgb, NULL, "Check RGB support", cmd_check_rgb),
     SHELL_SUBCMD_SET_END
 );
