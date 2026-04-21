@@ -20,7 +20,7 @@ manifest:
       revision: "637719f"
     - name: zmk-report-rate-limit
       remote: efogdev
-      revision: "789d6df"
+      revision: "207c6f2"
     - name: zmk-ec11-ish-driver
       remote: efogdev
       revision: "4b182a1"
@@ -41,7 +41,7 @@ manifest:
       revision: "941a477"
     - name: zmk-input-processor-rotate-plane
       remote: efogdev
-      revision: "207c6f2"
+      revision: "88cee03"
     - name: zmk-runtime-config
       remote: efogdev
       revision: "de6f034"
