@@ -120,6 +120,42 @@
 			feedback-pattern = <80>;
 		};
 
+		mui_adv {
+			label = "Advertising MUI";
+			event-type = "custom";
+			custom-event-name = "mui-adv";
+			colors = [ff a0 00];
+			animation = "flash";
+			flash-duration-ms = <1000>;
+			flash-ease-in-ms = <150>;
+			flash-ease-out-ms = <150>;
+			feedback-pattern = <80>;
+		};
+
+		mui_conn {
+			label = "MUI connected";
+			event-type = "custom";
+			custom-event-name = "mui-conn";
+			colors = [ff 00 ff];
+			animation = "flash";
+			flash-duration-ms = <350>;
+			flash-ease-in-ms = <150>;
+			flash-ease-out-ms = <150>;
+			feedback-pattern = <80>;
+		};
+
+		mui_disconn {
+			label = "MUI disconnected";
+			event-type = "custom";
+			custom-event-name = "mui-disconn";
+			colors = [ff 00 ff];
+			animation = "flash";
+			flash-duration-ms = <350>;
+			flash-ease-in-ms = <150>;
+			flash-ease-out-ms = <150>;
+			feedback-pattern = <80>;
+		};
+
 		evt_ble_1 {
 			label = "Bluetooth device";
 			event-type = "ble-profile";

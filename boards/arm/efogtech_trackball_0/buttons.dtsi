@@ -30,37 +30,19 @@
         ;
     };
 
-//    keys {
-//        compatible = "gpio-keys";
-//        wakeup_key: wakeup_key {
-//            gpios = <&btns 10 GPIO_ACTIVE_LOW>;
-//        };
-//    };
-//
-//    wakeup_source: wakeup_source {
-//        compatible = "zmk,gpio-key-wakeup-trigger";
-//        trigger = <&wakeup_key>;
-//        wakeup-source;
-//    };
-
-//    soft_off_wakers {
-//        compatible = "zmk,soft-off-wakeup-sources";
-//        wakeup-sources = <&wakeup_source>;
-//    };
-
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         rows = <12>;
         columns = <1>;
         map =
-                <
+            <
                 RC(0, 0)  RC(1, 0)
                 RC(2, 0)  RC(3, 0)
                 RC(4, 0)  RC(5, 0)
                 RC(6, 0)  RC(7, 0)
                 RC(8, 0)  RC(9, 0)
                 RC(10, 0) RC(11, 0)
-                >;
+            >;
     };
 
     physical_layout0: physical_layout_0 {

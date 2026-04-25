@@ -12,6 +12,7 @@
 #include <behaviors/mouse_scroll.dtsi>
 #include <behaviors/af_toggle.dtsi>
 #include <behaviors/bistable_toggle.dtsi>
+#include <behaviors/ble_shell_adv.dtsi>
 
 &zip_2s_mixer {
 	status = "okay";
@@ -85,6 +86,10 @@
 
 		mouse_move {
 			display-name = "Reserved [4]";
+		};
+
+		zbs_adv {
+			display-name = "Advertise MUI over BLE";
 		};
 	};
 };

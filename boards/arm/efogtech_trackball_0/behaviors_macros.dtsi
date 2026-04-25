@@ -159,7 +159,7 @@
 			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			feedback-duration = <65>;
-			step = <50>;
+			step = <100>;
 			max-step = <8>;
 		};
 
@@ -167,9 +167,8 @@
 			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			feedback-duration = <65>;
-			step = <10>;
-			min-step = <2>;
-			max-step = <12>;
+			step = <100>;
+			max-step = <80>;
 		};
 
 		sens_nowrap: sens_nowrap {
@@ -179,9 +178,9 @@
 			feedback-duration = <65>;
 			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-			step = <50>;
+			step = <100>;
 			min-step = <1>;
-			max-step = <8>;
+			max-step = <80>;
 		};
 
 		scrlsens_nowrap: scrlsens_nowrap {
@@ -191,9 +190,9 @@
 			feedback-duration = <65>;
 			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-			step = <10>;
-			min-step = <2>;
-			max-step = <12>;
+			step = <100>;
+			min-step = <1>;
+			max-step = <80>;
 			scroll;
 		};
 
