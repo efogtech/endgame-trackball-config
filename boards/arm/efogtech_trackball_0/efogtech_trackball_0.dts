@@ -19,11 +19,11 @@
 
     zmk_esb: zmk_esb_endpoint {
         compatible = "zmk,esb-endpoint";
-        esb-channel = <30>;
-        pairing-base-address = [E7 E7 E7 E7];
-        pairing-prefix = <0xE7>;
-        data-base-address = [C2 C2 C2 C2];
-        data-prefix = <0xC2>;
+        esb-channel = <78>;
+        pairing-base-address = [17 f4 07 aa];
+        pairing-prefix = <0x24>;
+        data-base-address = [b9 8a 16 22];
+        data-prefix = <0xc2>;
     };
 
     esb_ip: esb_input_processor {

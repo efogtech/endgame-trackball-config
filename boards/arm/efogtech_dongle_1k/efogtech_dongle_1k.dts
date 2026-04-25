@@ -3,7 +3,7 @@
 #include <dt-bindings/led/led.h>
 
 / {
-	model = "Endgame Dongle";
+	model = "Dongle 1k";
 	compatible = "efogtech,dongle";
 
 	chosen {
