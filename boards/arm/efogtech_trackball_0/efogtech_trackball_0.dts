@@ -20,9 +20,9 @@
     zmk_esb: zmk_esb_endpoint {
         compatible = "zmk,esb-endpoint";
         esb-channel = <78>;
-        pairing-base-address = [17 f4 07 aa];
+        pairing-base-address = [17 f4 07 7c];
         pairing-prefix = <0x24>;
-        data-base-address = [b9 8a 16 22];
+        data-base-address = [b9 8a 16 72];
         data-prefix = <0xc2>;
     };
 
