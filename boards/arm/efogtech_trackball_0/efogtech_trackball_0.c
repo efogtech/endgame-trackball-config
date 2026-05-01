@@ -26,6 +26,7 @@
 #include "zmk/keymap.h"
 #include "zmk/studio/core.h"
 #include "zmk_adaptive_feedback/adaptive_feedback.h"
+#include "zmk_esb/endpoint.h"
 
 #define DT_DRV_COMPAT zmk_endgame
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
@@ -47,7 +48,11 @@ static int cmd_output(const struct shell *sh, const size_t argc, char **argv) {
         shprint(sh, "Output: USB");
     } else if (IS_ENABLED(CONFIG_ZMK_ESB_ENDPOINT) &&
                zmk_ble_active_profile_index() == (ZMK_BLE_PROFILE_COUNT - 1)) {
-        shprint(sh, "Output: ESB");
+        if (zmk_esb_endpoint_is_active()) {
+            shprint(sh, "Output: ESB");
+        } else {
+            shprint(sh, "Output: ESB (not active)");
+        }
     } else {
         shprint(sh, "Output: BLE");
     }

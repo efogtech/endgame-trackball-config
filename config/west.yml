@@ -29,7 +29,7 @@ manifest:
       revision: "3f99c3f"
     - name: zmk-adaptive-feedback
       remote: efogdev
-      revision: "8227c22"
+      revision: "0a3ec1d"
     - name: zmk-behavior-follower
       remote: efogdev
       revision: "c27fe57"
@@ -53,7 +53,7 @@ manifest:
       revision: "7b96f99"
     - name: zmk-esb-endpoint
       remote: efogdev
-      revision: "c024a74"
+      revision: "a560c1b"
       submodules: true
   self:
     path: config
