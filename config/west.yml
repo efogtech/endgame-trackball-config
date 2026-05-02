@@ -53,7 +53,7 @@ manifest:
       revision: "7b96f99"
     - name: zmk-esb-endpoint
       remote: efogdev
-      revision: "a560c1b"
+      revision: "ae08a88"
       submodules: true
   self:
     path: config
