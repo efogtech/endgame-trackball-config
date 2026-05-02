@@ -33,16 +33,16 @@
 			display-name = "Default";
 			DECLARE_ENCODERS;
 			bindings = <
-				// buttons
-				&ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_SCROLL ESC
-				&mkp MCLK                 &cdch LAYER_SCROLL 0
-				&mkp LCLK                 &mkp RCLK
-				&ltm LAYER_EXTRAS MB4     &ltm LAYER_DEVICE MB5
+			    // buttons
+			    &ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_SCROLL ESC
+			    &mkp MCLK                 &cdch LAYER_SCROLL 0
+			    &mkp LCLK                 &mkp RCLK
+			    &ltm LAYER_EXTRAS MB4     &ltm LAYER_DEVICE MB5
 
-				// rotary encoders
-				&kp C_VOL_UP              &kp LC(TAB)
-				&kp C_VOL_DN              &kp LC(LS(TAB))
-			>;
+			    // rotary encoders
+			    &kp C_VOL_UP              &kp LC(TAB)
+			    &kp C_VOL_DN              &kp LC(LS(TAB))
+		    >;
 		};
 
 		layer1 {
@@ -50,27 +50,27 @@
 			DECLARE_ENCODERS;
 			bindings = <
 			    &bst_copy      &bst_paste
-				&bst_cut       &bst_undo
+			    &bst_cut       &bst_undo
 			    &bst_undo      &bst_copy
-				&trans         &bst_paste
+			    &trans         &bst_paste
 
-				&kp C_VOL_UP   &kp LC(TAB)
-				&kp C_VOL_DN   &kp LC(LS(TAB))
-			>;
+			    &kp C_VOL_UP   &kp LC(TAB)
+			    &kp C_VOL_DN   &kp LC(LS(TAB))
+	   		>;
 		};
 
 		layer2 {
 			display-name = "Device";
 			DECLARE_ENCODERS;
 			bindings = <
-				&zbs_adv           &bt BT_CLR
-				&bst_tog ZBS_TOG   &bt BT_NXT
-				&af_toggle AF_TOG  &bt BT_PRV
-				&studio_unlock     &trans
+			    &zbs_adv           &bt BT_CLR
+			    &bst_tog ZBS_TOG   &bt BT_NXT
+			    &af_toggle AF_TOG  &bt BT_PRV
+			    &studio_unlock     &trans
 
-				&kp C_VOL_UP       &kp LC(TAB)
-				&kp C_VOL_DN       &kp LC(LS(TAB))
-			>;
+			    &kp C_VOL_UP       &kp LC(TAB)
+			    &kp C_VOL_DN       &kp LC(LS(TAB))
+		   	>;
 		};
 
 		layer3 {
@@ -82,23 +82,23 @@
 			    &rrl 1              &scrlsens P2SM_DEC 1
 			    &sens P2SM_DEC 1    &sens P2SM_INC 1
 
-				&sens P2SM_DEC 1    &scrlsens P2SM_INC 1
-				&sens P2SM_INC 1    &scrlsens P2SM_DEC 1
-			>;
+			    &sens P2SM_DEC 1    &scrlsens P2SM_INC 1
+			    &sens P2SM_INC 1    &scrlsens P2SM_DEC 1
+		  	>;
 		};
 
 		layer4 {
 			display-name = "Snipe";
 			DECLARE_ENCODERS;
 			bindings = <
-				&trans           &soft_off
-				&trans           &trans
-				&trans           &trans
-				&trans           &trans
+			    &trans           &soft_off
+			    &trans           &trans
+			    &trans           &trans
+			    &trans           &trans
 
-				&kp LEFT         &kp RIGHT
-				&kp RIGHT        &kp LEFT
-			>;
+			    &kp LEFT         &kp RIGHT
+			    &kp RIGHT        &kp LEFT
+	   		>;
 		};
 
 		layer5 {
@@ -120,19 +120,21 @@
 		input-processors = <&zip_scroll_scaler TWIST_MULTIPLIER TWIST_DIVISOR>,
 						   <&zip_pointer_accel>, <&zip_scroll_accel>,
 						   <&zip_rotate_pointer>, <&zip_rotate_scroll>,
-		                   <&zip_ble_report_rate_limit>;
+						   <&esb_ip>, <&zip_ble_report_rate_limit>;
 
 		scroll {
 			layers = <LAYER_SCROLL>;
 			input-processors = <&zip_xy_scaler SCROLL_MULTIPLIER SCROLL_DIVISOR>, <&zip_axis_clamper>,
 							   <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>,
-							   <&zip_dragscroll_accel>, <&zip_rotate_scroll>, <&zip_ble_report_rate_limit>;
+							   <&zip_dragscroll_accel>, <&zip_rotate_scroll>,
+							   <&esb_ip>, <&zip_ble_report_rate_limit>;
 		};
 
 		snipe {
 			layers = <LAYER_SNIPE>;
 			input-processors = <&zip_xy_scaler SNIPE_MULTIPLIER SNIPE_DIVISOR>,
-							   <&zip_rotate_pointer>, <&zip_rotate_scroll>, <&zip_ble_report_rate_limit>;
+							   <&zip_rotate_pointer>, <&zip_rotate_scroll>,
+							   <&esb_ip>, <&zip_ble_report_rate_limit>;
 		};
 	};
 };

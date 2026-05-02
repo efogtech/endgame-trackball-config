@@ -20,7 +20,7 @@ manifest:
       revision: "637719f"
     - name: zmk-report-rate-limit
       remote: efogdev
-      revision: "207c6f2"
+      revision: "da59f61"
     - name: zmk-ec11-ish-driver
       remote: efogdev
       revision: "4b182a1"
@@ -29,7 +29,7 @@ manifest:
       revision: "3f99c3f"
     - name: zmk-adaptive-feedback
       remote: efogdev
-      revision: "1a88a84"
+      revision: "0a3ec1d"
     - name: zmk-behavior-follower
       remote: efogdev
       revision: "c27fe57"
@@ -51,5 +51,9 @@ manifest:
     - name: zmk-ble-shell
       remote: efogdev
       revision: "7b96f99"
+    - name: zmk-esb-endpoint
+      remote: efogdev
+      revision: "ae08a88"
+      submodules: true
   self:
     path: config

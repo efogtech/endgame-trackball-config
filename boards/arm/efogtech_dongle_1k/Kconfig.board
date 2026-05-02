@@ -1,0 +1,3 @@
+config BOARD_EFOGTECH_DONGLE_1K
+    bool "efogtech_dongle_1k"
+    depends on SOC_NRF52833_QIAA

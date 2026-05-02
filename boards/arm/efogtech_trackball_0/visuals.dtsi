@@ -332,6 +332,30 @@
 			feedback-pattern = <40>;
 		};
 
+		dongle_paired {
+			label = "Dongle paired";
+			event-type = "custom";
+			custom-event-name = "esb-paired";
+			colors = [00 ff 00];
+			animation = "flash";
+			flash-duration-ms = <750>;
+			flash-ease-in-ms = <125>;
+			flash-ease-out-ms = <125>;
+			feedback-pattern = <80>;
+		};
+
+		dongle_switched {
+			label = "Dongle active";
+			event-type = "custom";
+			custom-event-name = "esb-switched";
+			colors = [FF 00 80];
+			animation = "flash";
+			flash-duration-ms = <450>;
+			flash-ease-in-ms = <125>;
+			flash-ease-out-ms = <125>;
+			feedback-pattern = <80>;
+		};
+
 		err_left_sensor {
 			label = "Sensor error (left)";
 			event-type = "error";
