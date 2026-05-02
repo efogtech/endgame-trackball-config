@@ -1,0 +1,93 @@
+/dts-v1/;
+#include <nordic/nrf52833_qiaa.dtsi>
+#include <dt-bindings/led/led.h>
+
+/ {
+	model = "Dongle 1k";
+	compatible = "efogtech,dongle";
+
+	chosen {
+		zephyr,code-partition = &code_partition;
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+		zephyr,led-strip = &led_strip;
+		zephyr,console = &cdc_acm_console_uart;
+	};
+
+	buttons {
+		compatible = "gpio-keys";
+		pair_btn: pair_btn {
+			gpios = <&gpio0 29 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+			label = "Pairing button";
+		};
+	};
+};
+
+&pinctrl {
+	spi3_default: spi3_default {
+		group1 {
+			psels = <NRF_PSEL(SPIM_MOSI, 1, 9)>;
+		};
+	};
+
+	spi3_sleep: spi3_sleep {
+		group1 {
+			psels = <NRF_PSEL(SPIM_MOSI, 1, 9)>;
+			low-power-enable;
+		};
+	};
+};
+
+&spi3 {
+	compatible = "nordic,nrf-spim";
+	status = "okay";
+	pinctrl-0 = <&spi3_default>;
+	pinctrl-1 = <&spi3_sleep>;
+	pinctrl-names = "default", "sleep";
+
+	led_strip: ws2812@0 {
+		compatible = "worldsemi,ws2812-spi";
+		reg = <0>;
+		spi-max-frequency = <4000000>;
+		chain-length = <1>;
+		color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
+		spi-one-frame = <0x70>;
+		spi-zero-frame = <0x40>;
+	};
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+zephyr_udc0: &usbd {
+	status = "okay";
+
+	cdc_acm_console_uart: cdc_acm_console_uart {
+		compatible = "zephyr,cdc-acm-uart";
+	};
+};
+
+&radio {
+	status = "okay";
+};
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		sd_partition: partition@0 {
+			reg = <0x0 DT_SIZE_K(4)>;
+		};
+
+		code_partition: partition@1000 {
+			reg = <DT_SIZE_K(4) DT_SIZE_K(428)>;
+		};
+
+		storage_partition: partition@6c000 {
+			reg = <0x0006c000 0x00008000>;
+		};
+	};
+};
