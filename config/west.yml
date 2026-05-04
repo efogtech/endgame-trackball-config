@@ -11,7 +11,7 @@ manifest:
       import: app/west.yml
     - name: zmk-paw3395-driver
       remote: efogdev
-      revision: "209a1f9"
+      revision: "b896fcb"
     - name: zmk-pointer-2s-mixer
       remote: efogdev
       revision: "40a7dc8"
