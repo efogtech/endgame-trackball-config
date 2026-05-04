@@ -390,7 +390,11 @@ static int cmd_backup(const struct shell *sh, const size_t argc, char **argv) {
     
     const uint32_t storage_addr = 0x0006c000;
     const uint32_t storage_size = 0x00008000;
+#ifdef CONFIG_LOG_DOMAIN_ID
     const uint32_t saved_level = log_filter_set(NULL, CONFIG_LOG_DOMAIN_ID, 0, LOG_LEVEL_NONE);
+#else
+    const uint32_t saved_level = -1;
+#endif
 
     shprint(sh, "");
     shprint(sh, "BACKUP START %08X %08X", storage_addr, storage_size);
@@ -412,7 +416,9 @@ static int cmd_backup(const struct shell *sh, const size_t argc, char **argv) {
     shprint(sh, "BACKUP END");
     shprint(sh, "");
 
+#ifdef CONFIG_LOG_DOMAIN_ID
     log_filter_set(NULL, CONFIG_LOG_DOMAIN_ID, 0, saved_level);
+#endif
     return 0;
 }
 
@@ -489,6 +495,7 @@ static int pinmux_efgtch_trckbl_init(void) {
     set_rgb_en(false);
     set_bl_en(false);
 
+#ifdef CONFIG_LOG_DOMAIN_ID
     const uint32_t src_cnt = log_src_cnt_get(CONFIG_LOG_DOMAIN_ID);
     for (uint32_t i = 0; i < src_cnt; i++) {
         if (strcmp(log_source_name_get(CONFIG_LOG_DOMAIN_ID, i), "settings") == 0) {
@@ -497,6 +504,7 @@ static int pinmux_efgtch_trckbl_init(void) {
             break;
         }
     }
+#endif
 
     k_work_schedule(&rgb_hw_check_work, K_MSEC(100));
     return 0;
