@@ -124,15 +124,11 @@
 		};
 
 		skmp {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			feedback-duration = <150>;
 		};
 
 		rrl {
 			values-ms = <8 6 4 2>;
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			feedback-duration = <65>;
 		};
 
@@ -156,16 +152,12 @@
 		};
 
 		sens: p2sm_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			feedback-duration = <65>;
 			step = <100>;
 			max-step = <8>;
 		};
 
 		scrlsens: p2sm_scroll_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			feedback-duration = <65>;
 			step = <100>;
 			max-step = <80>;
@@ -176,8 +168,6 @@
 			display-name = "Pointer sensitivity (no wrapping)";
 			#binding-cells = <2>;
 			feedback-duration = <65>;
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			step = <100>;
 			min-step = <1>;
 			max-step = <80>;
@@ -188,8 +178,6 @@
 			display-name = "Scroll sensitivity (no wrapping)";
 			#binding-cells = <2>;
 			feedback-duration = <65>;
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			step = <100>;
 			min-step = <1>;
 			max-step = <80>;
@@ -219,21 +207,6 @@
 
 		z_so_off {
 			display-name = "Power off";
-		};
-
-		p2sm_accel_toggle {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_accel_adj {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_twist_toggle {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 		};
 
 		bst_copy: bst_copy {

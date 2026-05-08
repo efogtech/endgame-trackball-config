@@ -18,11 +18,7 @@
 &zip_2s_mixer {
 	status = "okay";
 	sync-report-ms = <0>;
-
 	sync-scroll-report-ms = <8>;
-	twist-thres = <3>;
-	twist-interference-thres = <200>;
-	twist-interference-window = <8>;
 
 	// arbitrary bounding box (0, 0, 0) - (255, 255, 255)
 	ball-radius = <102>; // maximum = 127, center is at (127, 127, 127)
@@ -31,9 +27,7 @@
 
 	feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 	feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-	twist-feedback-threshold = <20>;
 	twist-feedback-delay = <5>;
-	twist-feedback-duration = <50>;
 };
 
 / {
@@ -218,31 +212,6 @@
 			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			bindings = <&trackball_secondary>;
-		};
-	};
-};
-
-/ {
-	behaviors {
-		rrl {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-			values-ms = <0 1 2 4 6 8>;
-		};
-
-		p2sm_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_scroll_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_sens_toggle {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 		};
 	};
 };

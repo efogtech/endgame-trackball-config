@@ -16,6 +16,12 @@
 		init-delay-ms = <5>;
 	};
 
+	feedback_common: feedback_common {
+		compatible = "zmk,feedback-common";
+		feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+		feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+	};
+
 	adaptive_feedback: adaptive_feedback {
 		compatible = "zmk,adaptive-feedback";
 		led-strip = <&led_strip>;
