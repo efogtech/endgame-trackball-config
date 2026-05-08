@@ -152,24 +152,7 @@
 / {
 	behaviors {
 		rrl {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			values-ms = <0 1 2 4 6 8>;
-		};
-
-		p2sm_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_scroll_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_sens_toggle {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 		};
 
 		paw_cal1: paw_cal1 {
