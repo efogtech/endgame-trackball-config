@@ -26,7 +26,7 @@ manifest:
       revision: "4b182a1"
     - name: zmk-auto-hold
       remote: efogdev
-      revision: "3f99c3f"
+      revision: "8b11f48"
     - name: zmk-adaptive-feedback
       remote: efogdev
       revision: "aabca6d"
