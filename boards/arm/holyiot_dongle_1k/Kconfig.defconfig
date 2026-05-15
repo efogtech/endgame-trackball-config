@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: MIT
+
+if BOARD_HOLYIOT_DONGLE_1K
+
+config BOARD
+    default "holyiot_dongle_1k"
+
+config USB_NRFX
+    default y
+
+config USB_DEVICE_STACK
+    default y
+
+endif
