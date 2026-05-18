@@ -53,7 +53,7 @@ manifest:
       revision: "cfe4b88"
     - name: zmk-esb-endpoint
       remote: efogdev
-      revision: "7327c25"
+      revision: "cf75c02"
       submodules: true
     - name: zmk-feedback-common
       remote: efogdev
