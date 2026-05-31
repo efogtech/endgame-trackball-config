@@ -1,0 +1,17 @@
+identifier: holyiot_dongle_1k
+name: holyiot_dongle_1k
+type: mcu
+arch: arm
+outputs:
+  - usb
+toolchain:
+  - zephyr
+  - gnuarmemb
+  - xtools
+supported:
+  - usb_device
+features:
+  - keys
+  - pointer
+  - encoder
+  - underglow
