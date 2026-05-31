@@ -121,6 +121,7 @@
 		ripple-control;
 		invert-x;
 		invert-y;
+		wakeup-source;
 	};
 };
 
