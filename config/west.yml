@@ -60,6 +60,6 @@ manifest:
       revision: "92251ce"
     - name: zmk-shell-relay-core
       remote: efogdev
-      revision: "9dc0966"
+      revision: "837e874"
   self:
     path: config
