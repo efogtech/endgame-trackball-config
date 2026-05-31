@@ -1,0 +1,3 @@
+config BOARD_HOLYIOT_DONGLE_1K
+    bool "holyiot_dongle_1k"
+    depends on SOC_NRF52840_QIAA

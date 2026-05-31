@@ -20,6 +20,7 @@
 
 #include "zephyr/bluetooth/bluetooth.h"
 #include "zephyr/drivers/flash.h"
+#include "zmk/battery.h"
 #include "zmk/ble.h"
 #include "zmk/endpoints.h"
 #include "zmk/settings.h"
@@ -51,12 +52,18 @@ static int cmd_output(const struct shell *sh, const size_t argc, char **argv) {
         if (zmk_esb_endpoint_is_active()) {
             shprint(sh, "Output: ESB");
         } else {
-            shprint(sh, "Output: ESB (not active)");
+            shprint(sh, "Output: ESB (inactive)");
         }
     } else {
         shprint(sh, "Output: BLE");
     }
 
+    return 0;
+}
+
+static int cmd_status(const struct shell *sh, const size_t argc, char **argv) {
+    shprint(sh, "Firmware: v%d.%d.%d", CONFIG_BOARD_EFOGTECH_0_VER_MAJOR, CONFIG_BOARD_EFOGTECH_0_VER_MINOR, CONFIG_BOARD_EFOGTECH_0_VER_PATCH);
+    shprint(sh, "Battery: %u%%%s", zmk_battery_state_of_charge(), zmk_usb_is_powered() ? " (not accurate when USB power present)" : "");
     return 0;
 }
 
@@ -72,7 +79,7 @@ static int cmd_erase(const struct shell *sh, const size_t argc, char **argv) {
     bt_unpair(BT_ID_DEFAULT, NULL);
 
     for (int i = 0; i < 8; i++) {
-        char setting_name[15];
+        char setting_name[16];
         snprintf(setting_name, sizeof(setting_name), "ble/profiles/%d", i);
 
         const int err = settings_delete(setting_name);
@@ -390,7 +397,11 @@ static int cmd_backup(const struct shell *sh, const size_t argc, char **argv) {
     
     const uint32_t storage_addr = 0x0006c000;
     const uint32_t storage_size = 0x00008000;
+#ifdef CONFIG_LOG_DOMAIN_ID
     const uint32_t saved_level = log_filter_set(NULL, CONFIG_LOG_DOMAIN_ID, 0, LOG_LEVEL_NONE);
+#else
+    const uint32_t saved_level = -1;
+#endif
 
     shprint(sh, "");
     shprint(sh, "BACKUP START %08X %08X", storage_addr, storage_size);
@@ -412,11 +423,14 @@ static int cmd_backup(const struct shell *sh, const size_t argc, char **argv) {
     shprint(sh, "BACKUP END");
     shprint(sh, "");
 
+#ifdef CONFIG_LOG_DOMAIN_ID
     log_filter_set(NULL, CONFIG_LOG_DOMAIN_ID, 0, saved_level);
+#endif
     return 0;
 }
 
 SHELL_STATIC_SUBCMD_SET_CREATE(sub_board,
+    SHELL_CMD(status, NULL, "Show device status", cmd_status),
     SHELL_CMD(output, NULL, "See current output", cmd_output),
     SHELL_CMD(reboot, NULL, "Reboot the device", cmd_reboot),
     SHELL_CMD(erase, NULL, "Erase all settings", cmd_erase),
@@ -489,6 +503,7 @@ static int pinmux_efgtch_trckbl_init(void) {
     set_rgb_en(false);
     set_bl_en(false);
 
+#ifdef CONFIG_LOG_DOMAIN_ID
     const uint32_t src_cnt = log_src_cnt_get(CONFIG_LOG_DOMAIN_ID);
     for (uint32_t i = 0; i < src_cnt; i++) {
         if (strcmp(log_source_name_get(CONFIG_LOG_DOMAIN_ID, i), "settings") == 0) {
@@ -497,6 +512,7 @@ static int pinmux_efgtch_trckbl_init(void) {
             break;
         }
     }
+#endif
 
     k_work_schedule(&rgb_hw_check_work, K_MSEC(100));
     return 0;

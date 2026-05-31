@@ -18,11 +18,7 @@
 &zip_2s_mixer {
 	status = "okay";
 	sync-report-ms = <0>;
-
 	sync-scroll-report-ms = <8>;
-	twist-thres = <3>;
-	twist-interference-thres = <200>;
-	twist-interference-window = <8>;
 
 	// arbitrary bounding box (0, 0, 0) - (255, 255, 255)
 	ball-radius = <102>; // maximum = 127, center is at (127, 127, 127)
@@ -31,9 +27,7 @@
 
 	feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 	feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-	twist-feedback-threshold = <20>;
 	twist-feedback-delay = <5>;
-	twist-feedback-duration = <50>;
 };
 
 / {
@@ -90,7 +84,7 @@
 		};
 
 		zbs_adv {
-			display-name = "Advertise MUI over BLE";
+			display-name = "Advertise MUI over Bluetooth";
 		};
 	};
 };
@@ -118,13 +112,16 @@
 		reg = <0>;
 		spi-max-frequency = <4000000>;
 		irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-		cpi = <2400>;
+		cpi = <3200>;
 		evt-type = <INPUT_EV_REL>;
 		x-input-code = <INPUT_REL_X>;
 		y-input-code = <INPUT_REL_Y>;
-		power-mode = <PAW3395_OFFICE>;
+		power-mode = <PAW3395_HIGH_PERFORMANCE>;
+		liftoff-dist = <PAW3395_LOD_2MM>;
+		ripple-control;
 		invert-x;
 		invert-y;
+		wakeup-source;
 	};
 };
 
@@ -143,35 +140,20 @@
 		reg = <0>;
 		spi-max-frequency = <4000000>;
 		irq-gpios = <&gpio1 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-		cpi = <2400>;
+		cpi = <3200>;
 		evt-type = <INPUT_EV_REL>;
 		x-input-code = <INPUT_REL_X>;
 		y-input-code = <INPUT_REL_Y>;
-		power-mode = <PAW3395_OFFICE>;
+		power-mode = <PAW3395_HIGH_PERFORMANCE>;
+		liftoff-dist = <PAW3395_LOD_2MM>;
+		ripple-control;
 	};
 };
 
 / {
 	behaviors {
 		rrl {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			values-ms = <0 1 2 4 6 8>;
-		};
-
-		p2sm_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_scroll_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_sens_toggle {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 		};
 
 		paw_cal1: paw_cal1 {
