@@ -20,6 +20,7 @@
 
 #include "zephyr/bluetooth/bluetooth.h"
 #include "zephyr/drivers/flash.h"
+#include "zmk/battery.h"
 #include "zmk/ble.h"
 #include "zmk/endpoints.h"
 #include "zmk/settings.h"
@@ -51,12 +52,18 @@ static int cmd_output(const struct shell *sh, const size_t argc, char **argv) {
         if (zmk_esb_endpoint_is_active()) {
             shprint(sh, "Output: ESB");
         } else {
-            shprint(sh, "Output: ESB (not active)");
+            shprint(sh, "Output: ESB (inactive)");
         }
     } else {
         shprint(sh, "Output: BLE");
     }
 
+    return 0;
+}
+
+static int cmd_status(const struct shell *sh, const size_t argc, char **argv) {
+    shprint(sh, "Firmware: v%d.%d.%d", CONFIG_BOARD_EFOGTECH_0_VER_MAJOR, CONFIG_BOARD_EFOGTECH_0_VER_MINOR, CONFIG_BOARD_EFOGTECH_0_VER_PATCH);
+    shprint(sh, "Battery: %u%%%s", zmk_battery_state_of_charge(), zmk_usb_is_powered() ? " (not accurate when USB power present)" : "");
     return 0;
 }
 
@@ -72,7 +79,7 @@ static int cmd_erase(const struct shell *sh, const size_t argc, char **argv) {
     bt_unpair(BT_ID_DEFAULT, NULL);
 
     for (int i = 0; i < 8; i++) {
-        char setting_name[15];
+        char setting_name[16];
         snprintf(setting_name, sizeof(setting_name), "ble/profiles/%d", i);
 
         const int err = settings_delete(setting_name);
@@ -423,6 +430,7 @@ static int cmd_backup(const struct shell *sh, const size_t argc, char **argv) {
 }
 
 SHELL_STATIC_SUBCMD_SET_CREATE(sub_board,
+    SHELL_CMD(status, NULL, "Show device status", cmd_status),
     SHELL_CMD(output, NULL, "See current output", cmd_output),
     SHELL_CMD(reboot, NULL, "Reboot the device", cmd_reboot),
     SHELL_CMD(erase, NULL, "Erase all settings", cmd_erase),
