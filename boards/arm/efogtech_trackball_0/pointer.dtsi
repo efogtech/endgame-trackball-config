@@ -118,6 +118,7 @@
 		x-input-code = <INPUT_REL_X>;
 		y-input-code = <INPUT_REL_Y>;
 
+		wakeup-source;
 		force-awake;
 		force-high-performance;
 		xy-swap;
@@ -152,7 +153,6 @@
 		force-awake;
 		force-high-performance;
 		xy-swap;
-		enable-pm-support;
 	};
 };
 

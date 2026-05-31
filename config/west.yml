@@ -11,10 +11,10 @@ manifest:
       import: app/west.yml
     - name: zmk-pmw3610-driver
       remote: efogdev
-      revision: "38105b4"
+      revision: "28482ee"
     - name: zmk-pointer-2s-mixer
       remote: efogdev
-      revision: "dad19c7"
+      revision: "9996947"
     - name: zmk-axis-clamper
       remote: efogdev
       revision: "637719f"
@@ -23,40 +23,43 @@ manifest:
       revision: "20e0742"
     - name: zmk-ec11-ish-driver
       remote: efogdev
-      revision: "4b182a1"
+      revision: "e3850cd"
     - name: zmk-auto-hold
       remote: efogdev
       revision: "8b11f48"
     - name: zmk-adaptive-feedback
       remote: efogdev
-      revision: "aabca6d"
+      revision: "82f83d1"
     - name: zmk-behavior-follower
       remote: efogdev
       revision: "c27fe57"
     - name: zmk-keymap-shell
       remote: efogdev
-      revision: "97cebc9"
+      revision: "f01e0d3"
     - name: zmk-acceleration-curves
       remote: efogdev
-      revision: "0a00ade"
+      revision: "7d24e81"
     - name: zmk-input-processor-rotate-plane
       remote: efogdev
-      revision: "7984a7b"
+      revision: "b0b2684"
     - name: zmk-runtime-config
       remote: efogdev
-      revision: "595910e"
+      revision: "aa8815c"
     - name: zmk-bistable-behavior
       remote: efogdev
       revision: "68fa8d2"
     - name: zmk-ble-shell
       remote: efogdev
-      revision: "cfe4b88"
+      revision: "6322b7a"
     - name: zmk-esb-endpoint
       remote: efogdev
-      revision: "cf75c02"
+      revision: "f9492c9"
       submodules: true
     - name: zmk-feedback-common
       remote: efogdev
       revision: "92251ce"
+    - name: zmk-shell-relay-core
+      remote: efogdev
+      revision: "9dc0966"
   self:
     path: config

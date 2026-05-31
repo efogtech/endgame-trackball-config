@@ -111,7 +111,7 @@
 			display-name = "Copy/paste/layer (click/double-click/hold)";
 			#binding-cells = <2>;
 			flavor = "tap-preferred";
-			tapping-term-ms = <325>;
+			tapping-term-ms = <260>;
 			bindings = <&mo>, <&cdc>;
 		};
 
@@ -119,12 +119,12 @@
 			compatible = "zmk,behavior-tap-dance";
 			display-name = "Copy/paste (click/double-click)";
 			#binding-cells = <0>;
-			tapping-term-ms = <300>;
 			bindings = <&bst_copy>, <&bst_paste>;
+			tapping-term-ms = <250>;
 		};
 
 		skmp {
-			feedback-duration = <150>;
+			feedback-duration = <65>;
 		};
 
 		rrl {
@@ -147,8 +147,8 @@
 			#binding-cells = <2>;
 			flavor = "tap-preferred";
 			tapping-term-ms = <200>;
-			hold-while-undecided;
 			bindings = <&mo>, <&kp>;
+			hold-while-undecided;
 		};
 
 		sens: p2sm_sensitivity {
