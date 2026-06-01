@@ -5,6 +5,8 @@
 #include <dt-bindings/zmk/bistable_behavior.h>
 #include <dt-bindings/zmk/p2sm.h>
 #include <behaviors/p2sm_behaviors.dtsi>
+#include <behaviors/esb_unpair.dtsi>
+#include <behaviors/esb_shell_req.dtsi>
 
 / {
 	macros {
