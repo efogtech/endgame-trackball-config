@@ -53,13 +53,13 @@ manifest:
       revision: "6322b7a"
     - name: zmk-esb-endpoint
       remote: efogdev
-      revision: "f9492c9"
+      revision: "a78c61e"
       submodules: true
     - name: zmk-feedback-common
       remote: efogdev
       revision: "92251ce"
     - name: zmk-shell-relay-core
       remote: efogdev
-      revision: "9dc0966"
+      revision: "837e874"
   self:
     path: config
