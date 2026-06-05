@@ -112,8 +112,8 @@
 			compatible = "zmk,behavior-hold-tap";
 			display-name = "Copy/paste/layer (click/double-click/hold)";
 			#binding-cells = <2>;
-			flavor = "tap-preferred";
-			tapping-term-ms = <260>;
+			flavor = "balanced";
+			tapping-term-ms = <250>;
 			bindings = <&mo>, <&cdc>;
 		};
 
