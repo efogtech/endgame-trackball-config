@@ -40,7 +40,7 @@ do { \
 } while (0)
 
 static int cmd_version(const struct shell *sh, const size_t argc, char **argv) {
-    shprint(sh, "Firmware version: %d.%d.%d", CONFIG_BOARD_EFOGTECH_0_VER_MAJOR, CONFIG_BOARD_EFOGTECH_0_VER_MINOR, CONFIG_BOARD_EFOGTECH_0_VER_PATCH);
+    shprint(sh, "Firmware: v%d.%d.%d", CONFIG_BOARD_EFOGTECH_0_VER_MAJOR, CONFIG_BOARD_EFOGTECH_0_VER_MINOR, CONFIG_BOARD_EFOGTECH_0_VER_PATCH);
     return 0;
 }
 
