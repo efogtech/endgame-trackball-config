@@ -5,6 +5,8 @@
 #include <dt-bindings/zmk/bistable_behavior.h>
 #include <dt-bindings/zmk/p2sm.h>
 #include <behaviors/p2sm_behaviors.dtsi>
+#include <behaviors/esb_unpair.dtsi>
+#include <behaviors/esb_shell_req.dtsi>
 
 / {
 	macros {
@@ -110,8 +112,8 @@
 			compatible = "zmk,behavior-hold-tap";
 			display-name = "Copy/paste/layer (click/double-click/hold)";
 			#binding-cells = <2>;
-			flavor = "tap-preferred";
-			tapping-term-ms = <260>;
+			flavor = "balanced";
+			tapping-term-ms = <250>;
 			bindings = <&mo>, <&cdc>;
 		};
 
