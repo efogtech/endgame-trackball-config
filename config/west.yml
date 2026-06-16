@@ -14,7 +14,7 @@ manifest:
       revision: "28482ee"
     - name: zmk-pointer-2s-mixer
       remote: efogdev
-      revision: "aab6775"
+      revision: "85872c1"
     - name: zmk-axis-clamper
       remote: efogdev
       revision: "637719f"
@@ -38,7 +38,7 @@ manifest:
       revision: "f01e0d3"
     - name: zmk-acceleration-curves
       remote: efogdev
-      revision: "7d24e81"
+      revision: "80007b4"
     - name: zmk-input-processor-rotate-plane
       remote: efogdev
       revision: "b0b2684"
@@ -53,7 +53,7 @@ manifest:
       revision: "6322b7a"
     - name: zmk-esb-endpoint
       remote: efogdev
-      revision: "b28e648"
+      revision: "225a258"
       submodules: true
     - name: zmk-feedback-common
       remote: efogdev
