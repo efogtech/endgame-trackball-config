@@ -214,7 +214,7 @@ static int cmd_restore(const struct shell *sh, const size_t argc, char **argv) {
         restore_state->flash_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_flash_controller));
         if (!device_is_ready(restore_state->flash_dev)) {
             shprint(sh, "Flash device not ready");
-            k_free(restore_state);
+            free(restore_state);
             restore_state = NULL;
             return -ENODEV;
         }
@@ -242,7 +242,7 @@ static int cmd_restore(const struct shell *sh, const size_t argc, char **argv) {
     if (argc >= 3 && strcmp(argv[1], "BACKUP") == 0 && strcmp(argv[2], "END") == 0) {
         const int rc = flush_restore_buffer(sh);
         k_thread_priority_set(k_current_get(), restore_state->saved_prio);
-        k_free(restore_state);
+        free(restore_state);
         restore_state = NULL;
         if (rc < 0) {
             return rc;
