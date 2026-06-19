@@ -17,6 +17,21 @@
     model = "Endgame";
     compatible = "efogtech,trackball";
 
+    zmk_esb: zmk_esb_endpoint {
+        compatible = "zmk,esb-endpoint";
+        esb-channel = <78>;
+        pairing-base-address = [17 f4 07 7c];
+        pairing-prefix = <0x24>;
+        data-base-address = [b9 8a 16 72];
+        data-prefix = <0xc2>;
+    };
+
+    esb_ip: esb_input_processor {
+        compatible = "zmk,esb-input-processor";
+        #input-processor-cells = <0>;
+        status = "okay";
+    };
+
     chosen {
         zephyr,code-partition = &code_partition;
         zephyr,sram = &sram0;

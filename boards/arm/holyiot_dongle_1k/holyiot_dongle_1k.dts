@@ -1,0 +1,51 @@
+/dts-v1/;
+#include <nordic/nrf52840_qiaa.dtsi>
+#include <dt-bindings/led/led.h>
+
+/ {
+	model = "Dongle 1k";
+	compatible = "holyiot,dongle";
+
+	chosen {
+		zephyr,code-partition = &code_partition;
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+		zephyr,console = &cdc_acm_console_uart;
+	};
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+zephyr_udc0: &usbd {
+	status = "okay";
+
+	cdc_acm_console_uart: cdc_acm_console_uart {
+		compatible = "zephyr,cdc-acm-uart";
+	};
+};
+
+&radio {
+	status = "okay";
+};
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		sd_partition: partition@0 {
+			reg = <0x0 DT_SIZE_K(4)>;
+		};
+
+		code_partition: partition@1000 {
+			reg = <DT_SIZE_K(4) DT_SIZE_K(876)>;
+		};
+
+		storage_partition: partition@dc000 {
+			reg = <0x000dc000 DT_SIZE_K(16)>;
+		};
+	};
+};

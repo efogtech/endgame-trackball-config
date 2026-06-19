@@ -4,6 +4,9 @@
 #include <dt-bindings/zmk/adaptive_feedback.h>
 #include <dt-bindings/zmk/bistable_behavior.h>
 #include <dt-bindings/zmk/p2sm.h>
+#include <behaviors/p2sm_behaviors.dtsi>
+#include <behaviors/esb_unpair.dtsi>
+#include <behaviors/esb_shell_req.dtsi>
 
 / {
 	macros {
@@ -109,8 +112,8 @@
 			compatible = "zmk,behavior-hold-tap";
 			display-name = "Copy/paste/layer (click/double-click/hold)";
 			#binding-cells = <2>;
-			flavor = "tap-preferred";
-			tapping-term-ms = <325>;
+			flavor = "balanced";
+			tapping-term-ms = <250>;
 			bindings = <&mo>, <&cdc>;
 		};
 
@@ -118,20 +121,16 @@
 			compatible = "zmk,behavior-tap-dance";
 			display-name = "Copy/paste (click/double-click)";
 			#binding-cells = <0>;
-			tapping-term-ms = <300>;
 			bindings = <&bst_copy>, <&bst_paste>;
+			tapping-term-ms = <250>;
 		};
 
 		skmp {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-			feedback-duration = <150>;
+			feedback-duration = <65>;
 		};
 
 		rrl {
 			values-ms = <8 6 4 2>;
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			feedback-duration = <65>;
 		};
 
@@ -140,8 +139,7 @@
 			display-name = "Hold/tap (layer/mouse key)";
 			#binding-cells = <2>;
 			flavor = "tap-preferred";
-			tapping-term-ms = <200>;
-			hold-while-undecided;
+			tapping-term-ms = <250>;
 			bindings = <&mo>, <&mkp>;
 		};
 
@@ -151,25 +149,20 @@
 			#binding-cells = <2>;
 			flavor = "tap-preferred";
 			tapping-term-ms = <200>;
-			hold-while-undecided;
 			bindings = <&mo>, <&kp>;
+			hold-while-undecided;
 		};
 
 		sens: p2sm_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			feedback-duration = <65>;
-			step = <50>;
+			step = <100>;
 			max-step = <8>;
 		};
 
 		scrlsens: p2sm_scroll_sensitivity {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 			feedback-duration = <65>;
-			step = <10>;
-			min-step = <2>;
-			max-step = <12>;
+			step = <100>;
+			max-step = <80>;
 		};
 
 		sens_nowrap: sens_nowrap {
@@ -177,11 +170,9 @@
 			display-name = "Pointer sensitivity (no wrapping)";
 			#binding-cells = <2>;
 			feedback-duration = <65>;
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-			step = <50>;
+			step = <100>;
 			min-step = <1>;
-			max-step = <8>;
+			max-step = <80>;
 		};
 
 		scrlsens_nowrap: scrlsens_nowrap {
@@ -189,11 +180,9 @@
 			display-name = "Scroll sensitivity (no wrapping)";
 			#binding-cells = <2>;
 			feedback-duration = <65>;
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-			step = <10>;
-			min-step = <2>;
-			max-step = <12>;
+			step = <100>;
+			min-step = <1>;
+			max-step = <80>;
 			scroll;
 		};
 
@@ -220,21 +209,6 @@
 
 		z_so_off {
 			display-name = "Power off";
-		};
-
-		p2sm_accel_toggle {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_accel_adj {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-		};
-
-		p2sm_twist_toggle {
-			feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
-			feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
 		};
 
 		bst_copy: bst_copy {

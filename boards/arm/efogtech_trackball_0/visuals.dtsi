@@ -16,6 +16,12 @@
 		init-delay-ms = <5>;
 	};
 
+	feedback_common: feedback_common {
+		compatible = "zmk,feedback-common";
+		feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
+		feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+	};
+
 	adaptive_feedback: adaptive_feedback {
 		compatible = "zmk,adaptive-feedback";
 		led-strip = <&led_strip>;
@@ -87,6 +93,7 @@
 			event-type = "studio-lock";
 			colors = [00 00 00];
 			animation = "flash";
+			headless;
 		};
 
 		studio_unlocked {
@@ -97,7 +104,7 @@
 			flash-duration-ms = <1000>;
 			flash-ease-in-ms = <150>;
 			flash-ease-out-ms = <150>;
-			feedback-pattern = <250>;
+			feedback-pattern = <65>;
 		};
 
 		evt_usb_conn {
@@ -106,7 +113,7 @@
 			colors = [00 ff 00];
 			animation = "flash";
 			flash-duration-ms = <350>;
-			feedback-pattern = <80>;
+			feedback-pattern = <65>;
 		};
 
 		evt_usb_disconn {
@@ -117,7 +124,19 @@
 			flash-duration-ms = <350>;
 			flash-ease-in-ms = <150>;
 			flash-ease-out-ms = <150>;
-			feedback-pattern = <80>;
+			feedback-pattern = <65>;
+		};
+
+		mui_adv {
+			label = "Advertising MUI";
+			event-type = "custom";
+			custom-event-name = "mui-adv";
+			colors = [ff a0 00];
+			animation = "flash";
+			flash-duration-ms = <1000>;
+			flash-ease-in-ms = <150>;
+			flash-ease-out-ms = <150>;
+			feedback-pattern = <65>;
 		};
 
 		evt_ble_1 {
@@ -128,7 +147,7 @@
 			flash-duration-ms = <350>;
 			flash-ease-in-ms = <100>;
 			flash-ease-out-ms = <100>;
-			feedback-pattern = <80>;
+			feedback-pattern = <65>;
 			ble-profile-index = <0>;
 		};
 
@@ -140,7 +159,7 @@
 			flash-duration-ms = <350>;
 			flash-ease-in-ms = <100>;
 			flash-ease-out-ms = <100>;
-			feedback-pattern = <80>;
+			feedback-pattern = <65>;
 			ble-profile-index = <1>;
 		};
 
@@ -152,7 +171,7 @@
 			flash-duration-ms = <350>;
 			flash-ease-in-ms = <100>;
 			flash-ease-out-ms = <100>;
-			feedback-pattern = <80>;
+			feedback-pattern = <65>;
 			ble-profile-index = <2>;
 		};
 
@@ -164,7 +183,7 @@
 			flash-duration-ms = <350>;
 			flash-ease-in-ms = <100>;
 			flash-ease-out-ms = <100>;
-			feedback-pattern = <80>;
+			feedback-pattern = <65>;
 			ble-profile-index = <3>;
 		};
 
@@ -176,7 +195,7 @@
 			flash-duration-ms = <350>;
 			flash-ease-in-ms = <100>;
 			flash-ease-out-ms = <100>;
-			feedback-pattern = <80>;
+			feedback-pattern = <65>;
 			ble-profile-index = <4>;
 		};
 
@@ -188,7 +207,7 @@
 			flash-duration-ms = <350>;
 			flash-ease-in-ms = <100>;
 			flash-ease-out-ms = <100>;
-			feedback-pattern = <80>;
+			feedback-pattern = <50>;
 		};
 
 		evt_bw1 {
@@ -200,7 +219,7 @@
 			flash-duration-ms = <1000>;
 			flash-ease-in-ms = <100>;
 			flash-ease-out-ms = <100>;
-			feedback-pattern = <80>;
+			feedback-pattern = <50>;
 		};
 
 		evt_bw2 {
@@ -212,7 +231,7 @@
 			flash-duration-ms = <1500>;
 			flash-ease-in-ms = <100>;
 			flash-ease-out-ms = <100>;
-			feedback-pattern = <80>;
+			feedback-pattern = <50>;
 		};
 
 		evt_bw3 {
@@ -224,7 +243,7 @@
 			flash-duration-ms = <2000>;
 			flash-ease-in-ms = <100>;
 			flash-ease-out-ms = <100>;
-			feedback-pattern = <80>;
+			feedback-pattern = <50>;
 		};
 
 		evt_bc1 {
@@ -272,7 +291,7 @@
 			flash-duration-ms = <250>;
 			flash-ease-in-ms = <75>;
 			flash-ease-out-ms = <75>;
-			feedback-pattern = <80>;
+			feedback-pattern = <65>;
 		};
 
 		keymap_switched {
@@ -284,7 +303,7 @@
 			flash-duration-ms = <250>;
 			flash-ease-in-ms = <75>;
 			flash-ease-out-ms = <75>;
-			feedback-pattern = <80>;
+			feedback-pattern = <65>;
 		};
 
 		key_auto_held {
@@ -294,6 +313,42 @@
 			colors = [00 00 00];
 			animation = "flash";
 			feedback-pattern = <40>;
+		};
+
+		mui_conn {
+			event-type = "custom";
+			custom-event-name = "mui-conn";
+			colors = [00 00 00];
+			animation = "flash";
+			headless;
+		};
+
+		mui_disconn {
+			event-type = "custom";
+			custom-event-name = "mui-disconn";
+			colors = [00 00 00];
+			animation = "flash";
+			headless;
+		};
+
+		dongle_paired {
+			event-type = "custom";
+			custom-event-name = "esb-switched";
+			colors = [00 00 00];
+			animation = "flash";
+			headless;
+		};
+
+		dongle_switched {
+			label = "Switched to dongle";
+			event-type = "custom";
+			custom-event-name = "esb-switched";
+			colors = [FF 00 80];
+			animation = "flash";
+			flash-duration-ms = <450>;
+			flash-ease-in-ms = <125>;
+			flash-ease-out-ms = <125>;
+			feedback-pattern = <80>;
 		};
 
 		err_left_sensor {

@@ -6,7 +6,7 @@ config BOARD_EFOGTECH_0_VER_MAJOR
     int "0"
 
 config BOARD_EFOGTECH_0_VER_MINOR
-    int "2"
+    int "0"
 
 config BOARD_EFOGTECH_0_VER_PATCH
     int "0"

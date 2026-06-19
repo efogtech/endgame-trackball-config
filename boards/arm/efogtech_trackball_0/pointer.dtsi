@@ -5,22 +5,19 @@
 #include <input/processors/report_rate_limit.dtsi>
 #include <input/processors/accel_curve.dtsi>
 #include <input/processors/rotate_plane.dtsi>
-#include <behaviors/p2sm_behaviors.dtsi>
 #include <behaviors/rate_limit.dtsi>
 #include <behaviors/auto_hold.dtsi>
 #include <behaviors/switch_keymap.dtsi>
 #include <behaviors/mouse_scroll.dtsi>
+#include <behaviors/mouse_key_press.dtsi>
 #include <behaviors/af_toggle.dtsi>
 #include <behaviors/bistable_toggle.dtsi>
+#include <behaviors/ble_shell_adv.dtsi>
 
 &zip_2s_mixer {
 	status = "okay";
 	sync-report-ms = <1>;
-
 	sync-scroll-report-ms = <8>;
-	twist-thres = <3>;
-	twist-interference-thres = <200>;
-	twist-interference-window = <8>;
 
 	// arbitrary bounding box (0, 0, 0) - (255, 255, 255)
 	ball-radius = <102>; // maximum = 127, center is at (127, 127, 127)
@@ -29,9 +26,7 @@
 
 	feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
 	feedback-extra-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-	twist-feedback-threshold = <20>;
 	twist-feedback-delay = <5>;
-	twist-feedback-duration = <50>;
 };
 
 / {
@@ -47,19 +42,19 @@
 	trackball {
 		compatible = "zmk,input-listener";
 		device = <&zip_2s_mixer>;
-		input-processors = <&zip_ble_report_rate_limit>;
+		input-processors = <&esb_ip>, <&zip_ble_report_rate_limit>;
 	};
 
 	rotated_pointer_plane {
 		compatible = "zmk,input-listener";
 		device = <&zip_rotate_pointer>;
-		input-processors = <&zip_ble_report_rate_limit>;
+		input-processors = <&esb_ip>, <&zip_ble_report_rate_limit>;
 	};
 
 	rotated_scroll_plane {
 		compatible = "zmk,input-listener";
 		device = <&zip_rotate_scroll>;
-		input-processors = <&zip_ble_report_rate_limit>;
+		input-processors = <&esb_ip>, <&zip_ble_report_rate_limit>;
 	};
 
 	trackball_primary_listener: trackball_primary_listener {
@@ -86,6 +81,10 @@
 		mouse_move {
 			display-name = "Reserved [4]";
 		};
+
+		zbs_adv {
+			display-name = "Advertise MUI over Bluetooth";
+		};
 	};
 };
 
@@ -93,6 +92,9 @@
 	time-to-max-speed-ms = <1>;
 	acceleration-exponent = <0>;
 };
+
+&mkp_input_listener { input-processors = <&esb_ip>; };
+&msc_input_listener { input-processors = <&esb_ip>; };
 
 &spi0 {
 	status = "okay";
@@ -107,7 +109,7 @@
 		status = "okay";
 		compatible = "pixart,pmw3610-efogtech";
 		init-retry-interval = <25>;
-		init-retry-count = <5>;
+		init-retry-count = <10>;
 		reg = <0>;
 		spi-max-frequency = <2000000>;
 		irq-gpios = <&gpio0 2 GPIO_ACTIVE_LOW>;
@@ -116,6 +118,7 @@
 		x-input-code = <INPUT_REL_X>;
 		y-input-code = <INPUT_REL_Y>;
 
+		wakeup-source;
 		force-awake;
 		force-high-performance;
 		xy-swap;
@@ -137,7 +140,7 @@
 		status = "okay";
 		compatible = "pixart,pmw3610-efogtech";
 		init-retry-interval = <25>;
-		init-retry-count = <5>;
+		init-retry-count = <10>;
 		reg = <0>;
 		spi-max-frequency = <2000000>;
 		irq-gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
@@ -150,6 +153,6 @@
 		force-awake;
 		force-high-performance;
 		xy-swap;
-		enable-pm-support;
 	};
 };
+
