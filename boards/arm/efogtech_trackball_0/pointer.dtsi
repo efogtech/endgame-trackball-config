@@ -1,6 +1,6 @@
 #include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/p2sm.h>
-#include <dt-bindings/zmk/paw3395-modes.h>
+#include <dt-bindings/zmk/paw3950-modes.h>
 #include <input/processors/p2sm.dtsi>
 #include <input/processors/axis_clamper.dtsi>
 #include <input/processors/report_rate_limit.dtsi>
@@ -104,23 +104,21 @@
 	pinctrl-1 = <&spi0_sleep>;
 	pinctrl-names = "default", "sleep";
 	cs-gpios = <&gpio0 30 (GPIO_ACTIVE_LOW)>;
-	clock-frequency = <4000000>;
+	clock-frequency = <8000000>;
 
 	trackball_primary: trackball_primary@0 {
 		status = "okay";
-		compatible = "pixart,paw3395";
+		compatible = "pixart,paw3950";
 		reg = <0>;
-		spi-max-frequency = <4000000>;
+		spi-max-frequency = <8000000>;
 		irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 		cpi = <3200>;
 		evt-type = <INPUT_EV_REL>;
 		x-input-code = <INPUT_REL_X>;
 		y-input-code = <INPUT_REL_Y>;
-		power-mode = <PAW3395_HIGH_PERFORMANCE>;
-		liftoff-dist = <PAW3395_LOD_2MM>;
+		power-mode = <PAW3950_HIGH_PERFORMANCE>;
+		liftoff-dist = <PAW3950_LIFT_CONFIG_20MM>;
 		ripple-control;
-		invert-x;
-		invert-y;
 		wakeup-source;
 	};
 };
@@ -132,21 +130,23 @@
 	pinctrl-1 = <&spi1_sleep>;
 	pinctrl-names = "default", "sleep";
 	cs-gpios = <&gpio1 7 (GPIO_ACTIVE_LOW)>;
-	clock-frequency = <4000000>;
+	clock-frequency = <8000000>;
 
 	trackball_secondary: trackball_secondary@0 {
 		status = "okay";
-		compatible = "pixart,paw3395";
+		compatible = "pixart,paw3950";
 		reg = <0>;
-		spi-max-frequency = <4000000>;
+		spi-max-frequency = <8000000>;
 		irq-gpios = <&gpio1 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 		cpi = <3200>;
 		evt-type = <INPUT_EV_REL>;
 		x-input-code = <INPUT_REL_X>;
 		y-input-code = <INPUT_REL_Y>;
-		power-mode = <PAW3395_HIGH_PERFORMANCE>;
-		liftoff-dist = <PAW3395_LOD_2MM>;
+		power-mode = <PAW3950_HIGH_PERFORMANCE>;
+		liftoff-dist = <PAW3950_LIFT_CONFIG_20MM>;
 		ripple-control;
+		invert-x;
+		invert-y;
 	};
 };
 
@@ -158,7 +158,7 @@
 
 		paw_cal1: paw_cal1 {
 			status = "disabled";
-			compatible = "zmk,behavior-paw3395-calibrate";
+			compatible = "zmk,behavior-paw3950-calibrate";
 			#binding-cells = <0>;
 			display-name = "Manual calibration of the left sensor";
 			feedback-duration = <200>;
@@ -169,7 +169,7 @@
 
 		paw_cal2: paw_cal2 {
 			status = "disabled";
-			compatible = "zmk,behavior-paw3395-calibrate";
+			compatible = "zmk,behavior-paw3950-calibrate";
 			#binding-cells = <0>;
 			display-name = "Manual calibration of the right sensor";
 			feedback-duration = <200>;
@@ -179,7 +179,7 @@
 		};
 
 		paw_mode1: paw_mode1 {
-			compatible = "zmk,behavior-paw3395-power-mode-toggle";
+			compatible = "zmk,behavior-paw3950-power-mode-toggle";
 			#binding-cells = <2>;
 			display-name = "Switch mode of the left sensor";
 			feedback-duration = <200>;
@@ -189,7 +189,7 @@
 		};
 
 		paw_mode2: paw_mode2 {
-			compatible = "zmk,behavior-paw3395-power-mode-toggle";
+			compatible = "zmk,behavior-paw3950-power-mode-toggle";
 			#binding-cells = <2>;
 			display-name = "Switch mode of the right sensor";
 			feedback-duration = <200>;
