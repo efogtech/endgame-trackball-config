@@ -16,9 +16,6 @@
 #define LAYER_USER         5
 #endif
 
-#define SNIPE_MULTIPLIER   1
-#define SNIPE_DIVISOR      4
-
 / {
 	keymap {
 		compatible = "zmk,keymap";
