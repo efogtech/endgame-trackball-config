@@ -35,7 +35,7 @@ manifest:
       revision: "c27fe57"
     - name: zmk-keymap-shell
       remote: efogdev
-      revision: "6504b73"
+      revision: "b712a64"
     - name: zmk-acceleration-curves
       remote: efogdev
       revision: "2f9197f"
