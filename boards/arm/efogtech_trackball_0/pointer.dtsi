@@ -60,6 +60,7 @@
 		codes = <INPUT_REL_WHEEL INPUT_REL_HWHEEL>;
 		track-remainders;
 		default-coef = <ZBS_SCALE(1, 10)>;
+		default-coef-slot1 = <ZBS_SCALE(1, 40)>;
 		slot0 = <ZBS_RUNTIME>;
 		slot1 = <ZBS_RUNTIME>;
 		zrc-prefix = "bst/twist";
@@ -72,6 +73,7 @@
 		codes = <INPUT_REL_X INPUT_REL_Y>;
 		track-remainders;
 		default-coef = <ZBS_SCALE(1, 3)>;
+		default-coef-slot1 = <ZBS_SCALE(1, 30)>;
 		slot0 = <ZBS_RUNTIME>;
 		slot1 = <ZBS_RUNTIME>;
 		zrc-prefix = "bst/dragscroll";
