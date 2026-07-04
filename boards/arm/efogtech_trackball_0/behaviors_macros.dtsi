@@ -238,5 +238,9 @@
 			#binding-cells = <0>;
 			bindings = <&winlin_undo>, <&macos_undo>;
 		};
+
+		bst_tog {
+			display-name = "Toggle OS-dependent behaviors";
+		};
 	};
 };

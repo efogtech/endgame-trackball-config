@@ -1,6 +1,7 @@
 #include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/p2sm.h>
 #include <dt-bindings/zmk/bistable_behavior.h>
+#include <dt-bindings/zmk/paw3950-modes.h>
 #include <input/processors/p2sm.dtsi>
 #include <input/processors/axis_clamper.dtsi>
 #include <input/processors/report_rate_limit.dtsi>
@@ -17,7 +18,7 @@
 
 &zip_2s_mixer {
 	status = "okay";
-	sync-report-ms = <1>;
+	sync-report-ms = <0>;
 	sync-scroll-report-ms = <8>;
 
 	// arbitrary bounding box (0, 0, 0) - (255, 255, 255)
@@ -141,28 +142,23 @@
 	pinctrl-0 = <&spi0_default>;
 	pinctrl-1 = <&spi0_sleep>;
 	pinctrl-names = "default", "sleep";
-	cs-gpios = <&gpio0 30 GPIO_ACTIVE_LOW>;
-	clock-frequency = <2000000>;
+	cs-gpios = <&gpio0 30 (GPIO_ACTIVE_LOW)>;
+	clock-frequency = <8000000>;
 
 	trackball_primary: trackball_primary@0 {
 		status = "okay";
-		compatible = "pixart,pmw3610-efogtech";
-		init-retry-interval = <25>;
-		init-retry-count = <10>;
+		compatible = "pixart,paw3950";
 		reg = <0>;
-		spi-max-frequency = <2000000>;
-		irq-gpios = <&gpio0 2 GPIO_ACTIVE_LOW>;
+		spi-max-frequency = <8000000>;
+		irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 		cpi = <3200>;
 		evt-type = <INPUT_EV_REL>;
 		x-input-code = <INPUT_REL_X>;
 		y-input-code = <INPUT_REL_Y>;
-
+		power-mode = <PAW3950_HIGH_PERFORMANCE>;
+		liftoff-dist = <PAW3950_LIFT_CONFIG_20MM>;
+		ripple-control;
 		wakeup-source;
-		force-awake;
-		force-high-performance;
-		xy-swap;
-		x-invert;
-		y-invert;
 	};
 };
 
@@ -172,25 +168,23 @@
 	pinctrl-0 = <&spi1_default>;
 	pinctrl-1 = <&spi1_sleep>;
 	pinctrl-names = "default", "sleep";
-	cs-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
-	clock-frequency = <2000000>;
+	cs-gpios = <&gpio1 7 (GPIO_ACTIVE_LOW)>;
+	clock-frequency = <8000000>;
 
 	trackball_secondary: trackball_secondary@0 {
 		status = "okay";
-		compatible = "pixart,pmw3610-efogtech";
-		init-retry-interval = <25>;
-		init-retry-count = <10>;
+		compatible = "pixart,paw3950";
 		reg = <0>;
-		spi-max-frequency = <2000000>;
-		irq-gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
-		rst-gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
+		spi-max-frequency = <8000000>;
+		irq-gpios = <&gpio1 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 		cpi = <3200>;
 		evt-type = <INPUT_EV_REL>;
 		x-input-code = <INPUT_REL_X>;
 		y-input-code = <INPUT_REL_Y>;
-
-		force-awake;
-		force-high-performance;
-		xy-swap;
+		power-mode = <PAW3950_HIGH_PERFORMANCE>;
+		liftoff-dist = <PAW3950_LIFT_CONFIG_20MM>;
+		ripple-control;
+		invert-x;
+		invert-y;
 	};
 };

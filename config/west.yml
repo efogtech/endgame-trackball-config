@@ -9,9 +9,9 @@ manifest:
       remote: zmkfirmware
       revision: "v0.3.0"
       import: app/west.yml
-    - name: zmk-pmw3610-driver
+    - name: zmk-paw3950-driver
       remote: efogdev
-      revision: "28482ee"
+      revision: "69044e7"
     - name: zmk-pointer-2s-mixer
       remote: efogdev
       revision: "bf35da8"

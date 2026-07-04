@@ -26,8 +26,7 @@
 		compatible = "zmk,adaptive-feedback";
 		led-strip = <&led_strip>;
 		chain-length = <16>;
-		error-slots = <2>;
-		error-slots-reverse;
+		error-slots = <0>;
 
 		feedback-enabled;
 		feedback-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
@@ -350,28 +349,6 @@
 			flash-ease-out-ms = <125>;
 			feedback-pattern = <80>;
 		};
-
-		err_left_sensor {
-			label = "Sensor error (left)";
-			event-type = "error";
-			error-slot-index = <0>;
-			colors = [FF 00 00];
-			animation = "blink";
-			blink-on-ms = <750>;
-			blink-off-ms = <750>;
-			feedback-pattern = <250>;
-		};
-
-		err_right_sensor {
-			label = "Sensor error (right)";
-			event-type = "error";
-			error-slot-index = <1>;
-			colors = [FF 00 00];
-			animation = "blink";
-			blink-on-ms = <750>;
-			blink-off-ms = <750>;
-			feedback-pattern = <250>;
-		};
 	};
 };
 
@@ -383,6 +360,7 @@
 	pinctrl-names = "default", "sleep";
 
 	led_strip: ws2812@0 {
+		status = "okay";
 		compatible = "worldsemi,ws2812-spi";
 		reg = <0>;
 		chain-length = <16>;
