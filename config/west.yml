@@ -47,7 +47,7 @@ manifest:
       revision: "4d1eb80"
     - name: zmk-bistable-behavior
       remote: efogdev
-      revision: "64e3051"
+      revision: "e70f0af"
     - name: zmk-ble-shell
       remote: efogdev
       revision: "6322b7a"
