@@ -121,7 +121,7 @@
 			compatible = "zmk,behavior-tap-dance";
 			display-name = "Copy/paste (click/double-click)";
 			#binding-cells = <0>;
-			bindings = <&bst_paste>, <&bst_copy>;
+			bindings = <&bst_copy>, <&bst_paste>;
 			tapping-term-ms = <250>;
 		};
 
