@@ -16,15 +16,6 @@
 #define LAYER_USER         5
 #endif
 
-#define TWIST_MULTIPLIER   1
-#define TWIST_DIVISOR      10
-
-#define SCROLL_MULTIPLIER  1
-#define SCROLL_DIVISOR     3
-
-#define SNIPE_MULTIPLIER   1
-#define SNIPE_DIVISOR      4
-
 / {
 	keymap {
 		compatible = "zmk,keymap";
@@ -117,14 +108,14 @@
 	};
 
 	trackball {
-		input-processors = <&zip_scroll_scaler TWIST_MULTIPLIER TWIST_DIVISOR>,
+		input-processors = <&zip_bistable_twist_scaler>,
 						   <&zip_pointer_accel>, <&zip_scroll_accel>,
 						   <&zip_rotate_pointer>, <&zip_rotate_scroll>,
 						   <&esb_ip>, <&zip_ble_report_rate_limit>;
 
 		scroll {
 			layers = <LAYER_SCROLL>;
-			input-processors = <&zip_xy_scaler SCROLL_MULTIPLIER SCROLL_DIVISOR>, <&zip_axis_clamper>,
+			input-processors = <&zip_bistable_scroll_xy_scaler>, <&zip_axis_clamper>,
 							   <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>,
 							   <&zip_dragscroll_accel>, <&zip_rotate_scroll>,
 							   <&esb_ip>, <&zip_ble_report_rate_limit>;
@@ -132,7 +123,7 @@
 
 		snipe {
 			layers = <LAYER_SNIPE>;
-			input-processors = <&zip_xy_scaler SNIPE_MULTIPLIER SNIPE_DIVISOR>,
+			input-processors = <&zip_bistable_snipe_scaler>,
 							   <&zip_rotate_pointer>, <&zip_rotate_scroll>,
 							   <&esb_ip>, <&zip_ble_report_rate_limit>;
 		};
