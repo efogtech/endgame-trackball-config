@@ -125,6 +125,14 @@
 			tapping-term-ms = <250>;
 		};
 
+		mmt: media-multi-tap {
+			compatible = "zmk,behavior-tap-dance";
+			display-name = "Play-pause/next/prev (tap/2x/3x)";
+			#binding-cells = <0>;
+			bindings = <&kp C_PLAY_PAUSE>, <&kp C_NEXT>, <&kp C_PREV>;
+			tapping-term-ms = <250>;
+		};
+
 		skmp {
 			feedback-duration = <65>;
 		};
