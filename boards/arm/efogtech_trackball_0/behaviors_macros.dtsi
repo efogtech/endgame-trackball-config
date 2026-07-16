@@ -153,6 +153,15 @@
 			hold-while-undecided;
 		};
 
+		mtog: layer-hold-toggle {
+			compatible = "zmk,behavior-hold-tap";
+			display-name = "Layer (hold/toggle)";
+			#binding-cells = <2>;
+			flavor = "hold-preferred";
+			tapping-term-ms = <200>;
+			bindings = <&mo>, <&tog>;
+		};
+
 		sens: p2sm_sensitivity {
 			feedback-duration = <65>;
 			step = <100>;
