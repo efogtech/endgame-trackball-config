@@ -14,7 +14,7 @@ manifest:
       revision: "69044e7"
     - name: zmk-pointer-2s-mixer
       remote: efogdev
-      revision: "bf35da8"
+      revision: "9521ecd"
     - name: zmk-axis-clamper
       remote: efogdev
       revision: "637719f"
@@ -23,7 +23,7 @@ manifest:
       revision: "20e0742"
     - name: zmk-ec11-ish-driver
       remote: efogdev
-      revision: "404ae01"
+      revision: "7b0828b"
     - name: zmk-auto-hold
       remote: efogdev
       revision: "8b11f48"
@@ -41,7 +41,7 @@ manifest:
       revision: "2f9197f"
     - name: zmk-input-processor-rotate-plane
       remote: efogdev
-      revision: "b0b2684"
+      revision: "86901be"
     - name: zmk-runtime-config
       remote: efogdev
       revision: "4d1eb80"
@@ -50,16 +50,16 @@ manifest:
       revision: "e70f0af"
     - name: zmk-ble-shell
       remote: efogdev
-      revision: "6322b7a"
+      revision: "5601523"
     - name: zmk-esb-endpoint
       remote: efogdev
-      revision: "aa090f4"
+      revision: "aee9345"
       submodules: true
     - name: zmk-feedback-common
       remote: efogdev
       revision: "92251ce"
     - name: zmk-shell-relay-core
       remote: efogdev
-      revision: "c6da53f"
+      revision: "b4a7eb0"
   self:
     path: config

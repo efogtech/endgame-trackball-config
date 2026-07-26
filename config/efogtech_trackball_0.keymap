@@ -107,9 +107,8 @@
 
 	trackball {
 		input-processors = <&zip_bistable_twist_scaler>,
-						   <&zip_pointer_accel>, <&zip_scroll_accel>,
-						   <&zip_rotate_pointer>, <&zip_rotate_scroll>,
-						   <&esb_ip>, <&zip_ble_report_rate_limit>;
+						   <&zip_pointer_accel>, <&zip_scroll_accel>, <&zip_rotate_pointer>,
+		                   <&esb_ip>, <&zip_ble_report_rate_limit>;
 
 		scroll {
 			layers = <LAYER_SCROLL>;
@@ -121,8 +120,7 @@
 
 		snipe {
 			layers = <LAYER_SNIPE>;
-			input-processors = <&zip_bistable_snipe_scaler>,
-							   <&zip_rotate_pointer>, <&zip_rotate_scroll>,
+			input-processors = <&zip_bistable_snipe_scaler>, <&zip_rotate_pointer>,
 							   <&esb_ip>, <&zip_ble_report_rate_limit>;
 		};
 	};
