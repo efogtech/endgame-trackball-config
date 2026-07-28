@@ -54,13 +54,13 @@
 			display-name = "Device";
 			DECLARE_ENCODERS;
 			bindings = <
-			    &zbs_adv           &bt BT_CLR
-			    &bst_tog ZBS_TOG   &bt BT_NXT
-			    &af_toggle AF_TOG  &bt BT_PRV
-			    &studio_unlock     &trans
+			    &mui_or_dgl          &bt BT_CLR
+			    &bst_tog ZBS_TOG     &bt BT_NXT
+			    &af_toggle AF_TOG    &bt BT_PRV
+			    &studio_unlock       &trans
 
-			    &kp C_VOL_UP       &kp LC(TAB)
-			    &kp C_VOL_DN       &kp LC(LS(TAB))
+			    &kp C_VOL_UP         &kp LC(TAB)
+			    &kp C_VOL_DN         &kp LC(LS(TAB))
 		   	>;
 		};
 
@@ -109,9 +109,8 @@
 
 	trackball {
 		input-processors = <&zip_bistable_twist_scaler>,
-						   <&zip_pointer_accel>, <&zip_scroll_accel>,
-						   <&zip_rotate_pointer>, <&zip_rotate_scroll>,
-						   <&esb_ip>, <&zip_ble_report_rate_limit>;
+						   <&zip_pointer_accel>, <&zip_scroll_accel>, <&zip_rotate_pointer>,
+		                   <&esb_ip>, <&zip_ble_report_rate_limit>;
 
 		scroll {
 			layers = <LAYER_SCROLL>;
@@ -123,8 +122,7 @@
 
 		snipe {
 			layers = <LAYER_SNIPE>;
-			input-processors = <&zip_bistable_snipe_scaler>,
-							   <&zip_rotate_pointer>, <&zip_rotate_scroll>,
+			input-processors = <&zip_bistable_snipe_scaler>, <&zip_rotate_pointer>,
 							   <&esb_ip>, <&zip_ble_report_rate_limit>;
 		};
 	};
