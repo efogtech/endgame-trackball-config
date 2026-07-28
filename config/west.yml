@@ -38,7 +38,7 @@ manifest:
       revision: "b712a64"
     - name: zmk-acceleration-curves
       remote: efogdev
-      revision: "2f9197f"
+      revision: "b03eb22"
     - name: zmk-input-processor-rotate-plane
       remote: efogdev
       revision: "86901be"
@@ -53,7 +53,7 @@ manifest:
       revision: "45724d8"
     - name: zmk-esb-endpoint
       remote: efogdev
-      revision: "01c2430"
+      revision: "cd4dd0e"
       submodules: true
     - name: zmk-feedback-common
       remote: efogdev
