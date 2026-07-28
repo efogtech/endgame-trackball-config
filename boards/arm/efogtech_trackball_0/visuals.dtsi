@@ -333,7 +333,7 @@
 
 		dongle_paired {
 			event-type = "custom";
-			custom-event-name = "esb-switched";
+			custom-event-name = "esb-paired";
 			colors = [00 00 00];
 			animation = "flash";
 			headless;
