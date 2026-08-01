@@ -45,15 +45,14 @@ static int cmd_version(const struct shell *sh, const size_t argc, char **argv) {
 }
 
 static int cmd_output(const struct shell *sh, const size_t argc, char **argv) {
-    if (zmk_endpoints_selected().transport == ZMK_TRANSPORT_USB) {
-        shprint(sh, "Output: USB");
-    } else if (IS_ENABLED(CONFIG_ZMK_ESB_ENDPOINT) &&
-               zmk_ble_active_profile_index() == (ZMK_BLE_PROFILE_COUNT - 1)) {
+    if (IS_ENABLED(CONFIG_ZMK_ESB_ENDPOINT) && zmk_ble_active_profile_index() == (ZMK_BLE_PROFILE_COUNT - 1)) {
         if (zmk_esb_endpoint_is_active()) {
             shprint(sh, "Output: ESB");
         } else {
             shprint(sh, "Output: ESB (inactive)");
         }
+    } else if (zmk_endpoints_selected().transport == ZMK_TRANSPORT_USB) {
+        shprint(sh, "Output: USB");
     } else {
         shprint(sh, "Output: BLE");
     }
@@ -74,8 +73,6 @@ static int cmd_reboot(const struct shell *sh, const size_t argc, char **argv) {
 }
 
 static int cmd_erase(const struct shell *sh, const size_t argc, char **argv) {
-    shprint(sh, "I hope you know what you're doing.");
-    k_sleep(K_MSEC(100));
     bt_unpair(BT_ID_DEFAULT, NULL);
 
     for (int i = 0; i < 8; i++) {

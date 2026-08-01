@@ -35,6 +35,14 @@ float powf(const float base, float exponent) {
     return power;
 }
 
+/* Override picolibc's sqrtf: the FPU issues VSQRT.F32 directly, but GCC keeps
+ * the libcall to preserve errno. */
+float sqrtf(const float x) {
+    float r;
+    __asm__("vsqrt.f32 %0, %1" : "=t"(r) : "t"(x));
+    return r;
+}
+
 /* Override picolibc's sinf/cosf: pure-float Cody-Waite + polynomial.
  * Eliminates the double arithmetic picolibc's implementations pull in. */
 float sinf(const float x) {
