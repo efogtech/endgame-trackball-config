@@ -26,10 +26,10 @@ manifest:
       revision: "7b0828b"
     - name: zmk-auto-hold
       remote: efogdev
-      revision: "8b11f48"
+      revision: "71026fd"
     - name: zmk-adaptive-feedback
       remote: efogdev
-      revision: "82f83d1"
+      revision: "f7a1eff"
     - name: zmk-behavior-follower
       remote: efogdev
       revision: "c27fe57"
@@ -53,7 +53,7 @@ manifest:
       revision: "45724d8"
     - name: zmk-esb-endpoint
       remote: efogdev
-      revision: "cd4dd0e"
+      revision: "35b8a0f"
       submodules: true
     - name: zmk-feedback-common
       remote: efogdev
