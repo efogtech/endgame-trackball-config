@@ -48,8 +48,10 @@ static int cmd_output(const struct shell *sh, const size_t argc, char **argv) {
     if (IS_ENABLED(CONFIG_ZMK_ESB_ENDPOINT) && zmk_ble_active_profile_index() == (ZMK_BLE_PROFILE_COUNT - 1)) {
         if (zmk_esb_endpoint_is_active()) {
             shprint(sh, "Output: ESB");
+        } else if (zmk_endpoints_selected().transport == ZMK_TRANSPORT_USB) {
+            shprint(sh, "Output: USB");
         } else {
-            shprint(sh, "Output: ESB (inactive)");
+            LOG_ERR("Unexpected: can't determine the output!");
         }
     } else if (zmk_endpoints_selected().transport == ZMK_TRANSPORT_USB) {
         shprint(sh, "Output: USB");
@@ -67,13 +69,14 @@ static int cmd_status(const struct shell *sh, const size_t argc, char **argv) {
 }
 
 static int cmd_reboot(const struct shell *sh, const size_t argc, char **argv) {
-    shprint(sh, "Rebooting device...");
+    shprint(sh, "Rebooting.");
     k_sleep(K_MSEC(100));
     sys_reboot(SYS_REBOOT_COLD);
 }
 
-static int cmd_erase(const struct shell *sh, const size_t argc, char **argv) {
+void clear_all_bonds() {
     bt_unpair(BT_ID_DEFAULT, NULL);
+    zmk_ble_clear_all_bonds();
 
     for (int i = 0; i < 8; i++) {
         char setting_name[16];
@@ -94,7 +97,16 @@ static int cmd_erase(const struct shell *sh, const size_t argc, char **argv) {
             LOG_ERR("Failed to delete setting: %d", err);
         }
     }
+}
 
+static int cmd_bt_unpair(const struct shell *sh, const size_t argc, char **argv) {
+    clear_all_bonds();
+    shprint(sh, "All Bluetooth bonds removed. Please restart the device. ");
+    return 0;
+}
+
+static int cmd_erase(const struct shell *sh, const size_t argc, char **argv) {
+    clear_all_bonds();
     return zmk_settings_erase();
 }
 
@@ -430,6 +442,7 @@ SHELL_STATIC_SUBCMD_SET_CREATE(sub_board,
     SHELL_CMD(status, NULL, "Show device status", cmd_status),
     SHELL_CMD(output, NULL, "See current output", cmd_output),
     SHELL_CMD(reboot, NULL, "Reboot the device", cmd_reboot),
+    SHELL_CMD(unpair, NULL, "Remove all BLE bonds", cmd_bt_unpair),
     SHELL_CMD(erase, NULL, "Erase all settings", cmd_erase),
     SHELL_CMD(version, NULL, "Read firmware version", cmd_version),
     SHELL_CMD(layers, NULL, "List all layers", cmd_layers),

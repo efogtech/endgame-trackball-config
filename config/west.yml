@@ -1,13 +1,11 @@
 manifest:
   remotes:
-    - name: zmkfirmware
-      url-base: https://github.com/zmkfirmware
     - name: efogdev
       url-base: https://github.com/efogdev
   projects:
     - name: zmk
-      remote: zmkfirmware
-      revision: "v0.3.0"
+      remote: efogdev
+      revision: "078ba94b"
       import: app/west.yml
     - name: zmk-paw3395-driver
       remote: efogdev
@@ -29,7 +27,7 @@ manifest:
       revision: "71026fd"
     - name: zmk-adaptive-feedback
       remote: efogdev
-      revision: "f7a1eff"
+      revision: "b0a9f02"
     - name: zmk-behavior-follower
       remote: efogdev
       revision: "c27fe57"
@@ -50,10 +48,10 @@ manifest:
       revision: "652ae06"
     - name: zmk-ble-shell
       remote: efogdev
-      revision: "45724d8"
+      revision: "d79952b"
     - name: zmk-esb-endpoint
       remote: efogdev
-      revision: "1f9d221"
+      revision: "d2c1847"
       submodules: true
     - name: zmk-feedback-common
       remote: efogdev
