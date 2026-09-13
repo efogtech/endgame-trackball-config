@@ -24,7 +24,7 @@ manifest:
       revision: "7b0828b"
     - name: zmk-auto-hold
       remote: efogdev
-      revision: "71026fd"
+      revision: "e3b649f"
     - name: zmk-adaptive-feedback
       remote: efogdev
       revision: "b0a9f02"
@@ -36,7 +36,7 @@ manifest:
       revision: "b712a64"
     - name: zmk-acceleration-curves
       remote: efogdev
-      revision: "14cbaa0"
+      revision: "241dd3b"
     - name: zmk-input-processor-rotate-plane
       remote: efogdev
       revision: "86901be"
@@ -51,7 +51,7 @@ manifest:
       revision: "d79952b"
     - name: zmk-esb-endpoint
       remote: efogdev
-      revision: "d2c1847"
+      revision: "89b695a"
       submodules: true
     - name: zmk-feedback-common
       remote: efogdev
