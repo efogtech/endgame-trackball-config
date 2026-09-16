@@ -5,7 +5,7 @@ manifest:
   projects:
     - name: zmk
       remote: efogdev
-      revision: "078ba94b"
+      revision: "50d57079"
       import: app/west.yml
     - name: zmk-paw3395-driver
       remote: efogdev
@@ -48,7 +48,7 @@ manifest:
       revision: "652ae06"
     - name: zmk-ble-shell
       remote: efogdev
-      revision: "d79952b"
+      revision: "3aa9bfa"
     - name: zmk-esb-endpoint
       remote: efogdev
       revision: "89b695a"
