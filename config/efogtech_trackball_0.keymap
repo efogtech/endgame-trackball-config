@@ -16,7 +16,55 @@
 #define LAYER_USER         5
 #endif
 
+/* Gesture Configuration */
+&zip_mouse_gesture {
+    stroke-size = <180>;
+    idle-timeout-ms = <150>;
+    suppress-movement;
+
+    /* South -> Copy (Ctrl + C) */
+    gesture_copy {
+        pattern = <GESTURE_DOWN>;
+        bindings = <&kp LC(C)>;
+    };
+
+    /* North -> Paste (Ctrl + Shift + V) */
+    gesture_paste {
+        pattern = <GESTURE_UP>;
+        bindings = <&kp LC(LS(V))>;
+    };
+
+    /* Left -> Previous Workspace (Ctrl + Meta + Left) */
+    gesture_prev_workspace {
+        pattern = <GESTURE_LEFT>;
+        bindings = <&kp LC(LG(LEFT))>;
+    };
+
+    /* Right -> Next Workspace (Ctrl + Meta + Right) */
+    gesture_next_workspace {
+        pattern = <GESTURE_RIGHT>;
+        bindings = <&kp LC(LG(RIGHT))>;
+    };
+
+    /* South-East (Down then Right) -> Play/Pause */
+    gesture_play_pause {
+        pattern = <GESTURE_DOWN GESTURE_RIGHT>;
+        bindings = <&kp C_PP>;
+    };
+};
+
 / {
+    behaviors {
+        back_gesture: back_gesture {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <150>;
+            quick-tap-ms = <0>;
+            bindings = <&mouse_gesture>, <&mkp>;
+        };
+    };
+
 	keymap {
 		compatible = "zmk,keymap";
 
