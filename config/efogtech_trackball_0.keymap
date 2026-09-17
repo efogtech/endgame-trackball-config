@@ -156,7 +156,7 @@
 	};
 
 	trackball {
-		input-processors = <&zip_bistable_twist_scaler>,
+		input-processors = <&zip_bistable_twist_scaler>, <&zip_mouse_gesture>,
 						   <&zip_pointer_accel>, <&zip_scroll_accel>, <&zip_rotate_pointer>,
 		                   <&esb_ip>, <&zip_ble_report_rate_limit>;
 
