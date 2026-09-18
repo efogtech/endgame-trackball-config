@@ -18,6 +18,19 @@
 #define LAYER_USER         5
 #endif
 
+/ {
+    /* This section removes unused behaviors and macros to save memory
+     * I find I don't use all the OS Swappable UCCPR macros
+     */
+
+    macros {
+        /delete-node/ macos_copy;
+        /delete-node/ macos_paste;
+        /delete-node/ macos_cut;
+        /delete-node/ macos_undo;
+    };
+};
+
 /* Gesture Configuration */
 &zip_mouse_gesture {
     stroke-size = <180>;
