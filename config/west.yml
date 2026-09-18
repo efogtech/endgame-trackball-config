@@ -2,6 +2,8 @@ manifest:
   remotes:
     - name: efogdev
       url-base: https://github.com/efogdev
+    - name: kot149
+      url-base: https://github.com/kot149
   projects:
     - name: zmk
       remote: efogdev
@@ -59,5 +61,8 @@ manifest:
     - name: zmk-shell-relay-core
       remote: efogdev
       revision: "b4a7eb0"
+    - name: zmk-mouse-gesture
+      remote: kot149
+      revision: v1
   self:
     path: config
