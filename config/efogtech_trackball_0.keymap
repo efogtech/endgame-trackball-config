@@ -6,6 +6,8 @@
 #include <dt-bindings/zmk/adaptive_feedback.h>
 #include <dt-bindings/zmk/bistable_behavior.h>
 #include <dt-bindings/zmk/p2sm.h>
+#include <mouse-gesture.dtsi>
+#include <dt-bindings/zmk/mouse-gesture.h>
 
 #ifndef LAYER_DEFAULT
 #define LAYER_DEFAULT      0
