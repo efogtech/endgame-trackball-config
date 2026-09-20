@@ -78,7 +78,7 @@
 			    &ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_SCROLL ESC
 			    &mkp MCLK                 &cdch LAYER_SCROLL 0
 			    &mkp LCLK                 &mkp RCLK
-			    &ltm LAYER_EXTRAS MB4     &ltm LAYER_DEVICE MB5
+			    &back_gesture 0 MB4       &ltm LAYER_DEVICE MB5
 
 			    // rotary encoders
 			    &kp C_VOL_UP              &kp LC(TAB)
