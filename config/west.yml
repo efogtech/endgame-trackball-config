@@ -36,7 +36,7 @@ manifest:
       revision: "b712a64"
     - name: zmk-acceleration-curves
       remote: efogdev
-      revision: "f598fde"
+      revision: "09a49e1"
     - name: zmk-input-processor-rotate-plane
       remote: efogdev
       revision: "86901be"
