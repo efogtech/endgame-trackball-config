@@ -5,14 +5,14 @@ manifest:
   projects:
     - name: zmk
       remote: efogdev
-      revision: "50d57079"
+      revision: "a3f7e5c7"
       import: app/west.yml
     - name: zmk-pmw3610-driver
       remote: efogdev
-      revision: "d5d2e1a"
+      revision: "b5de934"
     - name: zmk-pointer-2s-mixer
       remote: efogdev
-      revision: "8f41b5e"
+      revision: "21e94d2"
     - name: zmk-axis-clamper
       remote: efogdev
       revision: "637719f"
@@ -27,7 +27,7 @@ manifest:
       revision: "e3b649f"
     - name: zmk-adaptive-feedback
       remote: efogdev
-      revision: "b0a9f02"
+      revision: "c90c877"
     - name: zmk-behavior-follower
       remote: efogdev
       revision: "c27fe57"
@@ -51,13 +51,13 @@ manifest:
       revision: "3aa9bfa"
     - name: zmk-esb-endpoint
       remote: efogdev
-      revision: "89b695a"
+      revision: "d482f54"
       submodules: true
     - name: zmk-feedback-common
       remote: efogdev
       revision: "92251ce"
     - name: zmk-shell-relay-core
       remote: efogdev
-      revision: "b4a7eb0"
+      revision: "7dbb118"
   self:
     path: config
