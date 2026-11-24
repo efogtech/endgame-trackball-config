@@ -5,7 +5,7 @@ manifest:
   projects:
     - name: zmk
       remote: efogdev
-      revision: "a3f7e5c7"
+      revision: "e324927d"
       import: app/west.yml
     - name: zmk-pmw3610-driver
       remote: efogdev
